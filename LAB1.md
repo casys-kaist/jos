@@ -1,8 +1,6 @@
 Lab 1: Booting a PC
 ===================
 
-**Due Thursday, September 13, 2018**
-
 Introduction
 ------------
 
@@ -10,66 +8,9 @@ This lab is split into three parts. The first part concentrates on getting famil
 
 ### Software Setup
 
-The files you will need for this and subsequent lab assignments in this course are distributed using the [Git](http://www.git-scm.com/) version control system. To learn more about Git, take a look at the [Git user's manual](http://www.kernel.org/pub/software/scm/git/docs/user-manual.html), or, if you are already familiar with other version control systems, you may find this [CS-oriented overview of Git](http://eagain.net/articles/git-for-computer-scientists/) useful.
-
-The URL for the course Git repository is <https://pdos.csail.mit.edu/6.828/2018/jos.git>. To install the files in your Athena account, you need to *clone* the course repository, by running the commands below. You must use an x86 Athena machine; that is, `uname -a` should mention `i386 GNU/Linux` or `i686 GNU/Linux` or `x86_64 GNU/Linux`. You can log into a public Athena host with `ssh -X athena.dialup.mit.edu`.
-
-athena% `mkdir ~/6.828`
-athena% `cd ~/6.828`
-athena% `add git`
-athena% `git clone https://pdos.csail.mit.edu/6.828/2018/jos.git lab`
-Cloning into lab...
-athena% `cd lab`
-athena%
-
-Git allows you to keep track of the changes you make to the code. For example, if you are finished with one of the exercises, and want to checkpoint your progress, you can *commit* your changes by running:
-
-athena% `git commit -am 'my solution for lab1 exercise 9'`
-Created commit 60d2135: my solution for lab1 exercise 9
- 1 files changed, 1 insertions(+), 0 deletions(-)
-athena%
-
-You can keep track of your changes by using the `git diff` command. Running `git diff` will display the changes to your code since your last commit, and `git diff origin/lab1` will display the changes relative to the initial code supplied for this lab. Here, `origin/lab1` is the name of the git branch with the initial code you downloaded from our server for this assignment.
-
-We have set up the appropriate compilers and simulators for you on Athena. To use them, run `add -f 6.828`. You must run this command every time you log in (or add it to your `~/.environment` file). If you get obscure errors while compiling or running `qemu`, double check that you added the course locker.
-
-If you are working on a non-Athena machine, you'll need to install `qemu` and possibly `gcc` following the directions on the [tools page](https://pdos.csail.mit.edu/6.828/2018/tools.html). We've made several useful debugging changes to `qemu` and some of the later labs depend on these patches, so you must build your own. If your machine uses a native ELF toolchain (such as Linux and most BSD's, but notably *not* OS X), you can simply install `gcc` from your package manager. Otherwise, follow the directions on the tools page.
 
 ### Hand-In Procedure
 
-You will turn in your assignments using the [submission website](https://6828.scripts.mit.edu/2018/handin.py/). You need to request an API key from the submission website before you can turn in any assignments or labs.
-
-The lab code comes with GNU Make rules to make submission easier. After committing your final changes to the lab, type `make handin` to submit your lab.
-
-athena% `git commit -am "ready to submit my lab"`
-[lab1 c2e3c8b] ready to submit my lab
- 2 files changed, 18 insertions(+), 2 deletions(-)
-
-athena% `make handin`
-git archive --prefix=lab1/ --format=tar HEAD | gzip > lab1-handin.tar.gz
-Get an API key for yourself by visiting https://6828.scripts.mit.edu/2018/handin.py/
-Please enter your API key: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100 50199  100   241  100 49958    414  85824 --:--:-- --:--:-- --:--:-- 85986
-athena%
-
-`make handin` will store your API key in *myapi.key*. If you need to change your API key, just remove this file and let `make handin` generate it again (*myapi.key* must not include newline characters).
-
-If use `make handin` and you have either uncomitted changes or untracked files, you will see output similar to the following:
-
- M hello.c
-?? bar.c
-?? foo.pyc
-Untracked files will not be handed in.  Continue? [y/N]
-
-Inspect the above lines and make sure all files that your lab solution needs are tracked i.e. not listed in a line that begins with `??`.
-
-In the case that `make handin` does not work properly, try fixing the problem with the curl or Git commands. Or you can run `make tarball`. This will make a tar file for you, which you can then upload via our [web interface](https://6828.scripts.mit.edu/2018/handin.py/).
-
-You can run `make grade` to test your solutions with the grading program. The [web interface](https://6828.scripts.mit.edu/2018/handin.py/) uses the same grading program to assign your lab submission a grade. You should check the output of the grader (it may take a few minutes since the grader runs periodically) and ensure that you received the grade which you expected. If the grades don't match, your lab submission probably has a bug -- check the output of the grader (resp-lab*.txt) to see which particular test failed.
-
-For Lab 1, you do not need to turn in answers to any of the questions below. (Do answer them for yourself though! They will help with the rest of the lab.)
 
 Part 1: PC Bootstrap
 --------------------
@@ -82,9 +23,11 @@ If you are not already familiar with x86 assembly language, you will quickly bec
 
 *Warning:* Unfortunately the examples in the book are written for the NASM assembler, whereas we will be using the GNU assembler. NASM uses the so-called *Intel* syntax while GNU uses the *AT&T* syntax. While semantically equivalent, an assembly file will differ quite a lot, at least superficially, depending on which syntax is used. Luckily the conversion between the two is pretty simple, and is covered in [Brennan's Guide to Inline Assembly](http://www.delorie.com/djgpp/doc/brennan/brennan_att_inline_djgpp.html).
 
+```diff
 Exercise 1. Familiarize yourself with the assembly language materials available on [the 6.828 reference page](https://pdos.csail.mit.edu/6.828/2018/reference.html). You don't have to read them now, but you'll almost certainly want to refer to some of this material when reading and writing x86 assembly.
 
 We do recommend reading the section "The Syntax" in [Brennan's Guide to Inline Assembly](http://www.delorie.com/djgpp/doc/brennan/brennan_att_inline_djgpp.html). It gives a good (and quite brief) description of the AT&T assembly syntax we'll be using with the GNU assembler in JOS.
+```
 
 Certainly the definitive reference for x86 assembly language programming is Intel's instruction set architecture reference, which you can find on [the 6.828 reference page](https://pdos.csail.mit.edu/6.828/2018/reference.html) in two flavors: an HTML edition of the old [80386 Programmer's Reference Manual](https://pdos.csail.mit.edu/6.828/2018/readings/i386/toc.htm), which is much shorter and easier to navigate than more recent manuals but describes all of the x86 processor features that we will make use of in 6.828; and the full, latest and greatest [IA-32 Intel Architecture Software Developer's Manuals](http://www.intel.com/content/www/us/en/processors/architectures-software-developer-manuals.html) from Intel, covering all the features of the most recent processors that we won't need in class but you may be interested in learning about. An equivalent (and often friendlier) set of manuals is [available from AMD](http://developer.amd.com/resources/developer-guides-manuals/). Save the Intel/AMD architecture manuals for later or use them for reference when you want to look up the definitive explanation of a particular processor feature or instruction.
 
