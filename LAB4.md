@@ -28,14 +28,14 @@
    lab4 branch, <tt>origin/lab4</tt>:
 </p>
 <pre>
-athena% <kbd>cd ~/6.828/lab</kbd>
-athena% <kbd>add git</kbd>
-athena% <kbd>git pull</kbd>
+kermit% <kbd>cd lab</kbd>
+kermit% <kbd>add git</kbd>
+kermit% <kbd>git pull</kbd>
 Already up-to-date.
-athena% <kbd>git checkout -b lab4 origin/lab4</kbd>
+kermit% <kbd>git checkout -b lab4 origin/lab4</kbd>
 Branch lab4 set up to track remote branch refs/remotes/origin/lab4.
 Switched to a new branch "lab4"
-athena% <kbd>git merge lab3</kbd>
+kermit% <kbd>git merge lab3</kbd>
 Merge made by recursive.
 ...
 athena% 
