@@ -1,5 +1,7 @@
 # Summary
 
+* [Tools](TOOLS.md)
+* [Lab Guide](GUIDE.md)
 * [Introduction](README.md)
 * [Lab 1: Booting a PC](LAB1.md)
 * [Lab 2: Memory Management](LAB2.md)

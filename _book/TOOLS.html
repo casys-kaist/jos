@@ -1,0 +1,451 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Tools · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="GUIDE.html" />
+    
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter active" data-level="1.1" data-path="TOOLS.html">
+            
+                <a href="TOOLS.html">
+            
+                    
+                    Tools
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="GUIDE.html">
+            
+                <a href="GUIDE.html">
+            
+                    
+                    Lab Guide
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="LAB1.html">
+            
+                <a href="LAB1.html">
+            
+                    
+                    Lab 1: Booting a PC
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="LAB2.html">
+            
+                <a href="LAB2.html">
+            
+                    
+                    Lab 2: Memory Management
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="LAB3.html">
+            
+                <a href="LAB3.html">
+            
+                    
+                    Lab 3: User Environments
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="LAB4.html">
+            
+                <a href="LAB4.html">
+            
+                    
+                    Lab 4: Preemptive Multitasking
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="REFERENCE.html">
+            
+                <a href="REFERENCE.html">
+            
+                    
+                    Reading Materials
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >Tools</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="tools-used-in-6828">Tools Used in 6.828</h1>
+<p>You&apos;ll use two sets of tools in this class: an x86 emulator, <a href="https://pdos.csail.mit.edu/6.828/2018/tools.html#qemu" target="_blank">QEMU</a>, for running your kernel; and a <a href="https://pdos.csail.mit.edu/6.828/2018/tools.html#chain" target="_blank">compiler toolchain</a>, including assembler, linker, C compiler, and debugger, for compiling and testing your kernel. This page has the information you&apos;ll need to download and install your own copies. This class assumes familiarity with Unix commands throughout.</p>
+<p>We highly recommend using a Debathena machine, such as athena.dialup.mit.edu, to work on the labs. If you use the MIT Athena machines that run Linux, then all the software tools you will need for this course are located in the 6.828 locker: just type &apos;<code>add -f 6.828</code>&apos; to get access to them.</p>
+<p>If you don&apos;t have access to a Debathena machine, we recommend you use a virtual machine with Linux. If you really want to, you can build and install the tools on your own machine. We have instructions below for Linux and MacOS computers.</p>
+<p>It should be possible to get this development environment running under windows with the help of <a href="http://www.cygwin.com/" target="_blank">Cygwin</a>. Install cygwin, and be sure to install the <code>flex</code> and <code>bison</code> packages (they are under the development header).</p>
+<p>For an overview of useful commands in the tools used in 6.828, see the <a href="https://pdos.csail.mit.edu/6.828/2018/labguide.html" target="_blank">lab tools guide</a>.</p>
+<h2 id="compiler-toolchain">Compiler Toolchain</h2>
+<p>A &quot;compiler toolchain&quot; is the set of programs, including a C compiler, assemblers, and linkers, that turn code into executable binaries. You&apos;ll need a compiler toolchain that generates code for 32-bit Intel architectures (&quot;x86&quot; architectures) in the ELF binary format.</p>
+<h3 id="test-your-compiler-toolchain">Test Your Compiler Toolchain</h3>
+<p>Modern Linux and BSD UNIX distributions already provide a toolchain suitable for 6.828. To test your distribution, try the following commands:</p>
+<p>% objdump -i</p>
+<p>The second line should say <code>elf32-i386</code>.</p>
+<p>% gcc -m32 -print-libgcc-file-name</p>
+<p>The command should print something like <code>/usr/lib/gcc/i486-linux-gnu/*version*/libgcc.a</code> or <code>/usr/lib/gcc/x86_64-linux-gnu/*version*/32/libgcc.a</code></p>
+<p>If both these commands succeed, you&apos;re all set, and don&apos;t need to compile your own toolchain.</p>
+<p>If the gcc command fails, you may need to install a development environment. On Ubuntu Linux, try this:</p>
+<p>% sudo apt-get install -y build-essential gdb</p>
+<p>On 64-bit machines, you may need to install a 32-bit support library. The symptom is that linking fails with error messages like &quot;<code>__udivdi3</code> not found&quot; and &quot;<code>__muldi3</code> not found&quot;. On Ubuntu Linux, try this to fix the problem:</p>
+<p>% sudo apt-get install gcc-multilib</p>
+<h3 id="using-a-virtual-machine">Using a Virtual Machine</h3>
+<p>Otherwise, the easiest way to get a compatible toolchain is to install a modern Linux distribution on your computer. With platform virtualization, Linux can cohabitate with your normal computing environment. Installing a Linux virtual machine is a two step process. First, you download the virtualization platform.</p>
+<ul>
+<li><a href="http://www.oracle.com/us/technologies/virtualization/oraclevm/" target="_blank">VirtualBox</a> (free for Mac, Linux, Windows) --- <a href="http://www.oracle.com/us/technologies/virtualization/oraclevm/" target="_blank">Download page</a></li>
+<li><a href="http://www.vmware.com/products/player/" target="_blank">VMware Player</a> (free for Linux and Windows, registration required)</li>
+<li><a href="http://www.vmware.com/products/fusion/" target="_blank">VMware Fusion</a> (Downloadable from IS&amp;T for free).</li>
+</ul>
+<p>VirtualBox is a little slower and less flexible, but free!</p>
+<p>Once the virtualization platform is installed, download a boot disk image for the Linux distribution of your choice.</p>
+<ul>
+<li><a href="http://www.ubuntu.com/download/desktop" target="_blank">Ubuntu Desktop</a> is what we use.</li>
+</ul>
+<p>This will download a file named something like <code>ubuntu-10.04.1-desktop-i386.iso</code>. Start up your virtualization platform and create a new (32-bit) virtual machine. Use the downloaded Ubuntu image as a boot disk; the procedure differs among VMs but is pretty simple. Type <code>objdump -i</code>, as above, to verify that your toolchain is now set up. You will do your work inside the VM.</p>
+<h3 id="building-your-own-compiler-toolchain">Building Your Own Compiler Toolchain</h3>
+<p>This will take longer to set up, but give slightly better performance than a virtual machine, and lets you work in your own familiar environment (Unix/MacOS). Fast-forward to the end for MacOS instructions.</p>
+<h4 id="linux">Linux</h4>
+<p>You can use your own tool chain by adding the following line to <code>conf/env.mk</code>:</p>
+<p>GCCPREFIX=</p>
+<p>We assume that you are installing the toolchain into <code>/usr/local</code>. You will need a fair amount of disk space to compile the tools (around 1GiB). If you don&apos;t have that much space, delete each directory after its <code>make install</code> step.</p>
+<p>Download the following packages:</p>
+<ul>
+<li><a href="ftp://ftp.gmplib.org/pub/gmp-5.0.2/gmp-5.0.2.tar.bz2" target="_blank">ftp://ftp.gmplib.org/pub/gmp-5.0.2/gmp-5.0.2.tar.bz2</a></li>
+<li><a href="https://www.mpfr.org/mpfr-3.1.2/mpfr-3.1.2.tar.bz2" target="_blank">https://www.mpfr.org/mpfr-3.1.2/mpfr-3.1.2.tar.bz2</a></li>
+<li><a href="http://www.multiprecision.org/downloads/mpc-0.9.tar.gz" target="_blank">http://www.multiprecision.org/downloads/mpc-0.9.tar.gz</a></li>
+<li><a href="http://ftpmirror.gnu.org/binutils/binutils-2.21.1.tar.bz2" target="_blank">http://ftpmirror.gnu.org/binutils/binutils-2.21.1.tar.bz2</a></li>
+<li><a href="http://ftpmirror.gnu.org/gcc/gcc-4.6.4/gcc-core-4.6.4.tar.bz2" target="_blank">http://ftpmirror.gnu.org/gcc/gcc-4.6.4/gcc-core-4.6.4.tar.bz2</a></li>
+<li><a href="http://ftpmirror.gnu.org/gdb/gdb-7.3.1.tar.bz2" target="_blank">http://ftpmirror.gnu.org/gdb/gdb-7.3.1.tar.bz2</a></li>
+</ul>
+<p>(You may also use newer versions of these packages.) Unpack and build the packages. The <code>green bold</code> text shows you how to install into <code>/usr/local</code>, which is what we recommend. To install into a different directory, $PFX, click here. If you have problems, see below.</p>
+<p>tar xjf gmp-5.0.2.tar.bz2
+cd gmp-5.0.2
+./configure --prefix=/usr/local
+make
+make install             # This step may require privilege (sudo make install)
+cd ..</p>
+<p>tar xjf mpfr-3.1.2.tar.bz2
+cd mpfr-3.1.2
+./configure --prefix=/usr/local
+make
+make install             # This step may require privilege (sudo make install)
+cd ..</p>
+<p>tar xzf mpc-0.9.tar.gz
+cd mpc-0.9
+./configure --prefix=/usr/local
+make
+make install             # This step may require privilege (sudo make install)
+cd ..</p>
+<p>tar xjf binutils-2.21.1.tar.bz2
+cd binutils-2.21.1
+./configure --prefix=/usr/local --target=i386-jos-elf --disable-werror
+make
+make install             # This step may require privilege (sudo make install)
+cd ..</p>
+<p>i386-jos-elf-objdump -i</p>
+<h1 id="should-produce-output-like">Should produce output like:</h1>
+<h1 id="bfd-header-file-version-gnu-binutils-2211">BFD header file version (GNU Binutils) 2.21.1</h1>
+<h1 id="elf32-i386">elf32-i386</h1>
+<h1 id="header-little-endian-data-little-endian">(header little endian, data little endian)</h1>
+<h1 id="i386">i386...</h1>
+<p>tar xjf gcc-core-4.6.4.tar.bz2
+cd gcc-4.6.4
+mkdir build              # GCC will not compile correctly unless you build in a separate directory
+cd build
+../configure --prefix=/usr/local\
+ --target=i386-jos-elf --disable-werror\
+ --disable-libssp --disable-libmudflap --with-newlib\
+ --without-headers --enable-languages=c MAKEINFO=missing
+make all-gcc
+make install-gcc         # This step may require privilege (sudo make install-gcc)
+make all-target-libgcc
+make install-target-libgcc     # This step may require privilege (sudo make install-target-libgcc)
+cd ../..</p>
+<p>i386-jos-elf-gcc -v</p>
+<h1 id="should-produce-output-like">Should produce output like:</h1>
+<h1 id="using-built-in-specs">Using built-in specs.</h1>
+<h1 id="collectgcci386-jos-elf-gcc">COLLECT_GCC=i386-jos-elf-gcc</h1>
+<h1 id="collectltowrapperusrlocallibexecgcci386-jos-elf464lto-wrapper">COLLECT_LTO_WRAPPER=/usr/local/libexec/gcc/i386-jos-elf/4.6.4/lto-wrapper</h1>
+<h1 id="target-i386-jos-elf">Target: i386-jos-elf</h1>
+<p>tar xjf gdb-7.3.1.tar.bz2
+cd gdb-7.3.1
+./configure --prefix=/usr/local --target=i386-jos-elf --program-prefix=i386-jos-elf-\
+ --disable-werror
+make all
+make install             # This step may require privilege (sudo make install)
+cd ..</p>
+<h4 id="linux-troubleshooting">Linux troubleshooting</h4>
+<p>Q. I can&apos;t run <code>make install</code> because I don&apos;t have root permission on this machine.</p>
+<p>A. Our instructions assume you are installing into the <code>/usr/local</code> directory. However, this may not be allowed in your environment. If you can only install code into your home directory, that&apos;s OK. In the instructions above, replace <code>--prefix=/usr/local</code> with <code>--prefix=$HOME</code> (and click here to update the instructions further). You will also need to change your <code>PATH</code> and <code>LD_LIBRARY_PATH</code> environment variables, to inform your shell where to find the tools. For example:</p>
+<p>export PATH=$HOME/bin:$PATH
+export LD_LIBRARY_PATH=$HOME/lib:$LD_LIBRARY_PATH</p>
+<p>Enter these lines in your <code>~/.bashrc</code> file so you don&apos;t need to type them every time you log in.</p>
+<p>Q. My build fails with an inscrutable message about &quot;library not found&quot;.</p>
+<p>A. You need to set your <code>LD_LIBRARY_PATH</code>. The environment variable must include the <code>PREFIX/lib</code> directory (for instance, <code>/usr/local/lib</code>).</p>
+<h4 id="macos">MacOS</h4>
+<p>First begin by installing developer tools on Mac OSX:\
+<code>xcode-select --install</code></p>
+<p>You can install the qemu dependencies from homebrew, however do not install qemu itself as you will need the 6.828 patched version.</p>
+<p><code>brew install $(brew deps qemu)</code></p>
+<p>The gettext utility does not add installed binaries to the path, so you will need to run</p>
+<p><code>PATH=${PATH}:/usr/local/opt/gettext/bin make install</code></p>
+<p>when installing qemu below.</p>
+<h2 id="qemu-emulator">QEMU Emulator</h2>
+<p><a href="http://www.nongnu.org/qemu/" target="_blank">QEMU</a> is a modern and fast PC emulator. QEMU version 2.3.0 is set up on Athena for x86 machines in the 6.828 locker (<code>add -f 6.828</code>)</p>
+<p>Unfortunately, QEMU&apos;s debugging facilities, while powerful, are somewhat immature, so we highly recommend you use our patched version of QEMU instead of the stock version that may come with your distribution. The version installed on Athena is already patched. To build your own patched version of QEMU:</p>
+<ol>
+<li>Clone the IAP 6.828 QEMU git repository <code>git clone https://github.com/mit-pdos/6.828-qemu.git qemu</code></li>
+<li>On Linux, you may need to install several libraries. We have successfully built 6.828 QEMU on Debian/Ubuntu 16.04 after installing the following packages: libsdl1.2-dev, libtool-bin, libglib2.0-dev, libz-dev, and libpixman-1-dev.</li>
+<li>Configure the source code (optional arguments are shown in square brackets; replace PFX with a path of your choice)<ol>
+<li>Linux: <code>./configure --disable-kvm --disable-werror [--prefix=PFX] [--target-list=&quot;i386-softmmu x86_64-softmmu&quot;]</code></li>
+<li>OS X: <code>./configure --disable-kvm --disable-werror --disable-sdl [--prefix=PFX] [--target-list=&quot;i386-softmmu x86_64-softmmu&quot;]</code> The <code>prefix</code> argument specifies where to install QEMU; without it QEMU will install to <code>/usr/local</code> by default. The <code>target-list</code> argument simply slims down the architectures QEMU will build support for.</li>
+</ol>
+</li>
+<li>Run <code>make &amp;&amp; make install</code></li>
+</ol>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                
+                <a href="GUIDE.html" class="navigation navigation-next navigation-unique" aria-label="Next page: Lab Guide">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Tools","level":"1.1","depth":1,"next":{"title":"Lab Guide","level":"1.2","depth":1,"path":"GUIDE.md","ref":"GUIDE.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"TOOLS.md","mtime":"2021-08-29T06:58:44.409Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-08-29T07:03:16.599Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
