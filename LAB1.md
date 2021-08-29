@@ -5,10 +5,10 @@ The first part concentrates on getting familiarized
 with x86 assembly language,
 the QEMU x86 emulator,
 and the PC's power-on bootstrap procedure.
-The second part examines the boot loader for our CS 492 kernel,
+The second part examines the boot loader for our CS 530 kernel,
 which resides in the <tt>boot</tt> directory of the <tt>lab</tt> tree.
 Finally, the third part delves into the initial template
-for our CS 492 kernel itself,
+for our CS 530 kernel itself,
 named JOS,
 which resides in the <tt>kernel</tt> directory.
 
@@ -82,8 +82,6 @@ by running:
 kermit% <kbd>git commit -am 'my solution for lab1 exercise9'</kbd>
 Created commit 60d2135: my solution for lab1 exercise9
  1 files changed, 1 insertions(+), 0 deletions(-)
-kermit% 
-
 </pre>
 
 <p>
@@ -172,7 +170,7 @@ an HTML edition of the old
 <a href="ref/i386/toc.htm">80386 Programmer's Reference Manual</a>,
 which is much shorter and easier to navigate than more recent manuals
 but describes all of the x86 processor features
-that we will make use of in CS 492;
+that we will make use of in CS 530;
 and the full, latest and greatest
 <a href="http://developer.intel.com/products/processor/manuals/index.htm">
 Intel 64 and IA-32 Combined Software Developer's Manuals</a> from Intel,
@@ -204,7 +202,7 @@ to do with the silicon-version of an x86.
 </p>
 
 <p>
-In CS 492 we will use the
+In CS 530 we will use the
 <a href="http://www.qemu.org/">QEMU Emulator</a>,
 a modern and relatively fast emulator.
 While QEMU's built-in monitor provides only limited debugging support,
