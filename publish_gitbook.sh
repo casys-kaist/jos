@@ -1,14 +1,14 @@
 gitbook install && gitbook build
 
 git add *
-git commit -m "upadte docs"
+git commit -m "update docs"
 git push
 
 # github pages가 바라보는 gh-pages 브랜치를 만든다.
 git checkout gh-pages
 
 # 최신 gh-pages 브랜치 정보를 가져와 rebase를 진행한다.
-git pull origin gh-pages --rebase
+#git pull origin gh-pages --rebase
 
 # gitbook build로 생긴 _book폴더 아래 모든 정보를 현재 위치로 가져온다.
 cp -R _book/* .
