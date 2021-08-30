@@ -56,7 +56,7 @@ tools (editors, debuggers, etc) as you see fit.
 You are also welcome to install the needed software on your own laptop.
 The course staff is not available to help you debug your personal
 laptop configuration.
-The <a href="tools.html">tools page</a>
+The <a href="TOOLS.html">tools page</a>
 has directions on how to set up <tt>qemu</tt> and <tt>gcc</tt> for
 use with JOS.
 </p>
