@@ -1,0 +1,468 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- saved from url=(0046)http://cs492virt.kaist.ac.kr/ref/assembly.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>AMD64 Subpage</title>
+
+<link href="./assembly_files/amd64.css" rel="stylesheet" type="text/css">
+<script language="JavaScript" type="text/JavaScript">
+<!--
+function MM_reloadPage(init) {  //reloads the window if Nav4 resized
+  if (init==true) with (navigator) {if ((appName=="Netscape")&&(parseInt(appVersion)==4)) {
+    document.MM_pgW=innerWidth; document.MM_pgH=innerHeight; onresize=MM_reloadPage; }}
+  else if (innerWidth!=document.MM_pgW || innerHeight!=document.MM_pgH) location.reload();
+}
+MM_reloadPage(true);
+//-->
+</script>
+</head>
+
+<body>
+<!-- BEGIN WAYBACK TOOLBAR INSERT -->
+
+<script type="text/javascript" src="./assembly_files/disclaim-element.js"></script>
+<script type="text/javascript" src="./assembly_files/graph-calc.js"></script>
+<script type="text/javascript" src="./assembly_files/jquery.min.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+var firstDate = 820454400000;
+var lastDate = 1388534399999;
+var wbPrefix = "/web/";
+var wbCurrentUrl = "http:\/\/www.x86-64.org\/documentation\/assembly.html";
+
+var curYear = -1;
+var curMonth = -1;
+var yearCount = 18;
+var firstYear = 1996;
+var imgWidth = 450;
+var yearImgWidth = 25;
+var monthImgWidth = 2;
+var trackerVal = "none";
+var displayDay = "21";
+var displayMonth = "Jan";
+var displayYear = "2012";
+var prettyMonths = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+function showTrackers(val) {
+	if(val == trackerVal) {
+		return;
+	}
+	if(val == "inline") {
+		document.getElementById("displayYearEl").style.color = "#ec008c";
+		document.getElementById("displayMonthEl").style.color = "#ec008c";
+		document.getElementById("displayDayEl").style.color = "#ec008c";		
+	} else {
+		document.getElementById("displayYearEl").innerHTML = displayYear;
+		document.getElementById("displayYearEl").style.color = "#ff0";
+		document.getElementById("displayMonthEl").innerHTML = displayMonth;
+		document.getElementById("displayMonthEl").style.color = "#ff0";
+		document.getElementById("displayDayEl").innerHTML = displayDay;
+		document.getElementById("displayDayEl").style.color = "#ff0";
+	}
+   document.getElementById("wbMouseTrackYearImg").style.display = val;
+   document.getElementById("wbMouseTrackMonthImg").style.display = val;
+   trackerVal = val;
+}
+function getElementX2(obj) {
+	var thing = jQuery(obj);
+	if((thing == undefined) 
+			|| (typeof thing == "undefined") 
+			|| (typeof thing.offset == "undefined")) {
+		return getElementX(obj);
+	}
+	return Math.round(thing.offset().left);
+}
+function trackMouseMove(event,element) {
+
+   var eventX = getEventX(event);
+   var elementX = getElementX2(element);
+   var xOff = eventX - elementX;
+	if(xOff < 0) {
+		xOff = 0;
+	} else if(xOff > imgWidth) {
+		xOff = imgWidth;
+	}
+   var monthOff = xOff % yearImgWidth;
+
+   var year = Math.floor(xOff / yearImgWidth);
+	var yearStart = year * yearImgWidth;
+   var monthOfYear = Math.floor(monthOff / monthImgWidth);
+   if(monthOfYear > 11) {
+       monthOfYear = 11;
+   }
+   // 1 extra border pixel at the left edge of the year:
+   var month = (year * 12) + monthOfYear;
+   var day = 1;
+	if(monthOff % 2 == 1) {
+		day = 15;
+	}
+	var dateString = 
+		zeroPad(year + firstYear) + 
+		zeroPad(monthOfYear+1,2) +
+		zeroPad(day,2) + "000000";
+
+	var monthString = prettyMonths[monthOfYear];
+	document.getElementById("displayYearEl").innerHTML = year + 1996;
+	document.getElementById("displayMonthEl").innerHTML = monthString;
+	// looks too jarring when it changes..
+	//document.getElementById("displayDayEl").innerHTML = zeroPad(day,2);
+
+	var url = wbPrefix + dateString + '/' +  wbCurrentUrl;
+	document.getElementById('wm-graph-anchor').href = url;
+
+   //document.getElementById("wmtbURL").value="evX("+eventX+") elX("+elementX+") xO("+xOff+") y("+year+") m("+month+") monthOff("+monthOff+") DS("+dateString+") Moy("+monthOfYear+") ms("+monthString+")";
+   if(curYear != year) {
+       var yrOff = year * yearImgWidth;
+       document.getElementById("wbMouseTrackYearImg").style.left = yrOff + "px";
+       curYear = year;
+   }
+   if(curMonth != month) {
+       var mtOff = year + (month * monthImgWidth) + 1;
+       document.getElementById("wbMouseTrackMonthImg").style.left = mtOff + "px";
+       curMonth = month;
+   }
+}
+//]]>
+</script>
+
+<style type="text/css">body{margin-top:0!important;padding-top:0!important;min-width:800px!important;}#wm-ipp a:hover{text-decoration:underline!important;}</style>
+<div id="wm-ipp" style="display:none; position:relative;padding:0 5px;min-height:70px;min-width:800px; z-index:9000;">
+<div id="wm-ipp-inside" style="position:fixed;padding:0!important;margin:0!important;width:97%;min-width:780px;border:5px solid #000;border-top:none;background-image:url(/static/images/toolbar/wm_tb_bk_trns.png);text-align:center;-moz-box-shadow:1px 1px 3px #333;-webkit-box-shadow:1px 1px 3px #333;box-shadow:1px 1px 3px #333;font-size:11px!important;font-family:&#39;Lucida Grande&#39;,&#39;Arial&#39;,sans-serif!important;">
+   <table style="border-collapse:collapse;margin:0;padding:0;width:100%;"><tbody><tr>
+   <td style="padding:10px;vertical-align:top;min-width:110px;">
+   <a href="http://cs492virt.kaist.ac.kr/web/" title="Wayback Machine home page" style="background-color:transparent;border:none;"><img src="./assembly_files/wayback-toolbar-logo.png" alt="Wayback Machine" width="110" height="39" border="0"></a>
+   </td>
+   <td style="padding:0!important;text-align:center;vertical-align:top;width:100%;">
+
+       <table style="border-collapse:collapse;margin:0 auto;padding:0;width:570px;"><tbody><tr>
+       <td style="padding:3px 0;" colspan="2">
+       <form target="_top" method="get" action="http://cs492virt.kaist.ac.kr/web/form-submit.jsp" name="wmtb" id="wmtb" style="margin:0!important;padding:0!important;"><input type="text" name="url" id="wmtbURL" value="http://www.x86-64.org/documentation/assembly.html" style="width:400px;font-size:11px;font-family:&#39;Lucida Grande&#39;,&#39;Arial&#39;,sans-serif;" onfocus="javascript:this.focus();this.select();"><input type="hidden" name="type" value="replay"><input type="hidden" name="date" value="20120121081936"><input type="submit" value="Go" style="font-size:11px;font-family:&#39;Lucida Grande&#39;,&#39;Arial&#39;,sans-serif;margin-left:5px;"><span id="wm_tb_options" style="display:block;"></span></form>
+       </td>
+       <td style="vertical-align:bottom;padding:5px 0 0 0!important;" rowspan="2">
+           <table style="border-collapse:collapse;width:110px;color:#99a;font-family:&#39;Helvetica&#39;,&#39;Lucida Grande&#39;,&#39;Arial&#39;,sans-serif;"><tbody>
+			
+           <!-- NEXT/PREV MONTH NAV AND MONTH INDICATOR -->
+           <tr style="width:110px;height:16px;font-size:10px!important;">
+           	<td style="padding-right:9px;font-size:11px!important;font-weight:bold;text-transform:uppercase;text-align:right;white-space:nowrap;overflow:visible;" nowrap="nowrap">
+               
+		                <a href="http://cs492virt.kaist.ac.kr/web/20111123154018/http://www.x86-64.org/documentation/assembly.html" style="text-decoration:none;color:#33f;font-weight:bold;background-color:transparent;border:none;" title="23 Nov 2011"><strong>NOV</strong></a>
+		                
+               </td>
+               <td id="displayMonthEl" style="background:#000;color:#ff0;font-size:11px!important;font-weight:bold;text-transform:uppercase;width:34px;height:15px;padding-top:1px;text-align:center;" title="You are here: 8:19:36 Jan 21, 2012">JAN</td>
+				<td style="padding-left:9px;font-size:11px!important;font-weight:bold;text-transform:uppercase;white-space:nowrap;overflow:visible;" nowrap="nowrap">
+               
+		                <a href="http://cs492virt.kaist.ac.kr/web/20120224084657/http://www.x86-64.org/documentation/assembly.html" style="text-decoration:none;color:#33f;font-weight:bold;background-color:transparent;border:none;" title="24 Feb 2012"><strong>FEB</strong></a>
+		                
+               </td>
+           </tr>
+
+           <!-- NEXT/PREV CAPTURE NAV AND DAY OF MONTH INDICATOR -->
+           <tr>
+               <td style="padding-right:9px;white-space:nowrap;overflow:visible;text-align:right!important;vertical-align:middle!important;" nowrap="nowrap">
+               
+		                <a href="http://cs492virt.kaist.ac.kr/web/20111225021933/http://www.x86-64.org/documentation/assembly.html" title="2:19:33 Dec 25, 2011" style="background-color:transparent;border:none;"><img src="./assembly_files/wm_tb_prv_on.png" alt="Previous capture" width="14" height="16" border="0"></a>
+		                
+               </td>
+               <td id="displayDayEl" style="background:#000;color:#ff0;width:34px;height:24px;padding:2px 0 0 0;text-align:center;font-size:24px;font-weight: bold;" title="You are here: 8:19:36 Jan 21, 2012">21</td>
+				<td style="padding-left:9px;white-space:nowrap;overflow:visible;text-align:left!important;vertical-align:middle!important;" nowrap="nowrap">
+               
+		                <a href="http://cs492virt.kaist.ac.kr/web/20120126075219/http://www.x86-64.org/documentation/assembly.html" title="7:52:19 Jan 26, 2012" style="background-color:transparent;border:none;"><img src="./assembly_files/wm_tb_nxt_on.png" alt="Next capture" width="14" height="16" border="0"></a>
+		                
+			    </td>
+           </tr>
+
+           <!-- NEXT/PREV YEAR NAV AND YEAR INDICATOR -->
+           <tr style="width:110px;height:13px;font-size:9px!important;">
+				<td style="padding-right:9px;font-size:11px!important;font-weight: bold;text-align:right;white-space:nowrap;overflow:visible;" nowrap="nowrap">
+               
+		                <a href="http://cs492virt.kaist.ac.kr/web/20101231053500/http://www.x86-64.org/documentation/assembly.html" style="text-decoration:none;color:#33f;font-weight:bold;background-color:transparent;border:none;" title="31 Dec 2010"><strong>2010</strong></a>
+		                
+               </td>
+               <td id="displayYearEl" style="background:#000;color:#ff0;font-size:11px!important;font-weight: bold;padding-top:1px;width:34px;height:13px;text-align:center;" title="You are here: 8:19:36 Jan 21, 2012">2012</td>
+				<td style="padding-left:9px;font-size:11px!important;font-weight: bold;white-space:nowrap;overflow:visible;" nowrap="nowrap">
+               
+                       2013
+                       
+				</td>
+           </tr>
+           </tbody></table>
+       </td>
+
+       </tr>
+       <tr>
+       <td style="vertical-align:middle;padding:0!important;">
+           <a href="http://cs492virt.kaist.ac.kr/web/20120121081936*/http://www.x86-64.org/documentation/assembly.html" style="color:#33f;font-size:11px;font-weight:bold;background-color:transparent;border:none;" title="See a list of every capture for this URL"><strong>74 captures</strong></a>
+           <div style="margin:0!important;padding:0!important;color:#666;font-size:9px;padding-top:2px!important;white-space:nowrap;" title="Timespan for captures of this URL">8 Jan 07 - 11 Oct 12</div>
+       </td>
+       <td style="padding:0!important;">
+       <a style="position:relative; white-space:nowrap; width:450px;height:27px;" href="http://cs492virt.kaist.ac.kr/ref/assembly.html" id="wm-graph-anchor">
+       <div id="wm-ipp-sparkline" style="position:relative; white-space:nowrap; width:450px;height:27px;background-color:#fff;cursor:pointer;border-right:1px solid #ccc;" title="Explore captures for this URL">
+			<img id="sparklineImgId" style="position:absolute; z-index:9012; top:0px; left:0px;" onmouseover="showTrackers(&#39;inline&#39;);" onmouseout="showTrackers(&#39;none&#39;);" onmousemove="trackMouseMove(event,this)" alt="sparklines" width="450" height="27" border="0" src="./assembly_files/graph.jsp">
+			<img id="wbMouseTrackYearImg" style="display:none; position:absolute; z-index:9010;" width="25" height="27" border="0" src="./assembly_files/transp-yellow-pixel.png">
+			<img id="wbMouseTrackMonthImg" style="display:none; position:absolute; z-index:9011; " width="2" height="27" border="0" src="./assembly_files/transp-red-pixel.png">
+       </div>
+		</a>
+
+       </td>
+       </tr></tbody></table>
+   </td>
+   <td style="text-align:right;padding:5px;width:65px;font-size:11px!important;">
+       <a href="javascript:;" onclick="document.getElementById(&#39;wm-ipp&#39;).style.display=&#39;none&#39;;" style="display:block;padding-right:18px;background:url(/static/images/toolbar/wm_tb_close.png) no-repeat 100% 0;color:#33f;font-family:&#39;Lucida Grande&#39;,&#39;Arial&#39;,sans-serif;margin-bottom:23px;background-color:transparent;border:none;" title="Close the toolbar">Close</a>
+       <a href="http://faq.web.archive.org/" style="display:block;padding-right:18px;background:url(/static/images/toolbar/wm_tb_help.png) no-repeat 100% 0;color:#33f;font-family:&#39;Lucida Grande&#39;,&#39;Arial&#39;,sans-serif;background-color:transparent;border:none;" title="Get some help using the Wayback Machine">Help</a>
+   </td>
+   </tr></tbody></table>
+
+</div>
+</div>
+<script type="text/javascript">
+ var wmDisclaimBanner = document.getElementById("wm-ipp");
+ if(wmDisclaimBanner != null) {
+   disclaimElement(wmDisclaimBanner);
+ }
+</script>
+<!-- END WAYBACK TOOLBAR INSERT -->
+
+
+<!-- top logo -->
+<table width="100%" border="0" cellpadding="0" cellspacing="0" background="./assembly_files/topTableBack.jpg">
+  <tbody><tr>
+    <td width="779">
+     <img src="./assembly_files/subTopL.jpg" width="779" height="34">
+    </td>
+    <td width="1" bgcolor="#000000">
+      <img src="./assembly_files/clear.gif" width="1" height="4" border="0">
+    </td>
+    <td>&nbsp;</td>
+  </tr>
+</tbody></table>
+
+<!-- sidebar -->
+<div id="subpageLogo" style="position:absolute; width:211px; height:300; z-index:2; left: 43; top: 0;">
+  <table width="211" border="0" cellspacing="0" cellpadding="0">
+    <tbody><tr>
+      <td><a href="http://cs492virt.kaist.ac.kr/web/20120121081936/http://www.x86-64.org/index.html"><img src="./assembly_files/sublogo.jpg" width="211" height="86" border="0"></a></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>
+	<!-- sidebar contents are kept in sidebar-core -->
+		          <p class="nav"><a href="http://cs492virt.kaist.ac.kr/web/20120121081936/http://www.x86-64.org/about.html">about</a> •</p>
+        <p class="nav"><a href="http://cs492virt.kaist.ac.kr/web/20120121081936/http://www.x86-64.org/contributors.html">contributors</a> •</p>
+        <p class="nav"><a href="http://cs492virt.kaist.ac.kr/web/20120121081936/http://www.x86-64.org/downloads.html">downloads</a> •</p>
+        <p class="nav"><a href="http://cs492virt.kaist.ac.kr/web/20120121081936/http://www.x86-64.org/documentation.html">documentation</a> •</p>
+        <p class="nav"><a href="http://cs492virt.kaist.ac.kr/web/20120121081936/http://www.x86-64.org/mailinglists.html">mailing lists</a> •</p>
+        <p class="nav"><a href="http://cs492virt.kaist.ac.kr/web/20120121081936/http://www.x86-64.org/cvsaccess.html">CVS access</a> •</p>
+        
+	    </td></tr>
+  </tbody></table>
+</div>
+
+<div id="contentArea" style="position:absolute; width:484px; z-index:3; left: 275px; top: 30px; visibility: visible; height: 521px;"> 
+<!-- content begins -->
+<h1>Gentle Introduction to x86-64 Assembly</h1>
+
+<h2>Introduction</h2>
+
+<p>
+This document is meant to summarise differences between x86-64 and i386
+assembly assuming that you already know well the i386 gas syntax.
+I will try to keep this document up to date until official documentation
+is available.
+
+</p><h2>Register set extensions</h2>
+
+<p>
+X86-64 defines eight new integer registers named r8-r15. These registers are encoded
+using special REX prefix and so using them in non-64-bit instruction implies
+instruction length growth by 1 byte. They are named as follows:
+</p><pre>  rXb for 8 bit register (containing the lowest byte of the 64-bit value)
+  rXw for 16 bits
+  rXd for 32 bits
+  rX  for 64 bits
+</pre>
+Where X stands for integer in the range of 8 to 16.
+
+<p>
+Original integer registers keeps their irregular names and the 64-bit
+versions of the 32-bit registers eax, edx, exc, ebx, esi, esi, edi, esp and ebp
+are now called rax, rdx, rcx, rbx, rsi, rdi, rsp and respectivetly rbp.
+
+</p><p>
+The new registers can be used in the same places as the old ones, except for
+implicit register usage.  Some instructions implicitly use specific fixed registers, e.g. as shift counters,
+source and destination for string operations, etc.
+
+</p><h2>Extended 8-bit instructions</h2>
+
+<p>
+Instructions with REX prefix change behaviour of 8-bit register parts so that all registers can 
+be accessed as 8-bit registers.
+The upper halves (ah, dh, ch, bh) are replaced by lower halves of next
+4 registers (sil, dil, spl, bpl).  Then the rules described above are
+applied.
+</p><p>
+Unfortunatly some instructions require a REX prefix, so you can't use
+upper halves together with addresses requiring REX prefix:
+</p><pre>  addb %ah, (%r10)	# Invalid instruction.
+</pre>
+
+
+<h2>64bit instructions</h2>
+
+By default most operations remain 32-bit and the 64-bit counterparts are
+invoked by the fourth bit in the REX prefix.  This means that each 32-bit
+instruction has it's natural 64-bit extension and that extended registers
+are for free in 64-bit instructions.
+
+<p>
+To write 64bit instructions, use 'q' as a suffix (q for 'quad-word'):
+</p><pre>  movl $1,  %eax	# 32-bit instruction
+  movq $1,  %rax	# 64-bit instruction
+</pre>
+
+<p>
+Exceptions from this rule are instructions manipulating the stack (push,
+pop, call, ret, enter and leave) which are implicitly 64-bit and their 32-bit
+counterparts are not available anymore, yet their 16-bit counterparts are.
+So:
+</p><pre>  pushl %eax		# Illegal instruction
+  pushq %rax		# 1 byte instruction encoded as pushl %eax in 32 bits
+  pushq %r10		# 2 byte instruction encoded as pushl preceeded by REX.
+</pre>
+
+<h2>Implicit zero extend</h2>
+
+<p>
+Results of 32-bit operations are implicitly zero extended to 64-bit values.
+This differs from 16 and 8 bit operations, that don't affect the upper part
+of registers.  This can be used for code size optimisations in some cases,
+such as:
+</p><pre>  movl $1, %eax                 # one byte shorter movq $1, %rax
+  xorq %rax, %rax		# three byte equivalent of mov $0,%rax
+  andl $5, %eax			# equivalent for andq $5, %eax
+</pre>
+
+<h2>Immediates</h2>
+
+<p>
+Immediate values inside instructions remain 32 bits and their value is sign extended
+to 64 bits before calculation.  This means that:
+</p><pre>  addq $1, %rax		         # Valid instruction
+  addq $0x7fffffff, %rax	 # As this
+  addq $0xffffffffffffffff, %rax # as this one
+  addq $0xffffffff, %rax	 # Invalid instruction
+  addl $0xffffffff, %eax	 # Valid instruction
+</pre>
+<p>
+Only exception from this rule are the moves of constant to registers that
+have 64bit form.  This means:
+</p><pre>  movl 1, %eax			# 5  byte instruction
+  movq 1, %rax			# 7  byte instruction
+  movq 0xffffffffffffffff, %rax # 7  byte instruction
+  movq 0x1122334455667788, %rax # 10 byte instruction
+  movq 0xffffffff, %rax		# 10 byte instruction
+  movl 0xffffffff, %eax		# 5 byte instruction equivalent to above
+</pre>
+<p>
+You may write symbolic expressions as operands to both 64-bit and 32-bit
+operations.  For 32-bit operations they result in zero extending relocations,
+while in 64-bit operations they result in sign extending ones.
+</p><pre>  movl $symb, %eax		# 5 byte instruction
+  movq $symb, %rax		# 7 byte instruction
+</pre>
+
+<p>
+So in case you know that the symbol is in the first 32 bits, you should use
+32bit instructions whenever possible.
+
+</p><p>
+To load a symbol as 64-bit value, you need to use movabs instruction, that is
+a synonym for mov only changes the default behaviour:
+</p><pre>  movandq %symb, %rax		# 11 byte instruction
+</pre>
+
+<h2>Displacements</h2>
+
+<p>
+Similarly as immediates, the displacements are also sign extended and pretty
+much the same rules apply to them. X86-64 defines a special form of move
+instruction having 64-bit displacement and similarly, as for immediates, it is
+implicitly used when the value is known to not fit at compilation time
+and you need to use movabs to force a 64-bit relocation:
+</p><pre>  movl 0x1, %eax		# load with 32bit sign extended relocation
+  movl 0xffffffff, %eax		# load with 64bit relocation
+  movl symb, %eax		# load with 32bit sign extended relocation
+  movabsl symb, %eax		# load with 64bit sign extended relocation
+</pre>
+Loads and stores with 64-bit displacement are available only for the eax
+instruction.
+
+<h2>RIP relative addressing</h2>
+
+<p>
+X86-64 defines a new instruction pointer relative addressing mode to simplify
+writing of position independent code.  The original displacement-only 
+addressing of are overwritten by this one and displacement only is now encoded
+by one of the redundant SIB form.  This means that RIP relative addressing
+is actually cheaper than displacement only.
+
+</p><p>
+To encode this addressing, just write rip as yet another register:
+</p><pre>  movl $0x1, 0x10(%rip)
+</pre>
+will store the value 0x1 10 bytes after the end of the instruction.
+
+<p>
+Symbolic relocation will be implicitly RIP relative, so
+</p><pre>  movl $0x1, symb(%rip)
+</pre>
+Will write 0x1 to the address of symbol "symb".
+
+<p>
+FIXME: This looks particularly confusing in the Intel syntax [symb+rip] suggest
+different location than [symb].  Suggestions for better syntax with symbols?
+
+</p><p>
+You are recommended to use RIP relative addressing whenever possible to
+reduce code size.
+
+</p><p>
+The RIP relative branch instructions are still encoded equally to 32bit mode.
+This means that they are implicitly RIP relative and "*" is used to
+switch to absolute form.
+
+</p><h2>R13 addressing limitations</h2>
+
+The R13 is upper-half equivalent of RBP, that is used in MODRM encoding
+to escape out into SIB.  The R13 also does the encoding (to prevent REX
+prefix from changing instruction length), so pretty much same limitations
+to RBP addressing apply to the R13.  This means that
+<pre>  (%rbp,index,scale)
+</pre>
+is not encodable and:
+<pre>  0(%rbp,index,scale)
+</pre>
+must be used.
+
+<p>This text was written by Jan Hubicka.  Please send comments to <a href="mailto:discuss@x86-64.org">discuss@x86-64.org</a>.
+
+<!-- -*- html -*- -->
+<!-- content ends -->
+</p></div>
+
+
+
+
+
+
+
+<!--
+     FILE ARCHIVED ON 8:19:36 Jan 21, 2012 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 14:13:32 Feb 20, 2013.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+-->
+</body></html>
