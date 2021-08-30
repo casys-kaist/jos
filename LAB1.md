@@ -744,7 +744,7 @@ memory address at which to start disassembling.
 
 <div class="required">
 <p><span class="header">Exercise 3.</span>
-       Take a look at the <a href="tools.html">lab tools guide</a>,
+       Take a look at the <a href="TOOLS.html">lab tools guide</a>,
        especially the section on GDB commands. Even if you're familiar
        with GDB, this includes some esoteric GDB commands that are
        useful for OS work.</p>
