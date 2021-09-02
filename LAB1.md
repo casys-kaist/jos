@@ -168,7 +168,7 @@ which you can find on
 <a href="REFERENCE.html">the reference page</a>
 in two flavors:
 an HTML edition of the old
-<a href="ref/i386_/toc.htm" target="_blank">80386 Programmer's Reference Manual</a>,
+<a href="ref/i386/toc.htm" target="_blank">80386 Programmer's Reference Manual</a>,
 which is much shorter and easier to navigate than more recent manuals
 but describes all of the x86 processor features
 that we will make use of in CS 530;
