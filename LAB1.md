@@ -263,12 +263,11 @@ and our kernel (<tt>obj/kern/kernel</tt>).
 
 </p>
 
-<pre>kermit% <kbd>make qemu-nox</kbd>
+<pre>kermit% <kbd>make qemu</kbd>
 </pre>
 
 <p>This executes QEMU with the options required to set
-the hard disk and direct serial port output to the terminal. 
-<!--(You could
+the hard disk and direct serial port output to the terminal.<!-- (You could
 also use <kbd>make qemu-nox</kbd> to run QEMU in the current terminal
 instead of opening a new one.)--></p>
 
