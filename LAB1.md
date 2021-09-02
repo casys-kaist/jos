@@ -227,24 +227,32 @@ but we'll flesh it out throughout the semester.)
 kermit% <kbd>cd lab</kbd>
 kermit% <kbd>make</kbd>
 + as kern/entry.S
++ as kern/bootstrap.S
 + cc kern/init.c
 + cc kern/console.c
 + cc kern/monitor.c
 + cc kern/printf.c
++ cc kern/syscall.c
++ cc kern/kdebug.c
 + cc lib/printfmt.c
 + cc lib/readline.c
 + cc lib/string.c
++ cc kern/libdwarf_rw.c
++ cc kern/libdwarf_frame.c
++ cc kern/libdwarf_lineno.c
++ cc kern/elf_rw.c
 + ld obj/kern/kernel
 + as boot/boot.S
 + cc -Os boot/main.c
-+ ld boot/boot
-boot block is 414 bytes (max 510)
++ ld obj/boot/boot
+boot block is 500 bytes (max 510)
 + mk obj/kern/kernel.img
 </pre>
-
+<!--
 <p>
 (If you get errors like "undefined reference to `__udivdi3'", you probably don't have the 32-bit gcc multilib. If you're running Debian or Ubuntu, try installing the gcc-multilib package.) 
 </p>
+-->
 
 <p>
 Now you're ready to run QEMU, supplying the file <tt>obj/kern/kernel.img</tt>,
@@ -255,13 +263,14 @@ and our kernel (<tt>obj/kern/kernel</tt>).
 
 </p>
 
-<pre>kermit% <kbd>make qemu</kbd>
+<pre>kermit% <kbd>make qemu-nox</kbd>
 </pre>
 
 <p>This executes QEMU with the options required to set
-the hard disk and direct serial port output to the terminal. (You could
+the hard disk and direct serial port output to the terminal. 
+<!--(You could
 also use <kbd>make qemu-nox</kbd> to run QEMU in the current terminal
-instead of opening a new one.)</p>
+instead of opening a new one.)--></p>
 
 <p>Some text should appear in the QEMU window:</p>
 
