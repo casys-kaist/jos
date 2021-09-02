@@ -165,10 +165,10 @@ in for grading with the rest of your code.</b></p>
 <p>Certainly the definitive reference for x86 assembly language programming
 is Intel's instruction set architecture reference,
 which you can find on
-<a href="reference.html">the reference page</a>
+<a href="REFERENCE.html">the reference page</a>
 in two flavors:
 an HTML edition of the old
-<a href="ref/i386/toc.htm">80386 Programmer's Reference Manual</a>,
+<a href="ref/toc.html" target="_blank">80386 Programmer's Reference Manual</a>,
 which is much shorter and easier to navigate than more recent manuals
 but describes all of the x86 processor features
 that we will make use of in CS 530;
