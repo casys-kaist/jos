@@ -67,7 +67,8 @@ use with JOS.
 You will clone the read-only git repository on the course webpage, using the command below to get the baseline code:
 </p>
 <pre>
-kermit% <kbd>git clone http://gitlab-edu.kaist.ac.kr/jos.git lab</kbd>
+kermit% <kbd>git clone https://github.com/casys-kaist/jos.git</kbd>
+kermit% <kbd>git checkout lab1</kbd>
 </pre>
 
 <p>Note, having this read-only git repository also allows the instructor to post bugfixes, should they be required.</p>
