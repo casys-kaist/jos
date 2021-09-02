@@ -116,7 +116,7 @@ and be prepared to answer the questions posed below.
 <p>
 If you are not already familiar with x86 assembly language,
 you will quickly become familiar with it during this course!
-The <a href="ref/pcasm-book.pdf">PC Assembly Language Book</a>
+The <a href="ref/pcasm-book.pdf" target="_blank">PC Assembly Language Book</a>
 is an excellent place to start.
 Hopefully, the book contains mixture of new and old material for you.
 </p>
