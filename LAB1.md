@@ -135,7 +135,7 @@ conversion between the two is pretty simple, and is covered in
 <div class="required">
 <p><span class="header">Exercise 1.</span>
   Read or at least carefully scan the entire
-<a href="ref/pcasm-book.pdf">PC Assembly Language</a> book,
+<a href="ref/pcasm-book.pdf" target="_blank">PC Assembly Language</a> book,
 except that you should skip all sections after 1.3.5 in chapter 1,
 which talk about features of the NASM assembler
 that do not apply directly to the GNU assembler.
@@ -154,10 +154,10 @@ of GNU assembler syntax.  JOS uses the GNU assembler.
 </p>
 <p>We will be developing JOS for the 64-bit version of the x86 architecture (also known as amd64).
 The assembly is very similar to 32-bit, with a few key differences.
-Read <a href="ref/assembly.html">this guide</a>, which explains the key differences
+Read <a href="ref/assembly.html" target="_blank">this guide</a>, which explains the key differences
 between the assembly.
 <p>Become familiar with inline assembly by writing a simple program.
-Modify the program <a href="ex1.c">ex1.c</a> to include inline assembly that increments the
+Modify the program <a href="ref/ex1.c" target="_blank">ex1.c</a> to include inline assembly that increments the
 value of x by 1. <b>Add this file to your lab directory so that it is turned
 in for grading with the rest of your code.</b></p>
 </div>
