@@ -575,7 +575,7 @@ how much could it accomplish in just 16 bytes?
 	You might want to look at
 	<a href="http://web.archive.org/web/20040404164813/members.iweb.net.au/%7Epstorr/pcbook/book2/book2.htm">Phil Storrs I/O Ports Description</a>,
 	as well as other materials on the
-	<a href="reference.html">reference materials page</a>.
+	<a href="REFERENCE.html">reference materials page</a>.
 	No need to figure out all the details -
 	just the general idea of what the BIOS is doing first.
 
