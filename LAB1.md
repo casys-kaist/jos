@@ -669,7 +669,7 @@ The boot loader must perform the following main functions:
 	in the processor's physical address space.
 	Protected mode is described briefly
 	in sections 1.2.7 and 1.2.8 of
-	<a href="ref/pcasm-book.pdf">PC Assembly Language</a>,
+	<a href="ref/pcasm-book.pdf" target="_blank">PC Assembly Language</a>,
 	and in great detail in the Intel architecture manuals.
 	At this point you only have to understand
 	that translation of segmented addresses (segment:offset pairs)
