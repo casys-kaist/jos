@@ -634,7 +634,7 @@ and the BIOS can load a much larger boot image from the disk into memory
 before transferring control to it.
 For more information,
 see the <a
-href="ref/boot-cdrom.pdf">"El Torito" Bootable CD-ROM Format Specification</a>.
+href="ref/boot-cdrom.pdf" target="_blank">"El Torito" Bootable CD-ROM Format Specification</a>.
 
 </p>
 
