@@ -1629,6 +1629,7 @@ Thus, in order to find arguments on the stack, we need some help from
 the compiler.
 </p>
 
+<!--
 <p>When JOS is compiled with debugging flags, the compiler outputs 
 a variety of debugging information in the DWARF2 format.
 Read <a href="http://dwarfstd.org/doc/Debugging%20using%20DWARF-2012.pdf">this article</a>
@@ -1649,8 +1650,7 @@ the file and line the <tt>rip</tt> corresponds to, and fields
 that list the number of entries and their offsets on the stack
 (Hint: check out <tt>rip_fn_narg</tt>, <tt>offset_fn_art</tt>, and <tt>size_fn_arg</tt>).
 
-</p>
-
+</p>-->
 
 
 <div class="required">
@@ -1685,7 +1685,7 @@ Stack backtrace:
 	<tt>monitor</tt>), followed by the number of function arguments 
 	and then the actual arguments themselves.</p>
 
-	<p>Hint: for the function arguments, take a look the
+	<!--<p>Hint: for the function arguments, take a look the
 	<tt>struct Ripdebuginfo</tt> in <tt>kern/kdebug.h</tt>. This
 	structure is filled by the call to
 	<code>debuginfo_rip</code>. The x86_64 calling convention
@@ -1693,7 +1693,7 @@ Stack backtrace:
 	stack. Refer to <a
 	href="http://eli.thegreenplace.net/2011/09/06/stack-frame-layout-on-x86-64/">this
 	article</a> on the calling convention to figure out how to
-	read the actual function arguments on the stack.</p>
+	read the actual function arguments on the stack.</p>-->
 
 	<p>Be sure to print the file and function names on a separate
 	line, to avoid confusing the grading script.</p>
@@ -1703,6 +1703,7 @@ Stack backtrace:
 	most <code>length</code> characters of <code>string</code>.
 	Take a look at the printf man page to find out why this
 	works.</p>
+    <!--
 	<p>
         You may find that the some functions are missing from the
         backtrace. For example, you will probably see a call to
@@ -1711,9 +1712,8 @@ Stack backtrace:
         Other optimizations may cause you to see unexpected line
         numbers. If you get rid of the <tt>-O2</tt> from
         <tt>GNUMakefile</tt>, the backtraces may make more sense
-        (but your kernel will run more slowly).
-
-</p></div>
+        (but your kernel will run more slowly).</p>-->
+</div>
 
 
 <h3>Hand-In Procedure</h3>
