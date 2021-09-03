@@ -263,7 +263,7 @@ and our kernel (<tt>obj/kern/kernel</tt>).
 
 </p>
 
-<pre>kermit% <kbd>make qemu</kbd>
+<pre>kermit% <kbd>make qemu-nox</kbd>
 </pre>
 
 <p>This executes QEMU with the options required to set
