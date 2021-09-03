@@ -1041,7 +1041,7 @@ kernel's entry point.
 <div class="required">
 <p><span class="header">Exercise 6.</span>
 	We can examine memory using GDB's <kbd>x</kbd> command.  The
-	<a href="http://sourceware.org/gdb/current/onlinedocs/gdb_9.html#SEC63">GDB
+	<a href="https://www.gnu.org/software/gdb/documentation/">GDB
 	manual</a> has full details, but for now, it is enough to know
 	that the command <kbd>x/<i>N</i>x <i>ADDR</i></kbd> prints
 	<i><tt>N</tt></i> words of memory at <i><tt>ADDR</tt></i>.
