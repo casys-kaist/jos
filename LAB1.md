@@ -708,7 +708,7 @@ The boot loader must perform the following main functions:
 	If you would like to understand better
 	what the particular I/O instructions here mean,
 	check out the "IDE hard drive controller" section
-	on <a href="reference.html">the reference page</a>.
+	on <a href="REFERENCE.html">the reference page</a>.
 	You will not need to learn much
 	about programming specific devices in this class:
 	writing device drivers is in practice
@@ -837,7 +837,7 @@ some of the basics of C programming.
 
 	<p> There are other references on pointers in C, though not
 	as strongly recommended.
-	<a href="ref/pointers.pdf">A tutorial by Ted Jensen</a> 
+	<a href="ref/pointers.pdf" target="_blank">A tutorial by Ted Jensen</a> 
 	that cites K&amp;R heavily is available in the course readings.
 	</p>
 
