@@ -1367,8 +1367,9 @@ two arguments.</li>
 
 What is the output?  Explain how this output is arrived at in the
 step-by-step manner of the previous exercise.
-<a href="http://web.cs.mun.ca/%7Emichael/c/ascii-table.html">Here's an ASCII
-  table</a> that maps bytes to characters.
+
+<!--<a href="http://web.cs.mun.ca/%7Emichael/c/ascii-table.html">Here's an ASCII
+  table</a> that maps bytes to characters.-->
 
 <p>The output depends on that fact that the x86 is little-endian.  If
 the x86 were instead big-endian what would you set <code>i</code> to in
@@ -1406,12 +1407,12 @@ number of arguments?
 </li>
 </ol>
 
-<div class="challenge">
+<!--<div class="challenge">
 <p><span class="header">Challenge 1</span> (5 bonus points)
 
 	Enhance the console to allow text to be printed in different colors.
 	The traditional way to do this is to make it interpret
-<!--	<a href="http://www.dee.ufcg.edu.br/~rrbrandt/tools/ansi.html">-->
+<a href="http://www.dee.ufcg.edu.br/~rrbrandt/tools/ansi.html">
 	<a href="http://ascii-table.com/ansi-escape-sequences.php">
 	ANSI escape sequences</a>
 	embedded in the text strings printed to the console,
@@ -1422,7 +1423,7 @@ number of arguments?
 	If you're feeling really adventurous,
 	you could try switching the VGA hardware into a graphics mode
 	and making the console draw text onto the graphical frame buffer.
-</p></div>
+</p></div>-->
 
 
 <h3>The Stack</h3>
