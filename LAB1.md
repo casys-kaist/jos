@@ -825,15 +825,16 @@ some of the basics of C programming.
 	Amazon Link</a>).
 	There are several copies on reserve in the Science and Engineering library as well.
 	</p>
+    <!--
 	<p>
 	Read 5.1 (Pointers and Addresses) through 5.5 (Character Pointers
 	and Functions) in K&amp;R.  Then download the code for
-	<a href="pointers.c">pointers.c</a>, run it, and make sure you
+	<a href="ref/pointers.c" target="_blank">pointers.c</a>, run it, and make sure you
 	understand where all of the printed values come from.  In particular,
 	make sure you understand where the pointer addresses in lines 1 and
 	6 come from, how all the values in lines 2 through 4 get there, and
 	why the values printed in line 5 are seemingly corrupted.
-	</p>
+	</p>-->
 
 	<p> There are other references on pointers in C, though not
 	as strongly recommended.
