@@ -874,8 +874,8 @@ which stands for "Executable and Linkable Format".
 
 <p>
 Full information about this format is available in
-<a href="ref/elf.pdf">the ELF specification</a>
-on <a href="reference.html">our reference page</a>,
+<a href="ref/elf.pdf" target="_blank">the ELF specification</a>
+on <a href="REFERENCE.html">our reference page</a>,
 but you will not need to delve very deeply
 into the details of this format in this class.
 Although as a whole the format is quite powerful and complex,
@@ -1416,7 +1416,7 @@ number of arguments?
 	embedded in the text strings printed to the console,
 	but you may use any mechanism you like.
 	There is plenty of information on
-	<a href="reference.html">the reference page</a>
+	<a href="REFERENCE.html">the reference page</a>
 	and elsewhere on the web on programming the VGA display hardware.
 	If you're feeling really adventurous,
 	you could try switching the VGA hardware into a graphics mode
