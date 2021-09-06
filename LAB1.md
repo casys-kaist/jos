@@ -68,6 +68,7 @@ You will clone the read-only git repository on the course webpage, using the com
 </p>
 <pre>
 kermit% <kbd>git clone https://github.com/casys-kaist/jos.git</kbd>
+kermit% <kbd>cd jos</kbd>
 kermit% <kbd>git checkout lab1</kbd>
 </pre>
 
