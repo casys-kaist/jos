@@ -1689,11 +1689,12 @@ Stack backtrace:
 	structure is filled by the call to
 	<code>debuginfo_rip</code>. The x86_64 calling convention
 	states that the function arguments are pushed onto the
-	stack. Refer to <a
+	stack. -->
+    Refer to <a
 	href="http://eli.thegreenplace.net/2011/09/06/stack-frame-layout-on-x86-64/">this
 	article</a> on the calling convention to figure out how to
-	read the actual function arguments on the stack.</p>-->
-
+	read the actual function arguments on the stack.</p>
+<!--
 	<p>Be sure to print the file and function names on a separate
 	line, to avoid confusing the grading script.</p>
 	<p>Tip: printf format strings provide an easy, albeit obscure,
@@ -1702,7 +1703,6 @@ Stack backtrace:
 	most <code>length</code> characters of <code>string</code>.
 	Take a look at the printf man page to find out why this
 	works.</p>
-    <!--
 	<p>
         You may find that the some functions are missing from the
         backtrace. For example, you will probably see a call to
