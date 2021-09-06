@@ -1503,7 +1503,7 @@ A stack backtrace lets you find the offending function.
 
 	<p>Note that, for this exercise to work properly, you should
 	be using the patched version of QEMU available on the <a
-	href="tools.html">tools</a> page or on your course virtual machine.
+	href="TOOLS.html">tools</a> page or on your course virtual machine.
 	Otherwise, you'll have to manually translate all breakpoint
 	and memory addresses to linear addresses.
 
