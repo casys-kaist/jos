@@ -1663,8 +1663,7 @@ that list the number of entries and their offsets on the stack
 
 	<p>Add a <tt>backtrace</tt> command to the kernel monitor, and
 	extend your implementation of <code>mon_backtrace</code> to
-	call <code>debuginfo_rip</code> and print a line for each
-	stack frame of the form:</p>
+    print a line for each stack frame of the form:</p>
 	<pre>
 K&gt; backtrace
 Stack backtrace:
