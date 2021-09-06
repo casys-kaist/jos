@@ -1330,14 +1330,14 @@ Be able to answer the following questions:
 <tt>printf.c</tt>?</li>
 
 <li> Explain the following from <tt>console.c</tt>:
-<pre>1      if (crt_pos &gt;= CRT_SIZE) {
-2              int i;
-3              memmove(crt_buf, crt_buf + CRT_COLS, (CRT_SIZE - CRT_COLS) * sizeof(uint16_t));
-4              for (i = CRT_SIZE - CRT_COLS; i &lt; CRT_SIZE; i++)
-5                      crt_buf[i] = 0x0700 | ' ';
-6              crt_pos -= CRT_COLS;
-7      }
-
+<pre>
+if (crt_pos &gt;= CRT_SIZE) {
+    int i;
+    memmove(crt_buf, crt_buf + CRT_COLS, (CRT_SIZE - CRT_COLS) * sizeof(uint16_t));
+    for (i = CRT_SIZE - CRT_COLS; i &lt; CRT_SIZE; i++)
+        crt_buf[i] = 0x0700 | ' ';
+    crt_pos -= CRT_COLS;
+}
 </pre></li>
 
 <li> Trace the execution of the following code step-by-step:
