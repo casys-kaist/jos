@@ -1740,7 +1740,11 @@ Stack backtrace:
 
 <h3>Hand-In Procedure</h3>
 
-<p>TBD </p>
+<p>
+For exercise 3, 6, 7, 9, 10, you should write your answers to answers.txt and submit the file with your code.
+Create a compressed [Team_Number].tar file containing all the files and sumbit in KLMS. 
+Make sure that your code runs successfully in the given kcloud VMs. 
+</p> 
 
 <!--
 <p>In this and all other labs, you may complete challenge problems for extra credit.
@@ -1751,10 +1755,10 @@ If you implement more than one challenge problem,
 you must describe each one.
 Be sure to list the challenge problem number.
 </p>
--->
 
 <i>If you submit multiple times, we will take the latest
 submission and count late hours accordingly.</i>
+-->
 
 <!--<p>
 You do not need to turn in answers
