@@ -214,10 +214,9 @@ we'll use in this lab to step through the early boot process.
 </p>
 
 <p>
-To get started,
-extract the Lab 1 files into your own directory
+To get started, follow the directions
 as described above in "Software Setup",
-then type <kbd>make</kbd> in the <tt>lab</tt> directory
+then type <kbd>make</kbd> in the <tt>jos</tt> directory of the lab1 branch
 to build the minimal boot loader and kernel you will start with.
 (It's a little generous to call the code we're running here a "kernel,"
 but we'll flesh it out throughout the semester.)
@@ -225,7 +224,7 @@ but we'll flesh it out throughout the semester.)
 </p>
 
 <pre>
-kermit% <kbd>cd lab</kbd>
+kermit% <kbd>cd jos</kbd>
 kermit% <kbd>make</kbd>
 + as kern/entry.S
 + as kern/bootstrap.S
