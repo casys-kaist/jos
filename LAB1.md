@@ -1659,7 +1659,7 @@ Each <tt>rip</tt> value maps onto a <tt>Ripdebuginfo</tt> structure.
 Within this structure is a number of useful fields, including
 the file and line the <tt>rip</tt> corresponds to, and fields
 that list the number of entries and their offsets on the stack
-(Hint: check out <tt>rip_fn_narg</tt>, <tt>offset_fn_art</tt>, and <tt>size_fn_arg</tt>).
+(Hint: check out <tt>rip_fn_narg</tt>, <tt>offset_fn_arg</tt>, and <tt>size_fn_arg</tt>).
 
 
 
