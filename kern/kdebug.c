@@ -189,6 +189,10 @@ int list_func_die(struct Ripdebuginfo *info, Dwarf_Die *die, uint64_t addr)
 							loc_ptr = p;
 						}
 						break;
+                    case DW_FORM_data4: //FIXME not working for new environment fix static value
+                        ret_val = 4;
+                        ret_offset -= 20;
+                        break;
 				}
 			}
 
@@ -239,6 +243,10 @@ int list_func_die(struct Ripdebuginfo *info, Dwarf_Die *die, uint64_t addr)
 								loc_ptr = p;
 							}
 							break;
+                        case DW_FORM_data4: //FIXME not working for new environment fix static value
+                            ret_val = 4;
+                            ret_offset -= 4;
+                            break;
 					}
 				}
 
