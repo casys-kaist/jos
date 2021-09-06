@@ -402,7 +402,7 @@ $ <kbd>git diff lab2 | more</kbd>
       You only need to have all the grade script tests passing
       by the Part B deadline.-->
 </p>
-<p>
+<!--<p>
    As in lab 2,
    you may do challenge problems for extra credit.
    If you do this, please create entires in the file called challenge3.txt, which includes 
@@ -413,7 +413,7 @@ $ <kbd>git diff lab2 | more</kbd>
    Be sure to list the challenge problem number.
    If you complete challenges from previous labs, please list them in this file (not a previous
    lab challenge file), with both the lab and problem number.
-</p>
+</p>-->
 <p>
    Passing all the <kbd>make grade</kbd> tests
    does not mean your code is perfect.  It may have subtle bugs that will
@@ -1197,7 +1197,7 @@ struct Env {
       all traphandlers, like <code>XTRPX_divzero</code>, <code>XTRPX_pgfault</code>, etc.
    </p>
 </div>
-<div class="challenge">
+<!--<div class="challenge">
    <p><span class="header">Challenge 1!</span> (2 bonus points)
       You probably have a lot of very similar code
       right now, between the lists of <code>TRAPHANDLER</code> in
@@ -1208,7 +1208,7 @@ struct Env {
       laying down code and data in the assembler by using the
       directives <code>.text</code> and <code>.data</code>.
    </p>
-</div>
+</div>-->
 <!--
    <div class="question">
    <p><span class="header">Questions</span></p>
@@ -1298,10 +1298,10 @@ struct Env {
       to succeed on the <tt>breakpoint</tt> test.
    </p>
 </div>
-<div class="challenge">
+<!--<div class="challenge">
    <p><span class="header">Challenge 2!</span> (5 bonus points; mega-bragging rights for a good disassembler)
       Modify the JOS kernel monitor so that
-      you can &apos;continue&apos; execution from the current location
+      you can 'continue' execution from the current location
       (e.g., after the <code>int3</code>,
       if the kernel monitor was invoked via the breakpoint exception),
       and so that you can single-step one instruction at a time.
@@ -1310,7 +1310,7 @@ struct Env {
       in order to implement single-stepping.
    </p>
    <p><span class="header">Optional:</span>
-      If you&apos;re feeling really adventurous,
+      If you're feeling really adventurous,
       find some x86 disassembler source code -
       e.g., by ripping it out of QEMU,
       or out of GNU binutils, or just write it yourself -
@@ -1321,7 +1321,7 @@ struct Env {
       from lab 2,
       this is the stuff of which real kernel debuggers are made.
    </p>
-</div>
+</div>-->
 <div class="question">
    <p><span class="header">Questions</span></p>
    <ol>
@@ -1423,11 +1423,11 @@ struct Env {
       to succeed on the <tt>testbss</tt> test.
    </p>
 </div>
-<div class="challenge">
+<!--<div class="challenge">
    <p><span class="header">Challenge 3!</span> (10 bonus points)
       Implement system calls using the <code>sysenter</code> and
       <code>sysexit</code> instructions instead of using
-      <code>int&#xA0;0x30</code> and <code>iret</code>. 
+      <code>int&nbsp;0x30</code> and <code>iret</code>. 
    </p>
    <p>
       The <code>sysenter/sysexit</code> instructions were designed
@@ -1448,11 +1448,12 @@ struct Env {
       up for and execute the <code>sysexit</code> instruction.
       You will also need to add code to <tt>kern/init.c</tt> to
       set up the necessary model specific registers (MSRs).  Section
-      6.1.2 in Volume 2 of the AMD Architecture Programmer&apos;s Manual
+      6.1.2 in Volume 2 of the AMD Architecture Programmer's Manual
       and the reference on SYSENTER in Volume 2B of the Intel
       reference manuals give good descriptions of the relevant MSRs.
       You can find an implementation of <code>wrmsr</code> to add to
-      <tt>inc/x86.h</tt> for writing to these MSRs <a href="http://www.garloff.de/kurt/linux/k6mod.c" target="_blank">here</a>.
+      <tt>inc/x86.h</tt> for writing to these MSRs <a
+         href="http://www.garloff.de/kurt/linux/k6mod.c">here</a>.
    </p>
    <p>
       Finally, <tt>lib/syscall.c</tt> must be changed to support
@@ -1468,11 +1469,11 @@ struct Env {
     rsp                - trashed by sysenter
    </pre>
    <p>
-      GCC&apos;s inline assembler will automatically save registers that
-      you tell it to load values directly into.  Don&apos;t forget to
+      GCC's inline assembler will automatically save registers that
+      you tell it to load values directly into.  Don't forget to
       either save (push) and restore (pop) other registers that you
-      clobber, or tell the inline assembler that you&apos;re clobbering
-      them.  The inline assembler doesn&apos;t support saving
+      clobber, or tell the inline assembler that you're clobbering
+      them.  The inline assembler doesn't support saving
       <code>%rbp</code>, so you will need to add code to save and
       restore it yourself.  The return
       address can be put into <code>%esi</code> by using an
@@ -1483,17 +1484,17 @@ struct Env {
       Note that this only supports 4 arguments, so you will need to
       leave the old method of doing system calls around
       to support 5 argument system calls.  Furthermore, because this
-      fast path doesn&apos;t update the current environment&apos;s trap frame,
-      it won&apos;t be suitable for some of the system calls we add in
+      fast path doesn't update the current environment's trap frame,
+      it won't be suitable for some of the system calls we add in
       later labs.
    </p>
    <p>
       You may have to revisit your code once we enable asynchronous
-      interrupts in the next lab.  Specifically, you&apos;ll need to
+      interrupts in the next lab.  Specifically, you'll need to
       enable interrupts when returning to the user process, which
-      <code>sysexit</code> doesn&apos;t do for you.
+      <code>sysexit</code> doesn't do for you.
    </p>
-</div>
+</div>-->
 <h3 id="user-mode-startup">User-mode startup</h3>
 <p>
    A user program starts running at the top of
@@ -1719,7 +1720,7 @@ submission and count late hours accordingly.</i>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Lab 3: User Environments","level":"1.4","depth":1,"next":{"title":"Lab 4: Preemptive Multitasking","level":"1.5","depth":1,"path":"LAB4.md","ref":"LAB4.md","articles":[]},"previous":{"title":"Lab 2: Memory Management","level":"1.3","depth":1,"path":"LAB2.md","ref":"LAB2.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"LAB3.md","mtime":"2021-09-06T13:16:06.896Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-09-06T13:28:01.932Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Lab 3: User Environments","level":"1.4","depth":1,"next":{"title":"Lab 4: Preemptive Multitasking","level":"1.5","depth":1,"path":"LAB4.md","ref":"LAB4.md","articles":[]},"previous":{"title":"Lab 2: Memory Management","level":"1.3","depth":1,"path":"LAB2.md","ref":"LAB2.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"LAB3.md","mtime":"2021-09-06T13:33:19.821Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-09-06T13:35:12.061Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>

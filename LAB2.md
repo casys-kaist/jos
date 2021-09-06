@@ -688,7 +688,7 @@ as "with the same set of PARs/PDRs")
 -->
 </ol>
 </div>
-
+<!--
 <div class="challenge">
 <p><span class="header">Challenge 1!</span> (10 bonus points)
 	We consumed many physical pages to hold the
@@ -726,7 +726,7 @@ as "with the same set of PARs/PDRs")
 		(There's a good chance it will be!)</li>
 	</ul>
 </div>
-
+-->
 
 <h3>Address Space Layout Alternatives</h3>
 
@@ -755,7 +755,7 @@ while still fully protecting the kernel from these processes
 and protecting different processes from each other!
 
 </p>
-
+<!--
 <div class="challenge">
 <p><span class="header">Challenge 3!</span> (10 bonus points)
 	Write up an outline of how a kernel could be designed
@@ -808,7 +808,7 @@ and protecting different processes from each other!
 	back into larger units when possible.
 	Think about the issues that might arise in such a system.
 </p></div>
-
+-->
 <h3>Hand-In Procedure</h3>
 
 <i>If you submit multiple times, we will take the latest

@@ -413,7 +413,7 @@ SMP: CPU 3 starting
       </li>
    </ol>
 </div>
-<div class="challenge">
+<!--<div class="challenge">
    <p><span class="header">Challenge!</span>
       The big kernel lock is simple and easy to use. Nevertheless, it
       eliminates all concurrency in kernel mode. Most
@@ -438,7 +438,7 @@ SMP: CPU 3 starting
          implement in the part C.
       </li>
    </ul>
-</div>
+</div>-->
 <h3>Round-Robin Scheduling</h3>
 <p>
    Your next task in this lab is to change the JOS kernel
@@ -539,7 +539,7 @@ Back in environment 00001002, iteration 1.
       </li>
    </ol>
 </div>
-<div class="challenge">
+<!--<div class="challenge">
    <p><span class="header">Challenge!</span>
       Add a less trivial scheduling policy to the kernel,
       such as a fixed-priority scheduler that allows each environment
@@ -576,7 +576,7 @@ Back in environment 00001002, iteration 1.
       Write a user-level test program
       that does something cool with floating-point.
    </p>
-</div>
+</div>-->
 <h3>System Calls for Environment Creation</h3>
 <p>
    Although your kernel is now capable of running and switching between
@@ -689,7 +689,7 @@ Back in environment 00001002, iteration 1.
       and make sure it works before proceeding.
    </p>
 </div>
-<div class="challenge">
+<!--<div class="challenge">
    <p><span class="header">Challenge!</span>
       Add the additional system calls necessary
       to <i>read</i> all of the vital state of an existing environment
@@ -711,7 +711,7 @@ Back in environment 00001002, iteration 1.
       you can give the child environment a case of selective amnesia,
       making it "forget" everything that happened beyond a certain point.
    </p>
-</div>
+</div>-->
 <p>
    This completes Part A of the lab;
    make sure it passes all of the Part A tests when you run
@@ -1036,7 +1036,7 @@ this string was faulted in at cafebffe
    Make sure you understand why <tt>user/faultalloc</tt> and
    <tt>user/faultallocbad</tt> behave differently.
 </p>
-<div class="challenge">
+<!--<div class="challenge">
    <p><span class="header">Challenge!</span>
       Extend your kernel so that not only page faults,
       but <i>all</i> types of processor exceptions
@@ -1047,7 +1047,7 @@ this string was faulted in at cafebffe
       such as divide-by-zero, general protection fault,
       and illegal opcode.
    </p>
-</div>
+</div>-->
 <h3>Implementing Copy-on-Write Fork</h3>
 <p>
    You now have the kernel facilities
@@ -1169,7 +1169,7 @@ this string was faulted in at cafebffe
 	1006: I am '101'
 	</pre>
 </div>
-<div class="challenge">
+<!--<div class="challenge">
    <p><span class="header">Challenge!</span>
       Implement a shared-memory <code>fork()</code>
       called <code>sfork()</code>.  This version should have the parent
@@ -1213,7 +1213,7 @@ this string was faulted in at cafebffe
       which reflects the number of cycles a real CPU would
       require).
    </p>
-</div>
+</div>-->
 <p>
    This ends part B.  Make sure you pass all of the Part B tests when you run
    <kbd>make grade</kbd>.
@@ -1536,7 +1536,7 @@ this string was faulted in at cafebffe
    	equal chance of succeeding.
    </p></div>
    -->
-<div class="challenge">
+<!--<div class="challenge">
    <p><span class="header">Challenge!</span>
       Why does <code>ipc_send</code>
       have to loop?  Change the system call interface so it
@@ -1553,14 +1553,14 @@ this string was faulted in at cafebffe
       <i>Communications of the ACM</i> 21(8) (August 1978), 666-667,
       and implement the matrix multiplication example.
    </p>
-</div>
+</div>-->
+<!--
 <div class="challenge">
    <p><span class="header">Challenge!</span>
       One of the most impressive examples of
       the power of message passing is Doug McIlroy's power series
       calculator, described in 
-      <a href="https://swtch.com/~rsc/thread/squint.pdf"
-         >M. Douglas McIlroy, ``Squinting at 
+      <a href="https://swtch.com/~rsc/thread/squint.pdf">M. Douglas McIlroy, ``Squinting at 
       Power Series,'' <i>Software--Practice and Experience</i>, 20(7)
       (July 1990), 661-683</a>.  Implement his
       power series calculator and compute the power series for 
@@ -1577,7 +1577,7 @@ this string was faulted in at cafebffe
       as long as your code is backwards compatible
       with what our grading scripts expect.
    </p>
-</div>
+</div>-->
 <!-- (Austin) L4 isn't on the 2009 schedule
    <div class="challenge">
    <p><span class="header">Challenge!</span>

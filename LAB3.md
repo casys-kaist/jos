@@ -175,7 +175,7 @@ $ <kbd>git diff lab2 | more</kbd>
       You only need to have all the grade script tests passing
       by the Part B deadline.-->
 </p>
-<p>
+<!--<p>
    As in lab 2,
    you may do challenge problems for extra credit.
    If you do this, please create entires in the file called challenge3.txt, which includes 
@@ -186,7 +186,7 @@ $ <kbd>git diff lab2 | more</kbd>
    Be sure to list the challenge problem number.
    If you complete challenges from previous labs, please list them in this file (not a previous
    lab challenge file), with both the lab and problem number.
-</p>
+</p>-->
 <p>
    Passing all the <kbd>make grade</kbd> tests
    does not mean your code is perfect.  It may have subtle bugs that will
@@ -971,7 +971,7 @@ struct Env {
       all traphandlers, like <code>XTRPX_divzero</code>, <code>XTRPX_pgfault</code>, etc.
    </p>
 </div>
-<div class="challenge">
+<!--<div class="challenge">
    <p><span class="header">Challenge 1!</span> (2 bonus points)
       You probably have a lot of very similar code
       right now, between the lists of <code>TRAPHANDLER</code> in
@@ -982,7 +982,7 @@ struct Env {
       laying down code and data in the assembler by using the
       directives <code>.text</code> and <code>.data</code>.
    </p>
-</div>
+</div>-->
 <!--
    <div class="question">
    <p><span class="header">Questions</span></p>
@@ -1072,7 +1072,7 @@ struct Env {
       to succeed on the <tt>breakpoint</tt> test.
    </p>
 </div>
-<div class="challenge">
+<!--<div class="challenge">
    <p><span class="header">Challenge 2!</span> (5 bonus points; mega-bragging rights for a good disassembler)
       Modify the JOS kernel monitor so that
       you can 'continue' execution from the current location
@@ -1095,7 +1095,7 @@ struct Env {
       from lab 2,
       this is the stuff of which real kernel debuggers are made.
    </p>
-</div>
+</div>-->
 <div class="question">
    <p><span class="header">Questions</span></p>
    <ol>
@@ -1197,7 +1197,7 @@ struct Env {
       to succeed on the <tt>testbss</tt> test.
    </p>
 </div>
-<div class="challenge">
+<!--<div class="challenge">
    <p><span class="header">Challenge 3!</span> (10 bonus points)
       Implement system calls using the <code>sysenter</code> and
       <code>sysexit</code> instructions instead of using
@@ -1268,7 +1268,7 @@ struct Env {
       enable interrupts when returning to the user process, which
       <code>sysexit</code> doesn't do for you.
    </p>
-</div>
+</div>-->
 <h3>User-mode startup</h3>
 <p>
    A user program starts running at the top of
