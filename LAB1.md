@@ -1528,11 +1528,24 @@ The backtrace function should display a listing of function call frames
 in the following format:
 </p>
 
+<!--
 <pre>
 Stack backtrace:
   rbp 00000000f0111f20  rip 00000000f01000be  
   rbp 00000000f0111f40  rip 00000000f01000a1  
   ...
+</pre>
+-->
+<pre>
+Stack backtrace:
+   rbp 000000800421bf20 rip 0000008004201123
+   rbp 000000800421bf40 rip 00000080042000ba
+   rbp 000000800421bf60 rip 000000800420009d
+   rbp 000000800421bf80 rip 000000800420009d
+   rbp 000000800421bfa0 rip 000000800420009d
+   rbp 000000800421bfc0 rip 000000800420009d
+   rbp 000000800421bfe0 rip 000000800420009d
+   rbp 000000800421bff0 rip 0000008004200189
 </pre>
 
 <p>
@@ -1629,7 +1642,6 @@ Thus, in order to find arguments on the stack, we need some help from
 the compiler.
 </p>
 
-<!--
 <p>When JOS is compiled with debugging flags, the compiler outputs 
 a variety of debugging information in the DWARF2 format.
 Read <a href="http://dwarfstd.org/doc/Debugging%20using%20DWARF-2012.pdf">this article</a>
@@ -1639,7 +1651,6 @@ enough information to programmatically identify saved arguments on the stack.
 </p>
 
 
-<p>
 To help you implement this functionality, we have provided the function
 <code>debuginfo_rip()</code>, which looks up <tt>rip</tt> in the symbol table
 and returns the debugging information for that address.  This function is
@@ -1650,7 +1661,6 @@ the file and line the <tt>rip</tt> corresponds to, and fields
 that list the number of entries and their offsets on the stack
 (Hint: check out <tt>rip_fn_narg</tt>, <tt>offset_fn_art</tt>, and <tt>size_fn_arg</tt>).
 
-</p>-->
 
 
 <div class="required">
@@ -1664,7 +1674,8 @@ that list the number of entries and their offsets on the stack
 	<p>Add a <tt>backtrace</tt> command to the kernel monitor, and
 	extend your implementation of <code>mon_backtrace</code> to
     print a line for each stack frame of the form:</p>
-	<pre>
+	
+<!--<pre>
 K&gt; backtrace
 Stack backtrace:
   rbp 000000800421af00  rip 00000080042010ff
@@ -1674,7 +1685,19 @@ Stack backtrace:
   rbp 000000800421afe0  rip 0000008004201508
        kern/monitor.c:185: monitor+000000000000007d  args:1  0000000000000080
   rbp 000000800421aff0  rip 0000008004200196
-       kern/init.c:172: i386_init+00000000000000ba  args:0 
+       kern/init.c:: i386_init+00000000000000ba  args:0 
+-->
+<pre>
+K&gt; backtrace
+Stack backtrace:
+   rbp 000000800421bf00 rip 000000800420112f
+       kern/monitor.c:75: mon_backtrace+0000000000000044   args:3  0000000000000000 000000000421c8e9 0000000000000080
+   rbp 000000800421bfb0 rip 0000008004201484
+       kern/monitor.c:142: runcmd+00000000000001d1   args:2  0000000000000001 0000000000000002
+   rbp 000000800421bfe0 rip 000000800420153f
+       kern/monitor.c:160: monitor+000000000000007d   args:1  0000000000000080
+   rbp 000000800421bff0 rip 000000800420019a
+       kern/init.c:59: i386_init+00000000000000bd   args:0
 </pre>
 	<p>Each line gives the file name and line within that file of
 	the stack frame's <tt>rip</tt>, followed by the name of the
@@ -1684,12 +1707,12 @@ Stack backtrace:
 	<tt>monitor</tt>), followed by the number of function arguments 
 	and then the actual arguments themselves.</p>
 
-	<!--<p>Hint: for the function arguments, take a look the
+	<p>Hint: for the function arguments, take a look the
 	<tt>struct Ripdebuginfo</tt> in <tt>kern/kdebug.h</tt>. This
 	structure is filled by the call to
 	<code>debuginfo_rip</code>. The x86_64 calling convention
 	states that the function arguments are pushed onto the
-	stack. -->
+	stack. 
     Refer to <a
 	href="http://eli.thegreenplace.net/2011/09/06/stack-frame-layout-on-x86-64/">this
 	article</a> on the calling convention to figure out how to
