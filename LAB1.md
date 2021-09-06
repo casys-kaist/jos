@@ -204,7 +204,7 @@ to do with the silicon-version of an x86.
 </p>
 
 <p>
-In CS 530 we will use the
+In CS 530, we will use the
 <a href="http://www.qemu.org/">QEMU Emulator</a>,
 a modern and relatively fast emulator.
 While QEMU's built-in monitor provides only limited debugging support,
