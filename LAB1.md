@@ -1734,11 +1734,11 @@ Be sure to list the challenge problem number.
 <i>If you submit multiple times, we will take the latest
 submission and count late hours accordingly.</i>
 
-<p>
+<!--<p>
 You do not need to turn in answers
 to any of the questions in the text of the lab.
 (Do answer them for yourself though!  They will help with the rest of the lab.)
-</p>
+</p>-->
 
 <p>
 We will be grading your solutions with a grading program.
