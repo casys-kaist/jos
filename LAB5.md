@@ -1016,4 +1016,4 @@ lab5
 </pre>
 <p>Make sure you add and push this file to github.</p>
 <p>Then, you will go to gradescope for the lab assignment, and submit via github.  After a few minutes, you should be able to see the results of the autograder and confirm it matches what you expect.  Let course staff know ASAP if there is an issue.</p>
-<p>This completes the lab.</p>
+<p><b>This completes the lab.</b></p>
