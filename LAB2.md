@@ -755,60 +755,7 @@ while still fully protecting the kernel from these processes
 and protecting different processes from each other!
 
 </p>
-<!--
-<div class="challenge">
-<p><span class="header">Challenge 3!</span> (10 bonus points)
-	Write up an outline of how a kernel could be designed
-	to allow user environments unrestricted use
-	of the full 4GB virtual and linear address space.
-	Hint: the technique is sometimes known as
-	"<i>follow the bouncing kernel</i>."
-	In your design,
-	be sure to address exactly what has to happen
-	when the processor transitions between kernel and user modes,
-	and how the kernel would accomplish such transitions.
-	Also describe how the kernel
-	would access physical memory and I/O devices in this scheme,
-	and how the kernel would access
-	a user environment's virtual address space
-	during system calls and the like.
-	Finally, think about and describe
-	the advantages and disadvantages of such a scheme
-	in terms of flexibility, performance, kernel complexity,
-	and other factors you can think of.
-</p></div>
-<p></p>
 
-<div class="challenge">
-<p><span class="header">Challenge 4!</span> (10 bonus points)
-	Since our JOS kernel's memory management system
-	only allocates and frees memory on page granularity,
-	we do not have anything comparable
-	to a general-purpose <code>malloc</code>/<code>free</code> facility
-	that we can use within the kernel.
-	This could be a problem if we want to support
-	certain types of I/O devices
-	that require <i>physically contiguous</i> buffers
-	larger than 4KB in size,
-	or if we want user-level environments,
-	and not just the kernel,
-	to be able to allocate and map 4MB <i>superpages</i>
-
-	for maximum processor efficiency.
-	(See the earlier challenge problem about PTE_PS.)<br />
-	</p>
-
-	<p>
-	Generalize the kernel's memory allocation system
-	to support pages of a variety of power-of-two allocation unit sizes
-	from 4KB up to some reasonable maximum of your choice.
-	Be sure you have some way to divide larger allocation units
-	into smaller ones on demand,
-	and to coalesce multiple small allocation units
-	back into larger units when possible.
-	Think about the issues that might arise in such a system.
-</p></div>
--->
 <h3>Hand-In Procedure</h3>
 
 <i>If you submit multiple times, we will take the latest
@@ -822,12 +769,10 @@ to any of the questions in the text of the lab.
 </p>
 
 <p>
-We will be grading your solutions with a grading program.
-You can run <kbd>make grade</kbd>
-to test your solutions with the grading program.
+Create a compressed [Team_Number].tar file containing all the files and sumbit in KLMS. Make sure that your code runs successfully in the given kcloud VMs.
+
+We will be grading your solutions with a grading program. You can run make grade to test your solutions with the grading program.
 </p>
-
-
 
 <p>
 <b>This completes the lab.</b>

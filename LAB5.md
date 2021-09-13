@@ -1005,15 +1005,10 @@ $ <kbd>make</kbd>
    grade your submission with <kbd>make grade</kbd>.
 </p>
 <h3>Hand-In Procedure</h3>
-<p>As with prior labs, you need to create a file in the top-level directory of your code
-   named <tt>gitinfo.txt</tt>.  This file should have precisely two lines: one with the repository name,
-   and one with the branch you wish to submit.  For example, if your team repo is <tt>jos-dontest</tt> and you are submitting
-   the <tt>lab5</tt> branch, your <tt>gitinfo.txt</tt> file should look like ths:
+<p>
+Create a compressed [Team_Number].tar file containing all the files and sumbit in KLMS. Make sure that your code runs successfully in the given kcloud VMs.
+
+We will be grading your solutions with a grading program. You can run make grade to test your solutions with the grading program.
 </p>
-<pre>
-https://github.com/comp790-s20/jos-dontest/
-lab5
-</pre>
-<p>Make sure you add and push this file to github.</p>
-<p>Then, you will go to gradescope for the lab assignment, and submit via github.  After a few minutes, you should be able to see the results of the autograder and confirm it matches what you expect.  Let course staff know ASAP if there is an issue.</p>
+
 <p><b>This completes the lab.</b></p>
