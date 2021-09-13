@@ -1217,8 +1217,6 @@ this string was faulted in at cafebffe
 <p>
    This ends part B.  Make sure you pass all of the Part B tests when you run
    <kbd>make grade</kbd>.
-   As usual, you can hand in your submission
-   with <kbd>make handin</kbd>.
 </p>
 <h2>Part C: Preemptive Multitasking and Inter-Process communication (IPC)</h2>
 <p>
