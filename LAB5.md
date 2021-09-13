@@ -1006,7 +1006,7 @@ $ <kbd>make</kbd>
 </p>
 <h3>Hand-In Procedure</h3>
 <p>
-Create a compressed [Team_Number].tar file containing all the files and sumbit in KLMS. Make sure that your code runs successfully in the given kcloud VMs.
+Create a compressed LAB5_[Team_Number].tar file containing all the files and sumbit in KLMS. Make sure that your code runs successfully in the given kcloud VMs.
 
 We will be grading your solutions with a grading program. You can run make grade to test your solutions with the grading program.
 </p>

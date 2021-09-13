@@ -1444,7 +1444,7 @@ submission and count late hours accordingly.</i>
    (Do answer them for yourself though!  They will help with the rest of the lab.)
 </p>
 <p>
-    Create a compressed [Team_Number].tar file containing all the files and sumbit in KLMS. Make sure that your code runs successfully in the given kcloud VMs.
+    Create a compressed LAB3_[Team_Number].tar file containing all the files and sumbit in KLMS. Make sure that your code runs successfully in the given kcloud VMs.
    We will be grading your solutions with a grading program.
    You can run <kbd>make grade</kbd>
    to test your solutions with the grading program.

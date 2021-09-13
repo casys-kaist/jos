@@ -1742,7 +1742,7 @@ Stack backtrace:
 
 <p>
 For exercise 3, 6, 7, 9, 10, you should write your answers to answers.txt and submit the file with your code.
-Create a compressed [Team_Number].tar file containing all the files and sumbit in KLMS. 
+Create a compressed LAB1_[Team_Number].tar file containing all the files and sumbit in KLMS. 
 Make sure that your code runs successfully in the given kcloud VMs. 
 </p> 
 
