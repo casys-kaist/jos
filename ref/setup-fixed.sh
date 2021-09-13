@@ -5,7 +5,7 @@ apt install make
 apt install python
 apt install libsdl1.2-dev libtool-bin libglib2.0-dev libz-dev libpixman-1-dev
 apt install texinfo
-git clone https://github.com/geofft/qemu.git -b 6.828-1.7.0
+git clone https://github.com/mit-pdos/6.828-qemu.git qemu
 cd qemu
 ./configure --disable-kvm --disable-werror --target-list="i386-softmmu x86_64-softmmu"
 make -j 4
