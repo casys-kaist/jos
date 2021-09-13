@@ -38,7 +38,7 @@ Switched to a new branch "lab4"
 kermit% <kbd>git merge lab3</kbd>
 Merge made by recursive.
 ...
-athena% 
+kermit%
 </pre>
 Lab 4 contains a number of new source files, some of which you should browse
 before you start:

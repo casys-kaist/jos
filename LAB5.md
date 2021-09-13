@@ -19,7 +19,7 @@
    lab5 branch, <tt>origin/lab5</tt>:
 </p>
 <pre>
-kermit% <kbd>cd ~/COMP790/lab</kbd>
+kermit% <kbd>cd lab</kbd>
 kermit% <kbd>git commit -am 'my solution to lab4'</kbd>
 
 Created commit 734fab7: my solution to lab4
