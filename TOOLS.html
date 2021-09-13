@@ -239,131 +239,103 @@
                                 <section class="normal markdown-section">
                                 
                                 <p>
-   Familiarity with your environment is crucial for productive
-   development and debugging.  This page gives a brief overview of the
-   JOS environment and useful GDB and QEMU commands.  Don&apos;t take our word
-   for it, though.  Read the GDB and QEMU manuals.  These are powerful
-   tools that are worth knowing how to use.
-</p>
-<div class="toc">
-   <table>
-      <tr>
-         <th>Debugging tips:</th>
-         <td>
-            <a href="#debug-kernel">Kernel</a>
-            <a href="#debug-user">User environments</a>
-         </td>
-      </tr>
-      <tr>
-         <th>Reference:</th>
-         <td>
-            <a href="#make">JOS makefile</a>
-            <a href="#obj">JOS obj/</a>
-            <a href="#gdb">GDB</a>
-            <a href="#qemu">QEMU</a>
-         </td>
-      </tr>
-   </table>
-</div>
-<p>
-   All of the tools that you need to execute and complete the labs are 
-   installed on the course system (<tt>kermit.cs.unc.edu</tt>).
-</p>
-<p>
-   If you wish to compile and run the tools on your own machine, the
-   information that you need is as follows. Note that we cannot guarantee
-   that these tools will run on your computer, and we cannot support these
-   tools on your own computer. However, the tools <i>should</i> run on
-   recent versions of Linux. The tools should also run under Windows with
-   the help of <a href="http://www.cygwin.com" target="_blank">Cygwin</a>.  Install cygwin,
-   and be sure to install the <samp>flex</samp> and <samp>bison</samp>
-   packages (they are under the development header).
-</p>
-<h3 id="using-a-virtual-machine">Using a Virtual Machine</h3>
-<p>Otherwise, the easiest way to get a compatible
-   toolchain is to install a modern Linux distribution on
-   your computer.  With platform virtualization, Linux can
-   cohabitate with your normal computing environment.  Installing a
-   Linux virtual machine is a two step process.  First, you download
-   the virtualization platform.
-</p>
-<ul>
-   <li><a href="http://www.oracle.com/us/technologies/virtualization/oraclevm/" target="_blank"><strong>VirtualBox</strong></a>
-      (free for Mac, Linux, Windows) &#x2014; <a href="https://www.virtualbox.org/wiki/Downloads" target="_blank">Download
-      page</a>
-   </li>
-   <li><a href="http://www.vmware.com/products/player/" target="_blank">VMware
-      Player</a> (free for Linux and Windows, registration required)
-   </li>
-   <li><a href="http://www.vmware.com/products/fusion/" target="_blank">VMware
-      Fusion</a> (Downloadable from IS&amp;T for free).
-</li></ul>
-<p>VirtualBox is a little slower and less flexible, but free!</p>
-<p>Once the virtualization platform is installed, download a boot
-   disk image for the Linux distribution of your choice.
-</p>
-<ul>
-   <li><a href="http://www.ubuntu.com/download/desktop" target="_blank">Ubuntu Desktop</a> is what we use.</li>
-</ul>
-<p>This will download a file named something like
-   <tt>ubuntu-10.04.1-desktop-i386.iso</tt>.  Start up your
-   virtualization platform and create a new (32-bit) virtual machine.
-   Use the downloaded Ubuntu image as a boot disk; the
-   procedure differs among VMs but is pretty simple.  Type <tt class="type">objdump -i</tt>, 
-   as above, to verify that your toolchain is now set up.  You will do your work inside the VM.
+Familiarity with your environment is crucial for productive
+development and debugging.  This page gives a brief overview of the
+JOS environment and useful GDB and QEMU commands.  Don&apos;t take our word
+for it, though.  Read the GDB and QEMU manuals.  These are powerful
+tools that are worth knowing how to use.
 </p>
 
-<h2 id="compiler-toolchain">Compiler Toolchain</h2>
-<p>Most modern Linux distributions and BSDs have an ELF toolchain compatible with
-   the JOS labs. That is, the system-standard <tt>gcc</tt>,
-   <tt>as</tt>, <tt>ld</tt> and <tt>objdump</tt> should just work. The lab
-   Makefile should automatically detect this. If
-   the makefile fails to detect your build tools,
-   you can specify their location  by adding the following line to
-   <tt>conf/env.mk</tt>:
+<div class="toc">
+  <table>
+    <tr>
+      <th>Debugging tips:</th>
+      <td>
+        <a href="#debug-kernel">Kernel</a>
+        <a href="#debug-user">User environments</a>
+      </td>
+    </tr>
+    <tr>
+      <th>Reference:</th>
+      <td>
+        <a href="#make">JOS makefile</a>
+        <a href="#obj">JOS obj/</a>
+        <a href="#gdb">GDB</a>
+        <a href="#qemu">QEMU</a>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<p>
+All of the tools that you need to execute and complete the labs are 
+installed in your course virtual machine. 
 </p>
+
+<p>
+If you wish to compile and run the tools on your own machine, the
+information that you need is as follows. Note that we cannot guarantee
+that these tools will run on your computer, and we cannot support these
+tools on your own computer. However, the tools <i>should</i> run on
+recent versions of Linux. The tools should also run under Windows with
+the help of <a href="http://www.cygwin.com" target="_blank">Cygwin</a>.  Install cygwin,
+and be sure to install the <samp>flex</samp> and <samp>bison</samp>
+
+packages (they are under the development header).</p>
+
+<h2 id="compiler-toolchain">Compiler Toolchain</h2>
+
+
+<p>Most modern Linux distributions and BSDs have an ELF toolchain compatible with
+the JOS labs. That is, the system-standard <tt>gcc</tt>,
+<tt>as</tt>, <tt>ld</tt> and <tt>objdump</tt> should just work. The lab
+Makefile should automatically detect this. If
+the makefile fails to detect your build tools,
+you can specify their location  by adding the following line to
+<tt>conf/env.mk</tt>:</p>
+
 <pre>
 GCCPREFIX=
 </pre>
+
 <p>
-   If you are using something other than standard x86
-   linux or BSD, you will need the GNU C compiler toolchain, configured
-   and built as a cross-compiler for the target
-   &apos;<samp>i386-jos-elf</samp>&apos;, as well as the GNU debugger, configured for 
-   the <samp>i386-jos-elf</samp> toolchain.
-   You can download versions that are known
-   to work with JOS
-   via the following links, although more recent versions of gcc and
-   binutils, and GDB should work too:
+If you are using something other than standard x86
+linux or BSD, you will need the GNU C compiler toolchain, configured
+and built as a cross-compiler for the target
+&apos;<samp>i386-jos-elf</samp>&apos;, as well as the GNU debugger, configured for 
+the <samp>i386-jos-elf</samp> toolchain.
+You can download versions that are known
+to work with JOS
+via the following links, although more recent versions of gcc and
+binutils, and GDB should work too:
 </p>
+
 <ul>
-   <li>    <a href="https://ftp.gnu.org/gnu/binutils/binutils-2.19.1.tar.bz2" target="_blank">
-      https://ftp.gnu.org/gnu/binutils/binutils-2.19.1.tar.bz2</a>
-   </li>
-   <li>    <a href="http://ftp.gnu.org/gnu/gcc/gcc-4.1.2/gcc-core-4.1.2.tar.bz2" target="_blank">
-      http://ftp.gnu.org/gnu/gcc/gcc-4.1.2/gcc-core-4.1.2.tar.bz2</a>
-   </li>
-   <li>    <a href="http://ftp.gnu.org/gnu/gdb/gdb-7.2a.tar.gz" target="_blank">
-      http://ftp.gnu.org/gnu/gdb/gdb-7.2a.tar.gz</a>
-   </li>
+<li>    <a href="http://ftp.gnu.org/gnu/binutils/binutils-2.19.tar.bz2" target="_blank">
+
+    http://ftp.gnu.org/gnu/binutils/binutils-2.19.tar.bz2</a>
+</li>
+<li>    <a href="http://ftp.gnu.org/gnu/gcc/gcc-4.1.2/gcc-core-4.1.2.tar.bz2" target="_blank">
+    http://ftp.gnu.org/gnu/gcc/gcc-4.1.2/gcc-core-4.1.2.tar.bz2</a>
+</li>
+<li>    <a href="http://ftp.gnu.org/gnu/gdb/gdb-7.2a.tar.gz" target="_blank">
+    http://ftp.gnu.org/gnu/gdb/gdb-7.2a.tar.gz</a>
+</li>
 </ul>
+
+
 <p>Once you&apos;ve unpacked these archives, run the following commands as
-   root:
-</p>
+root:</p>
+
 <pre>
 # cd binutils-2.19
 # ./configure --target=i386-jos-elf --disable-nls
 # make
 # make install
-</pre>
-<p>To build gcc, follow the instructions <a href="https://gcc.gnu.org/wiki/InstallingGCC" target="_blank">here</a>, and select the following configure options:</p>
-<pre>
- --target=i386-jos-elf --disable-nls --without-headers \
- --with-newlib --disable-threads --disable-shared \
- --disable-libmudflap --disable-libssp
-</pre>
-<p>To build gdb:</p>
-<pre>
+# cd ../gcc-4.1.2
+# ./configure --target=i386-jos-elf --disable-nls --without-headers \
+              --with-newlib --disable-threads --disable-shared \
+              --disable-libmudflap --disable-libssp
 # make
 # make install
 # cd ../gdb-7.2a
@@ -372,433 +344,416 @@ GCCPREFIX=
 # make
 # make install
 </pre>
+
 <!--
-   <p>If there are errors compiling gcc when it gets to libstdc++, don't
-   worry about it.</p>
-   -->
+<p>If there are errors compiling gcc when it gets to libstdc++, don't
+worry about it.</p>
+-->
 <p>Then you&apos;ll have in <samp>/usr/local/bin</samp> a bunch of binaries
-   with names like <samp>i386-jos-elf-gcc</samp>.  
-   The lab makefile
-   should detect this toolchain and use it in preference to your
-   machine&apos;s default toolchain.  If this doesn&apos;t work, there are
-   instructions on how to override the toolchain inside the GNUmakefile
-   in the labs.
-</p>
+with names like <samp>i386-jos-elf-gcc</samp>.  
+The lab makefile
+should detect this toolchain and use it in preference to your
+machine&apos;s default toolchain.  If this doesn&apos;t work, there are
+instructions on how to override the toolchain inside the GNUmakefile
+in the labs.</p>
 <!--
-   It will also be
-   necessary to change the Makefile used in the labs to use
-   <samp>i386-jos-elf-gcc</samp> instead of <samp>gcc</samp>.  There
-   are instructions for how to do this inside of the Makefile.</p>
-   -->
-<h2 id="
----patched-gdb
-">
-   Patched GDB
-</h2>
+It will also be
+necessary to change the Makefile used in the labs to use
+<samp>i386-jos-elf-gcc</samp> instead of <samp>gcc</samp>.  There
+are instructions for how to do this inside of the Makefile.</p>
+-->
+
+<h2 id="patched-gdb"><a name="gdb">Patched GDB</a></h2>
+
 <p>The standard version of gdb does not correctly handle the transition 
 to long mode during JOS boot, yielding a &quot;Packet too long&quot; error.
-If you encounter the above error, you should compile a patched <a href="gdb-7.11.tgz">gdb</a>.
-<pre>
-    tar xvzf gdb-7.11.tgz
-    cd gdb-7.11
-    ./configure --prefix=/usr/local
-    make
-    make install
-</pre>
-If you successfully finish the above steps, gdb (version 7.11) will be installed in /usr/local/bin.
-Your original gdb will be in /usr/bin. In most cases, if you just type gdb, the /usr/bin/gdb would
-be executed. So, make sure you are running /usr/local/bin/gdb by explicitly typing the full path.
+The patch below will fix this:
 </p>
-<p>
-   GDB patches for those who are suing gdb 7.3 or gdb 7.7.1: 
 <ul>
-   <li>GDB versions up to 7.3: <a href="gdb-7.2-arch-remote-change.patch">patch</a></li>
-   <li>GDB version 7.7.1 <a href="gdb-7.7.1-mute-message-too-long.patch">patch</a></li>
+<li>GDB versions up to 7.3: <a href="gdb-7.2-arch-remote-change.patch">patch</a></li>
+<li>GDB version 7.7.1 (and later): <a href="gdb-7.7.1-mute-message-too-long.patch">patch</a></li>
 </ul>
+
+<p>For the provided environment, we have installed the patched gdb package for you.
+For debugging 64-bit code on a 32-bit platform, you need both gdb and gdb-multiarch.
+Below we post patched Ubuntu packages.
 </p>
-<!--
-   <p>For the provided environment, we have installed the patched gdb package for you.
-   For debugging 64-bit code on a 32-bit platform, you need both gdb and gdb-multiarch.
-   Below we post patched Ubuntu packages.
-   </p>
 
-   <ul>
-   <li> amd64: <ul>
-        <li><a href="gdb_7.2-1ubuntu11jos_amd64.deb">gdb 7.2</a>.  </li>
-        <li><a href="gdb_7.7.1-0ubuntu5~14.04.2_amd64.deb">gdb 7.7.1</a> (Ubuntu 14.04). </li>
-        <li><a href="gdb_7.11-1ubuntu11jos_amd64.deb">gdb 7.11</a> (Ubuntu 16.04).  </li>
-   </ul>
-   gdb-multiarch is not required on amd64.
-   </ul>
+<ul>
+<li> amd64: <ul>
+     <li><a href="gdb_7.2-1ubuntu11jos_amd64.deb">gdb 7.2</a>.  </li>
+     <li><a href="gdb_7.7.1-0ubuntu5~14.04.2_amd64.deb">gdb 7.7.1</a> (Ubuntu 14.04). </li>
+     <li><a href="gdb_7.11-1ubuntu11jos_amd64.deb">gdb 7.11</a> (Ubuntu 16.04).  </li>
+</ul>
+gdb-multiarch is not required on amd64.
+</li></ul>
 
 
-<p>   <p>To build gdb against another version on Ubuntu or Debian, e.g., for home use, follow these steps:</p>
-   <pre>
-       dpkg-source -x gdb-xxxxx.dsc   (the .dsc you installed)
-       cd gdb-xxx  (a newly created directory)
-       sudo apt-get build-dep gdb
-       download gdb-7.7.1-mute-message-too-long.patch
-       patch -p1 < gdb-7.7.1-mute-message-too-long.patch
-       sudo debian/rules binary
-   </pre>
-   --&gt;</p>
-<p><h2>
-   <a name="qemu"/>
-      QEMU Emulator
-</h2></p>
-<p><p><a href="http://www.nongnu.org/qemu/">QEMU</a> is a modern and fast
-PC emulator. </p></p>
-<p><p>Unfortunately, QEMU's debugging facilities, while powerful, are
-   somewhat immature, so we highly recommend you use our patched version
-   of QEMU instead of the stock version that may come with your
-   distribution.  The version installed on Athena is already patched.
-   To build your own patched version of QEMU:
-</p>
+<p>To build gdb against another version on Ubuntu or Debian, e.g., for home use, follow these steps:</p>
+<pre>
+    dpkg-source -x gdb-xxxxx.dsc   (the .dsc you installed)
+    cd gdb-xxx  (a newly created directory)
+    sudo apt-get build-dep gdb
+    download gdb-7.7.1-mute-message-too-long.patch
+    patch -p1 &lt; gdb-7.7.1-mute-message-too-long.patch
+    sudo debian/rules binary
+</pre>
+
+
+<h2 id="qemu-emulator"><a name="qemu">QEMU Emulator</a></h2>
+<p><a href="http://www.nongnu.org/qemu/" target="_blank">QEMU</a> is a modern and fast
+PC emulator. </p>
+
+<p>Unfortunately, QEMU&apos;s debugging facilities, while powerful, are
+somewhat immature, so we highly recommend you use the MIT patched version
+of QEMU instead of the stock version that may come with your
+distribution.  The version installed on <tt>walter.cs.unc.edu</tt> is already patched.
+To build your own patched version of QEMU:</p>
+
 <!-- Note to staff:
-   Some of the QEMU patches were applied upstream and should appear
-   in releases post-0.15.
-   --><p></p>
-<p><ol>
-   <li> Clone the IAP 6.828 QEMU git repository
-      <code>git clone http://web.mit.edu/ccutler/www/qemu.git -b 6.828-2.3.0</code>
-   </li>
-   <li> On Linux, you may need to install several libraries. We have successfully
-      built 6.828 QEMU on Debian/Ubuntu 16.04 after installing the following packages: libsdl1.2-dev, libtool-bin, libglib2.0-dev, libz-dev, and libpixman-1-dev.
-   </li>
-   <li>
-      Configure the source code (optional arguments are shown in square brackets; replace PFX with a path of your choice)
-      <ol>
-         <li>Linux:
-            <code>./configure --disable-kvm --disable-werror [--prefix=PFX] [--target-list=&quot;i386-softmmu x86_64-softmmu&quot;]</code>
-         </li>
-         <li>OS X:
-            <code>./configure --disable-kvm --disable-werror --disable-sdl [--prefix=PFX] [--target-list=&quot;i386-softmmu x86_64-softmmu&quot;]</code>
-            The <code>prefix</code> argument specifies where to install QEMU; without it
-            QEMU will install to <code>/usr/local</code> by default. The <code>target-list</code>
-            argument simply slims down the architectures QEMU will build support
-            for.
-         </li>
-      </ol>
-   &lt;/li&gt;
-   </li><li> Run <code>make &amp;&amp; make install</code></li>
-&lt;/ol&gt;</ol></p>
-<p></p><h2 id="debugging-tips">Debugging tips</h2><p></p>
-<p></p><h3 id="debug-kernel">Kernel</h3><p></p>
-<p></p><p>GDB is your friend.  Use the <a href="#make-qemu-gdb"><kbd>qemu-gdb</kbd></a> target (or its <a href="#make-qemu-gdb-nox"><tt>qemu-gdb-nox</tt></a> variant) to make
-   QEMU wait for GDB to attach.  See the <a href="#gdb">GDB</a> reference
-   below for some commands that are useful when debugging kernels.
-</p><p></p>
-<p></p><p>If you&apos;re getting unexpected interrupts, exceptions, or triple
-   faults, you can ask QEMU to generate a detailed log of interrupts
-   using the <a href="#qemu--d">-d</a> argument.
-</p><p></p>
-<p></p><p>To debug virtual memory issues, try the QEMU monitor commands <a href="#qemu-info-mem"><kbd>info mem</kbd></a> (for a high-level
-   overview) or <a href="#qemu-info-pg"><kbd>info pg</kbd></a> (for lots
-   of detail).  Note that these commands only display the <i>current</i>
-   page table.
-</p><p></p>
-<p></p><p>(Lab 4+) To debug multiple CPUs, use GDB&apos;s thread-related commands
-   like <a href="#gdb-thread"><kbd>thread</kbd></a> and <a href="#gdb-info-threads"><kbd>info threads</kbd></a>.
-</p><p></p>
-<p></p><h3 id="debug-user">User environments (lab 3+)</h3><p></p>
-<p></p><p>GDB also lets you debug user environments, but there are a few
-   things you need to watch out for, since GDB doesn&apos;t know that there&apos;s
-   a distinction between multiple user environments, or between user and
-   kernel.
-</p><p></p>
-<p></p><p>You can start JOS with a specific user environment using <a href="#make-run"><kbd>make run-<i>name</i></kbd></a> (or you can edit
-   <tt>kern/init.c</tt> directly).  To make QEMU wait for GDB to attach,
-   use the <a href="#make-run-x"><kbd>run-<i>name</i>-gdb</kbd></a>
-   variant.
-</p><p></p>
-<p></p><p>You can symbolically debug user code, just like you can kernel
-   code, but you have to tell GDB which <a href="#obj-elf">symbol
-   table</a> to use with the <a href="#gdb-symbol-file"><kbd>symbol-file</kbd></a> command, since it
-   can only use one symbol table at a time.  The provided
-   <tt>.gdbinit</tt> loads the kernel symbol table,
-   <tt>obj/kern/kernel</tt>.  The symbol table for a user environment is
-   in its ELF binary, so you can load it using <kbd>symbol-file
-   obj/user/<i>name</i></kbd>.  <i>Don&apos;t</i> load symbols from any
-   <tt>.o</tt> files, as those haven&apos;t been relocated by the linker
-   (libraries are statically linked into JOS user binaries, so those
-   symbols are already included in each user binary).  Make sure you get
-   the <i>right</i> user binary; library functions will be linked at
-   different EIPs in different binaries and GDB won&apos;t know any
-   better!
-</p><p></p>
-<p></p><p>(Lab 4+) Since GDB is attached to the virtual machine as a whole,
-   it sees clock interrupts as just another control transfer.  This makes
-   it basically impossible to step through user code because a clock
-   interrupt is virtually guaranteed the moment you let the VM run again.
-   The <a href="#gdb-si"><kbd>stepi</kbd></a> command works because it
-   suppresses interrupts, but it only steps one assembly instruction.  <a href="#gdb-b">Breakpoints</a> generally work, but watch out because
-   you can hit the same EIP in a different environment (indeed, a
-   different binary altogether!).
-</p><p></p>
-<p></p><h2 id="reference">Reference</h2><p></p>
-<p></p><h3 id="make">JOS makefile</h3>
-The JOS GNUmakefile includes a number of phony targets for running JOS
+
+     Some of the QEMU patches were applied upstream and should appear
+     in releases post-0.15.
+-->
+<ol>
+  <li>Clone the MIT QEMU git repository<br>
+  <code>git clone https://github.com/geofft/qemu.git -b 6.828-1.7.0</code></li>
+  <li>On Linux, you may need to install the SDL development libraries
+  to get a graphical VGA window.  On Debian/Ubuntu, this is the
+  libsdl1.2-dev package.</li>
+  <li>Configure the source code<br>
+  Linux: <code>./configure --disable-kvm [--prefix=PFX] [--target-list=&quot;i386-softmmu x86_64-softmmu&quot;]</code><br>
+  OS X: <code>./configure --disable-kvm --disable-sdl [--prefix=PFX] [--target-list=&quot;i386-softmmu x86_64-softmmu&quot;]</code><br>
+  The <code>prefix</code> argument specifies where to install QEMU;
+  without it QEMU will install to <tt>/usr/local</tt> by default.  The
+  <code>target-list</code> argument simply slims down the
+  architectures QEMU will build support for.
+  </li>
+  <li>Run <code>make &amp;&amp; make install</code></li>
+</ol>
+
+<h2 id="debugging-tips">Debugging tips</h2>
+
+<h3 id="debug-kernel">Kernel</h3>
+
+<p>GDB is your friend.  Use the <a href="#make-qemu-gdb"><kbd>qemu-gdb</kbd></a> target (or its <a href="#make-qemu-gdb-nox"><tt>qemu-gdb-nox</tt></a> variant) to make
+QEMU wait for GDB to attach.  See the <a href="#gdb">GDB</a> reference
+below for some commands that are useful when debugging kernels.</p>
+
+<p>If you&apos;re getting unexpected interrupts, exceptions, or triple
+faults, you can ask QEMU to generate a detailed log of interrupts
+using the <a href="#qemu--d">-d</a> argument.</p>
+
+<p>To debug virtual memory issues, try the QEMU monitor commands <a href="#qemu-info-mem"><kbd>info mem</kbd></a> (for a high-level
+overview) or <a href="#qemu-info-pg"><kbd>info pg</kbd></a> (for lots
+of detail).  Note that these commands only display the <i>current</i>
+page table.</p>
+
+<p>(Lab 4+) To debug multiple CPUs, use GDB&apos;s thread-related commands
+like <a href="#gdb-thread"><kbd>thread</kbd></a> and <a href="#gdb-info-threads"><kbd>info threads</kbd></a>.</p>
+
+<h3 id="debug-user">User environments (lab 3+)</h3>
+
+<p>GDB also lets you debug user environments, but there are a few
+things you need to watch out for, since GDB doesn&apos;t know that there&apos;s
+a distinction between multiple user environments, or between user and
+kernel.</p>
+
+<p>You can start JOS with a specific user environment using <a href="#make-run"><kbd>make run-<i>name</i></kbd></a> (or you can edit
+<tt>kern/init.c</tt> directly).  To make QEMU wait for GDB to attach,
+use the <a href="#make-run-x"><kbd>run-<i>name</i>-gdb</kbd></a>
+variant.</p>
+
+<p>You can symbolically debug user code, just like you can kernel
+code, but you have to tell GDB which <a href="#obj-elf">symbol
+table</a> to use with the <a href="#gdb-symbol-file"><kbd>symbol-file</kbd></a> command, since it
+can only use one symbol table at a time.  The provided
+<tt>.gdbinit</tt> loads the kernel symbol table,
+<tt>obj/kern/kernel</tt>.  The symbol table for a user environment is
+in its ELF binary, so you can load it using <kbd>symbol-file
+obj/user/<i>name</i></kbd>.  <i>Don&apos;t</i> load symbols from any
+<tt>.o</tt> files, as those haven&apos;t been relocated by the linker
+(libraries are statically linked into JOS user binaries, so those
+symbols are already included in each user binary).  Make sure you get
+the <i>right</i> user binary; library functions will be linked at
+different EIPs in different binaries and GDB won&apos;t know any
+better!</p>
+
+<p>(Lab 4+) Since GDB is attached to the virtual machine as a whole,
+it sees clock interrupts as just another control transfer.  This makes
+it basically impossible to step through user code because a clock
+interrupt is virtually guaranteed the moment you let the VM run again.
+The <a href="#gdb-si"><kbd>stepi</kbd></a> command works because it
+suppresses interrupts, but it only steps one assembly instruction.  <a href="#gdb-b">Breakpoints</a> generally work, but watch out because
+you can hit the same EIP in a different environment (indeed, a
+different binary altogether!).</p>
+
+<h2 id="reference">Reference</h2>
+
+<h3 id="make">JOS makefile</h3>
+
+<p>The JOS GNUmakefile includes a number of phony targets for running JOS
 in various ways.  All of these targets configure QEMU to listen for
 GDB connections (the <tt>*-gdb</tt> targets also wait for this
 connection).  To start once QEMU is running, simply run <kbd>gdb</kbd>
 from your lab directory.  We provide a <tt>.gdbinit</tt> file that
 automatically points GDB at QEMU, loads the kernel symbol file, and
 switches between 16-bit and 32-bit mode.  Exiting GDB will shut down
-QEMU.<p></p>
+QEMU.</p>
 <dl>
-   <dt id="make-qemu"><kbd>make qemu</kbd></dt>
-   <dd>Build everything and start QEMU with the VGA console in a new
-      window and the serial console in your terminal.  To exit, either
-      close the VGA window or press <tt>Ctrl-c</tt> or <tt>Ctrl-a x</tt>
-      in your terminal.
-   </dd>
-   <dt id="make-qemu-nox"><kbd>make qemu-nox</kbd></dt>
-   <dd>Like <tt>make qemu</tt>, but run with only the serial console.
-      To exit, press <tt>Ctrl-a x</tt>.  This is particularly useful over
-      SSH connections to Athena dialups because the VGA window consumes a
-      lot of bandwidth.
-   </dd>
-   <dt id="make-qemu-gdb"><kbd>make qemu-gdb</kbd></dt>
-   <dd>Like <tt>make qemu</tt>, but rather than passively accepting GDB
-      connections at any time, this pauses at the first machine
-      instruction and waits for a GDB connection.
-   </dd>
-   <dt id="make-qemu-gdb-nox"><kbd>make qemu-nox-gdb</kbd></dt>
-   <dd>A combination of the <tt>qemu-nox</tt> and <tt>qemu-gdb</tt>
-      targets.
-   </dd>
-   <dt id="make-run"><kbd>make run-<i>name</i></kbd></dt>
-   <dd>(Lab 3+) Run user program <i>name</i>.  For example, <tt>make
-      run-hello</tt> runs <tt>user/hello.c</tt>.
-   </dd>
-   <dt id="make-run-x"><kbd>make run-<i>name</i>-nox</kbd>,
+  <dt id="make-qemu"><kbd>make qemu</kbd></dt>
+  <dd>Build everything and start QEMU with the VGA console in a new
+  window and the serial console in your terminal.  To exit, either
+  close the VGA window or press <tt>Ctrl-c</tt> or <tt>Ctrl-a x</tt>
+  in your terminal.</dd>
+
+  <dt id="make-qemu-nox"><kbd>make qemu-nox</kbd></dt>
+  <dd>Like <tt>make qemu</tt>, but run with only the serial console.
+  To exit, press <tt>Ctrl-a x</tt>.  This is particularly useful over
+  SSH connections to Athena dialups because the VGA window consumes a
+  lot of bandwidth.</dd>
+
+  <dt id="make-qemu-gdb"><kbd>make qemu-gdb</kbd></dt>
+  <dd>Like <tt>make qemu</tt>, but rather than passively accepting GDB
+  connections at any time, this pauses at the first machine
+  instruction and waits for a GDB connection.</dd>
+
+  <dt id="make-qemu-gdb-nox"><kbd>make qemu-nox-gdb</kbd></dt>
+  <dd>A combination of the <tt>qemu-nox</tt> and <tt>qemu-gdb</tt>
+  targets.</dd>
+
+  <dt id="make-run"><kbd>make run-<i>name</i></kbd></dt>
+  <dd>(Lab 3+) Run user program <i>name</i>.  For example, <tt>make
+  run-hello</tt> runs <tt>user/hello.c</tt>.</dd>
+
+  <dt id="make-run-x"><kbd>make run-<i>name</i>-nox</kbd>,
       <kbd>run-<i>name</i>-gdb</kbd>,
-      <kbd>run-<i>name</i>-gdb-nox</kbd>, 
-   </dt>
-   <dd>(Lab 3+) Variants of <tt>run-<i>name</i></tt> that correspond to
-      the variants of the <tt>qemu</tt> target.
-   </dd>
+      <kbd>run-<i>name</i>-gdb-nox</kbd>, </dt>
+  <dd>(Lab 3+) Variants of <tt>run-<i>name</i></tt> that correspond to
+  the variants of the <tt>qemu</tt> target.</dd>
 </dl>
-The makefile also accepts a few useful variables:
+
+<p>The makefile also accepts a few useful variables:</p>
 <dl>
-   <dt id="make-v"><kbd>make V=1 ...</kbd></dt>
-   <dd>Verbose mode.  Print out every command being executed, including
-      arguments.
-   </dd>
-   <dt id="make-v-grade"><kbd>make V=1 grade</kbd></dt>
-   <dd>Stop after any failed grade test and leave the QEMU output in
-      <tt>jos.out</tt> for inspection.
-   </dd>
-   <dt id="make-qemuextra"><kbd>make QEMUEXTRA=&apos;<i>args</i>&apos; ...</kbd></dt>
-   <dd>Specify additional arguments to pass to QEMU.</dd>
+  <dt id="make-v"><kbd>make V=1 ...</kbd></dt>
+  <dd>Verbose mode.  Print out every command being executed, including
+  arguments.</dd>
+
+  <dt id="make-v-grade"><kbd>make V=1 grade</kbd></dt>
+  <dd>Stop after any failed grade test and leave the QEMU output in
+  <tt>jos.out</tt> for inspection.</dd>
+
+  <dt id="make-qemuextra"><kbd>make QEMUEXTRA=&apos;<i>args</i>&apos; ...</kbd></dt>
+  <dd>Specify additional arguments to pass to QEMU.</dd>
 </dl>
+
 <h3 id="obj">JOS obj/</h3>
+
 <p>When building JOS, the makefile also produces some additional
-   output files that may prove useful while debugging:
-</p>
+output files that may prove useful while debugging:</p>
+
 <dl>
-   <dt id="obj-asm"><tt>obj/boot/boot.asm</tt>,
-      <tt>obj/kern/kernel.asm</tt>, <tt>obj/user/hello.asm</tt>, etc.
-   </dt>
-   <dd>Assembly code listings for the bootloader, kernel, and user
-      programs.
-   </dd>
-   <dt id="obj-sym"><tt>obj/kern/kernel.sym</tt>,
-      <tt>obj/user/hello.sym</tt>, etc.
-   </dt>
-   <dd>Symbol tables for the kernel and user programs.</dd>
-   <dt id="obj-elf"><tt>obj/boot/boot.out</tt>, <tt>obj/kern/kernel</tt>,
-      <tt>obj/user/hello</tt>, etc
-   </dt>
-   <dd>Linked ELF images of the kernel and user programs.  These
-      contain symbol information that can be used by GDB.
-   </dd>
+  <dt id="obj-asm"><tt>obj/boot/boot.asm</tt>,
+  <tt>obj/kern/kernel.asm</tt>, <tt>obj/user/hello.asm</tt>, etc.</dt>
+  <dd>Assembly code listings for the bootloader, kernel, and user
+  programs.</dd>
+
+  <dt id="obj-sym"><tt>obj/kern/kernel.sym</tt>,
+  <tt>obj/user/hello.sym</tt>, etc.</dt>
+  <dd>Symbol tables for the kernel and user programs.</dd>
+
+  <dt id="obj-elf"><tt>obj/boot/boot.out</tt>, <tt>obj/kern/kernel</tt>,
+  <tt>obj/user/hello</tt>, etc</dt>
+  <dd>Linked ELF images of the kernel and user programs.  These
+  contain symbol information that can be used by GDB.</dd>
 </dl>
+
 <h3 id="gdb">GDB</h3>
+
 <p>See the <a href="http://sourceware.org/gdb/current/onlinedocs/gdb/" target="_blank">GDB
-   manual</a> for a full guide to GDB commands.  Here are some
-   particularly useful commands for this course, some of which don&apos;t typically
-   come up outside of OS development.
-</p>
+manual</a> for a full guide to GDB commands.  Here are some
+particularly useful commands for 6.828, some of which don&apos;t typically
+come up outside of OS development.</p>
+
 <dl>
-   <dt id="gdb-ctrl-c"><kbd>Ctrl-c</kbd></dt>
-   <dd>Halt the machine and break in to GDB at the current
-      instruction.  If QEMU has multiple virtual CPUs, this halts all of
-      them.
-   </dd>
-   <dt id="gdb-c"><kbd>c</kbd> (or <kbd>continue</kbd>)</dt>
-   <dd>Continue execution until the next breakpoint or <tt>Ctrl-c</tt>.</dd>
-   <dt id="gdb-si"><kbd>si</kbd> (or <kbd>stepi</kbd>)</dt>
-   <dd>Execute one machine instruction.</dd>
-   <dt id="gdb-b"><kbd>b function</kbd> or <kbd>b file:line</kbd> (or
-      <kbd>breakpoint</kbd>)
-   </dt>
-   <dd>Set a breakpoint at the given function or line.</dd>
-   <dt id="gdb-bstar"><kbd>b *<i>addr</i></kbd> (or <kbd>breakpoint</kbd>)</dt>
-   <dd>Set a breakpoint at the EIP <i>addr</i>.</dd>
-   <dd>  <b>Note:</b> Since we are using qemu+KVM for this assignment, 
-      you will want to use <kbd>hb</kbd>, not <kbd>b</kbd> to set a hardware
-      breakpoint that KVM will properly recognize.  The syntax for both commands
-      is interchangeable.
-   </dd>
-   <dt id="gdb-pretty"><kbd>set print pretty</kbd></dt>
-   <dd>Enable pretty-printing of arrays and structs.</dd>
-   <dt id="gdb-info-registers"><kbd>info registers</kbd></dt>
-   <dd>Print the general purpose registers, <tt>eip</tt>,
-      <tt>eflags</tt>, and the segment selectors.  For a much more
-      thorough dump of the machine register state, see QEMU&apos;s own <tt>info
-      registers</tt> command.
-   </dd>
-   <dt id="gdb-x-x"><kbd>x/<i>N</i>x <i>addr</i></kbd></dt>
-   <dd>Display a hex dump of <i>N</i> words starting at virtual address
-      <i>addr</i>.  If <i>N</i> is omitted, it defaults to 1.  <i>addr</i>
-      can be any expression.
-   </dd>
-   <dt id="gdb-x-i"><kbd>x/<i>N</i>i <i>addr</i></kbd></dt>
-   <dd>Display the <i>N</i> assembly instructions starting at
-      <i>addr</i>.  Using <tt>$eip</tt> as <i>addr</i> will display the
-      instructions at the current instruction pointer.
-   </dd>
-   <dt id="gdb-symbol-file"><kbd>symbol-file <i>file</i></kbd></dt>
-   <dd>(Lab 3+) Switch to symbol file <i>file</i>.  When GDB attaches
-      to QEMU, it has no notion of the process boundaries within the
-      virtual machine, so we have to tell it which symbols to use.  By
-      default, we configure GDB to use the kernel symbol file,
-      <tt>obj/kern/kernel</tt>.  If the machine is running user code, say
-      <tt>hello.c</tt>, you can switch to the hello symbol file using
-      <tt>symbol-file obj/user/hello</tt>.
-   </dd>
+  <dt id="gdb-ctrl-c"><kbd>Ctrl-c</kbd></dt>
+  <dd>Halt the machine and break in to GDB at the current
+  instruction.  If QEMU has multiple virtual CPUs, this halts all of
+  them.</dd>
+
+  <dt id="gdb-c"><kbd>c</kbd> (or <kbd>continue</kbd>)</dt>
+  <dd>Continue execution until the next breakpoint or <tt>Ctrl-c</tt>.</dd>
+
+  <dt id="gdb-si"><kbd>si</kbd> (or <kbd>stepi</kbd>)</dt>
+  <dd>Execute one machine instruction.</dd>
+
+  <dt id="gdb-b"><kbd>b function</kbd> or <kbd>b file:line</kbd> (or
+  <kbd>breakpoint</kbd>)</dt>
+  <dd>Set a breakpoint at the given function or line.</dd>
+
+  <dt id="gdb-bstar"><kbd>b *<i>addr</i></kbd> (or <kbd>breakpoint</kbd>)</dt>
+  <dd>Set a breakpoint at the EIP <i>addr</i>.</dd>
+
+  <dt id="gdb-pretty"><kbd>set print pretty</kbd></dt>
+  <dd>Enable pretty-printing of arrays and structs.</dd>
+
+  <dt id="gdb-info-registers"><kbd>info registers</kbd></dt>
+  <dd>Print the general purpose registers, <tt>eip</tt>,
+  <tt>eflags</tt>, and the segment selectors.  For a much more
+  thorough dump of the machine register state, see QEMU&apos;s own <tt>info
+  registers</tt> command.</dd>
+
+  <dt id="gdb-x-x"><kbd>x/<i>N</i>x <i>addr</i></kbd></dt>
+  <dd>Display a hex dump of <i>N</i> words starting at virtual address
+  <i>addr</i>.  If <i>N</i> is omitted, it defaults to 1.  <i>addr</i>
+  can be any expression.</dd>
+
+  <dt id="gdb-x-i"><kbd>x/<i>N</i>i <i>addr</i></kbd></dt>
+  <dd>Display the <i>N</i> assembly instructions starting at
+  <i>addr</i>.  Using <tt>$eip</tt> as <i>addr</i> will display the
+  instructions at the current instruction pointer.</dd>
+
+  <dt id="gdb-symbol-file"><kbd>symbol-file <i>file</i></kbd></dt>
+  <dd>(Lab 3+) Switch to symbol file <i>file</i>.  When GDB attaches
+  to QEMU, it has no notion of the process boundaries within the
+  virtual machine, so we have to tell it which symbols to use.  By
+  default, we configure GDB to use the kernel symbol file,
+  <tt>obj/kern/kernel</tt>.  If the machine is running user code, say
+  <tt>hello.c</tt>, you can switch to the hello symbol file using
+  <tt>symbol-file obj/user/hello</tt>.</dd>
 </dl>
+
 <p>QEMU represents each virtual CPU as a thread in GDB, so you can use
-   all of GDB&apos;s thread-related commands to view or manipulate QEMU&apos;s
-   virtual CPUs.
-</p>
+all of GDB&apos;s thread-related commands to view or manipulate QEMU&apos;s
+virtual CPUs.</p>
+
 <dl>
-   <dt id="gdb-thread"><kbd>thread <i>n</i></kbd></dt>
-   <dd>GDB focuses on one thread (i.e., CPU) at a time.  This command
-      switches that focus to thread <i>n</i>, numbered from zero.
-   </dd>
-   <dt id="gdb-info-threads"><kbd>info threads</kbd></dt>
-   <dd>List all threads (i.e., CPUs), including their state (active or
-      halted) and what function they&apos;re in.
-   </dd>
+  <dt id="gdb-thread"><kbd>thread <i>n</i></kbd></dt>
+  <dd>GDB focuses on one thread (i.e., CPU) at a time.  This command
+  switches that focus to thread <i>n</i>, numbered from zero.</dd>
+
+  <dt id="gdb-info-threads"><kbd>info threads</kbd></dt>
+  <dd>List all threads (i.e., CPUs), including their state (active or
+  halted) and what function they&apos;re in.</dd>
 </dl>
+
 <h3 id="qemu">QEMU</h3>
+
 <p>QEMU includes a built-in monitor that can inspect and modify the
-   machine state in useful ways.  To enter the monitor, press <kbd>Ctrl-a
-   c</kbd> in the terminal running QEMU.  Press <kbd>Ctrl-a c</kbd> again
-   to switch back to the serial console.
-</p>
+machine state in useful ways.  To enter the monitor, press <kbd>Ctrl-a
+c</kbd> in the terminal running QEMU.  Press <kbd>Ctrl-a c</kbd> again
+to switch back to the serial console.</p>
+
 <p>For a complete reference to the monitor commands, see the <a href="http://wiki.qemu.org/download/qemu-doc.html#pcsys_005fmonitor" target="_blank">QEMU
-   manual</a>.  Here are some particularly useful commands:
-</p>
+manual</a>.  Here are some particularly useful commands:</p>
+
 <dl>
-   <dt id="qemu-xp"><kbd>xp/<i>N</i>x <i>paddr</i></kbd></dt>
-   <dd>Display a hex dump of <i>N</i> words starting at <i>physical</i>
-      address <i>paddr</i>.  If <i>N</i> is omitted, it defaults to 1.
-      This is the physical memory analogue of GDB&apos;s <tt>x</tt>
-      command.
-   </dd>
-   <dt id="qemu-info-registers"><kbd>info registers</kbd></dt>
-   <dd>
-      Display a full dump of the machine&apos;s internal register state.
-      In particular, this includes the machine&apos;s <i>hidden</i> segment
-      state for the segment selectors and the local, global, and interrupt
-      descriptor tables, plus the task register.  This hidden state is the
-      information the virtual CPU read from the GDT/LDT when the segment
-      selector was loaded.  Here&apos;s the CS when running in the JOS kernel
-      in lab 1 and the meaning of each field:
-      <pre>CS =0008 10000000 ffffffff 10cf9a00 DPL=0 CS32 [-R-]</pre>
-      <dl>
-         <dt><tt>CS =0008</tt></dt>
-         <dd>The visible part of the code selector.  We&apos;re using segment
-            0x8.  This also tells us we&apos;re referring to the global descriptor
-            table (0x8&amp;4=0), and our CPL (current privilege level) is
-            0x8&amp;3=0.
-         </dd>
-         <dt><tt>10000000</tt></dt>
-         <dd>The base of this segment.  Linear address = logical address +
-            0x10000000.
-         </dd>
-         <dt><tt>ffffffff</tt></dt>
-         <dd>The limit of this segment.  Linear addresses above 0xffffffff
-            will result in segment violation exceptions.
-         </dd>
-         <dt><tt>10cf9a00</tt></dt>
-         <dd>The raw flags of this segment, which QEMU helpfully decodes
-            for us in the next few fields.
-         </dd>
-         <dt><tt>DPL=0</tt></dt>
-         <dd>The privilege level of this segment.  Only code running with
-            privilege level 0 can load this segment.
-         </dd>
-         <dt><tt>CS32</tt></dt>
-         <dd>This is a 32-bit code segment.  Other values include
-            <tt>DS</tt> for data segments (not to be confused with the DS
-            register), and <tt>LDT</tt> for local descriptor tables.
-         </dd>
-         <dt><tt>[-R-]</tt></dt>
-         <dd>This segment is read-only.</dd>
-      </dl>
-   </dd>
-   <dt id="qemu-info-mem"><kbd>info mem</kbd></dt>
-   <dd>
-      (Lab 2+) Display mapped virtual memory and permissions.  For
-      example,
-      <pre>ef7c0000-ef800000 00040000 urw
+  <dt id="qemu-xp"><kbd>xp/<i>N</i>x <i>paddr</i></kbd></dt>
+  <dd>Display a hex dump of <i>N</i> words starting at <i>physical</i>
+  address <i>paddr</i>.  If <i>N</i> is omitted, it defaults to 1.
+  This is the physical memory analogue of GDB&apos;s <tt>x</tt>
+  command.</dd>
+
+  <dt id="qemu-info-registers"><kbd>info registers</kbd></dt>
+  <dd>Display a full dump of the machine&apos;s internal register state.
+  In particular, this includes the machine&apos;s <i>hidden</i> segment
+  state for the segment selectors and the local, global, and interrupt
+  descriptor tables, plus the task register.  This hidden state is the
+  information the virtual CPU read from the GDT/LDT when the segment
+  selector was loaded.  Here&apos;s the CS when running in the JOS kernel
+  in lab 1 and the meaning of each field:
+
+  <pre>CS =0008 10000000 ffffffff 10cf9a00 DPL=0 CS32 [-R-]</pre>
+  <dl>
+    <dt><tt>CS =0008</tt></dt>
+    <dd>The visible part of the code selector.  We&apos;re using segment
+    0x8.  This also tells us we&apos;re referring to the global descriptor
+    table (0x8&amp;4=0), and our CPL (current privilege level) is
+    0x8&amp;3=0.</dd>
+    <dt><tt>10000000</tt></dt>
+    <dd>The base of this segment.  Linear address = logical address +
+    0x10000000.</dd>
+    <dt><tt>ffffffff</tt></dt>
+    <dd>The limit of this segment.  Linear addresses above 0xffffffff
+    will result in segment violation exceptions.</dd>
+    <dt><tt>10cf9a00</tt></dt>
+    <dd>The raw flags of this segment, which QEMU helpfully decodes
+    for us in the next few fields.</dd>
+    <dt><tt>DPL=0</tt></dt>
+    <dd>The privilege level of this segment.  Only code running with
+    privilege level 0 can load this segment.</dd>
+    <dt><tt>CS32</tt></dt>
+    <dd>This is a 32-bit code segment.  Other values include
+    <tt>DS</tt> for data segments (not to be confused with the DS
+    register), and <tt>LDT</tt> for local descriptor tables.</dd>
+    <dt><tt>[-R-]</tt></dt>
+    <dd>This segment is read-only.</dd>
+  </dl>
+  </dd>
+
+  <dt id="qemu-info-mem"><kbd>info mem</kbd></dt>
+  <dd>(Lab 2+) Display mapped virtual memory and permissions.  For
+  example,
+
+  <pre>ef7c0000-ef800000 00040000 urw
 efbf8000-efc00000 00008000 -rw</pre>
-      tells us that the 0x00040000 bytes of memory from 0xef7c0000 to
-      0xef800000 are mapped read/write and user-accessible, while the
-      memory from 0xefbf8000 to 0xefc00000 is mapped read/write, but only
-      kernel-accessible.
-   </dd>
-   <dt id="qemu-info-pg"><kbd>info pg</kbd></dt>
-   <dd>
-      (Lab 2+) Display the current page table structure.  The output
-      is similar to <tt>info mem</tt>, but distinguishes page directory
-      entries and page table entries and gives the permissions for each
-      separately.  Repeated PTE&apos;s and entire page tables are folded up
-      into a single line.  For example,
-      <pre>VPN range     Entry         Flags        Physical page
+
+  tells us that the 0x00040000 bytes of memory from 0xef7c0000 to
+  0xef800000 are mapped read/write and user-accessible, while the
+  memory from 0xefbf8000 to 0xefc00000 is mapped read/write, but only
+  kernel-accessible.
+  </dd>
+
+  <dt id="qemu-info-pg"><kbd>info pg</kbd></dt>
+  <dd>(Lab 2+) Display the current page table structure.  The output
+  is similar to <tt>info mem</tt>, but distinguishes page directory
+  entries and page table entries and gives the permissions for each
+  separately.  Repeated PTE&apos;s and entire page tables are folded up
+  into a single line.  For example,
+
+  <pre>VPN range     Entry         Flags        Physical page
 [00000-003ff]  PDE[000]     -------UWP
   [00200-00233]  PTE[200-233] -------U-P 00380 0037e 0037d 0037c 0037b 0037a ..
 [00800-00bff]  PDE[002]     ----A--UWP
   [00800-00801]  PTE[000-001] ----A--U-P 0034b 00349
   [00802-00802]  PTE[002]     -------U-P 00348
 </pre>
-      This shows two page directory entries, spanning virtual addresses
-      0x00000000 to 0x003fffff and 0x00800000 to 0x00bfffff, respectively.
-      Both PDE&apos;s are present, writable, and user and the second PDE is also
-      accessed.  The second of these page tables maps three pages, spanning
-      virtual addresses 0x00800000 through 0x00802fff, of which the first
-      two are present, user, and accessed and the third is only present and
-      user.  The first of these PTE&apos;s maps physical page 0x34b.
-   </dd>
+
+  This shows two page directory entries, spanning virtual addresses
+  0x00000000 to 0x003fffff and 0x00800000 to 0x00bfffff, respectively.
+  Both PDE&apos;s are present, writable, and user and the second PDE is also
+  accessed.  The second of these page tables maps three pages, spanning
+  virtual addresses 0x00800000 through 0x00802fff, of which the first
+  two are present, user, and accessed and the third is only present and
+  user.  The first of these PTE&apos;s maps physical page 0x34b.
+  </dd>
 </dl>
-QEMU also takes some useful command line arguments, which can be
-passed into the JOS makefile using the <a href="#make-qemuextra">QEMUEXTRA</a> variable.
+
+<p>QEMU also takes some useful command line arguments, which can be
+passed into the JOS makefile using the &lt;a href=&quot;#make-qemuextra&quot;</p>
+<blockquote>
+<p>QEMUEXTRA&lt;/a&gt; variable.</p>
+</blockquote>
 <dl>
-   <dt id="qemu--d"><kbd>make QEMUEXTRA=&apos;-d int&apos; ...</kbd></dt>
-   <dd>
-      Log all interrupts, along with a full register dump, to
-      <tt>qemu.log</tt>.  You can ignore the first two log entries, &quot;SMM:
-      enter&quot; and &quot;SMM: after RMS&quot;, as these are generated before entering
-      the boot loader.  After this, log entries look like
-      <pre>     4: v=30 e=0000 i=1 cpl=3 IP=001b:00800e2e pc=00800e2e SP=0023:eebfdf28 EAX=00000005
+  <dt id="qemu--d"><kbd>make QEMUEXTRA=&apos;-d int&apos; ...</kbd></dt>
+  <dd>Log all interrupts, along with a full register dump, to
+  <tt>qemu.log</tt>.  You can ignore the first two log entries, &quot;SMM:
+  enter&quot; and &quot;SMM: after RMS&quot;, as these are generated before entering
+  the boot loader.  After this, log entries look like
+  <pre>     4: v=30 e=0000 i=1 cpl=3 IP=001b:00800e2e pc=00800e2e SP=0023:eebfdf28 EAX=00000005
 EAX=00000005 EBX=00001002 ECX=00200000 EDX=00000000
 ESI=00000805 EDI=00200000 EBP=eebfdf60 ESP=eebfdf28
 ...</pre>
-      The first line describes the interrupt.  The <tt>4:</tt> is just a
-      log record counter.  <tt>v</tt> gives the vector number in hex.
-      <tt>e</tt> gives the error code.  <tt>i=1</tt> indicates that this
-      was produced by an <code>int</code> instruction (versus a hardware
-      interrupt).  The rest of the line should be self-explanatory.  See
-      <a href="#qemu-info-registers">info registers</a> for a description
-      of the register dump that follows.
-   </dd>
-   <dd>Note: If you&apos;re running a pre-0.15 version of QEMU, the log will
-      be written to <tt>/tmp</tt> instead of the current directory.
-   </dd>
+  The first line describes the interrupt.  The <tt>4:</tt> is just a
+  log record counter.  <tt>v</tt> gives the vector number in hex.
+  <tt>e</tt> gives the error code.  <tt>i=1</tt> indicates that this
+  was produced by an <code>int</code> instruction (versus a hardware
+  interrupt).  The rest of the line should be self-explanatory.  See
+  <a href="#qemu-info-registers">info registers</a> for a description
+  of the register dump that follows.
+  </dd>
+  <dd>Note: If you&apos;re running a pre-0.15 version of QEMU, the log will
+  be written to <tt>/tmp</tt> instead of the current directory.</dd>
 </dl>
 
                                 
@@ -843,7 +798,7 @@ ESI=00000805 EDI=00200000 EBP=eebfdf60 ESP=eebfdf28
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Tools","level":"1.7","depth":1,"next":{"title":"References","level":"1.8","depth":1,"path":"REFERENCE.md","ref":"REFERENCE.md","articles":[]},"previous":{"title":"Lab 5: File System and Shell","level":"1.6","depth":1,"path":"LAB5.md","ref":"LAB5.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"TOOLS.md","mtime":"2021-09-06T13:16:06.900Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-09-13T04:05:49.900Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Tools","level":"1.7","depth":1,"next":{"title":"References","level":"1.8","depth":1,"path":"REFERENCE.md","ref":"REFERENCE.md","articles":[]},"previous":{"title":"Lab 5: File System and Shell","level":"1.6","depth":1,"path":"LAB5.md","ref":"LAB5.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"TOOLS.md","mtime":"2021-09-13T05:15:50.802Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-09-13T05:15:56.960Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>
