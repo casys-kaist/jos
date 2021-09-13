@@ -179,7 +179,7 @@ To build your own patched version of QEMU:</p>
 
 <ol>
   <li>Clone the MIT QEMU git repository<br />
-  <code>git clone https://github.com/geofft/qemu.git -b 6.828-1.7.0</code></li>
+  <code>git clone https://github.com/mit-pdos/6.828-qemu.git qemu</code></li>
   <li>On Linux, you may need to install the SDL development libraries
   to get a graphical VGA window.  On Debian/Ubuntu, this is the
   libsdl1.2-dev package.</li>
