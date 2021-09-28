@@ -1,0 +1,24 @@
+#!/usr/bin/env python2
+
+from gradelib import *
+
+r = Runner(save("jos.out"),
+           stop_breakpoint("readline"))
+
+@test(0, "running JOS")
+def test_jos():
+    r.run_qemu()
+
+@test(6, "Physical page allocator", parent=test_jos)
+def test_check_page_alloc():
+    r.match(r"check_page_alloc\(\) succeeded!")
+
+@test(7, "Page management", parent=test_jos)
+def test_check_page():
+    r.match(r"check_page\(\) succeeded!")
+
+@test(7, "Kernel page directory", parent=test_jos)
+def test_check_kern_pgdir():
+    r.match(r"check_boot_pml4e\(\) succeeded!")
+
+run_tests()

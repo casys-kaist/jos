@@ -63,8 +63,7 @@ bootmain(void)
 
     __asm __volatile("movl %0, %%ebx": : "r" (multiboot_info));
     ((void (*)(void)) ((uint32_t)(ELFHDR->e_entry)))();
-
-    /*
+/*
 bad:
     outw(0x8A00, 0x8A00);
     outw(0x8A00, 0x8E00);

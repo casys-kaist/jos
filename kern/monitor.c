@@ -14,7 +14,6 @@
 #include <kern/dwarf_api.h>
 
 #define CMDBUF_SIZE	80	// enough for one VGA text line
-#define NCOMMANDS (sizeof(commands)/sizeof(commands[0]))
 
 
 struct Command {
@@ -28,6 +27,7 @@ static struct Command commands[] = {
 	{ "help", "Display this list of commands", mon_help },
 	{ "kerninfo", "Display information about the kernel", mon_kerninfo },
 };
+#define NCOMMANDS (sizeof(commands)/sizeof(commands[0]))
 
 /***** Implementations of basic kernel monitor commands *****/
 

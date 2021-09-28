@@ -9,23 +9,13 @@
 #include <kern/console.h>
 #include <kern/kdebug.h>
 #include <kern/dwarf_api.h>
+#include <kern/pmap.h>
+#include <kern/kclock.h>
 
 uint64_t end_debug;
 
 
 
-
-// Test the stack backtrace function (lab 1 only)
-void
-test_backtrace(int x)
-{
-	cprintf("entering test_backtrace %d\n", x);
-	if (x > 0)
-		test_backtrace(x-1);
-	else
-		mon_backtrace(0, 0, 0);
-	cprintf("leaving test_backtrace %d\n", x);
-}
 
 void
 i386_init(void)
@@ -48,11 +38,10 @@ i386_init(void)
 	extern char end[];
 	end_debug = read_section_headers((0x10000+KERNBASE), (uintptr_t)end);
 
+	// Lab 2 memory management initialization functions
+	x64_vm_init();
 
 
-
-	// Test the stack backtrace function (lab 1 only)
-	test_backtrace(5);
 
 	// Drop into the kernel monitor.
 	while (1)
