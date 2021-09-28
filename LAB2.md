@@ -41,7 +41,6 @@ create a local branch called <tt>lab2</tt> based on our lab2
 branch, <tt>origin/lab2</tt>:
 </p>
 <pre>
-kermit% <kbd>cd lab</kbd>
 kermit% <kbd>git commit -am 'my solution to lab1'</kbd>
 Created commit 254dac5: my solution to lab1
  3 files changed, 31 insertions(+), 6 deletions(-)
@@ -73,7 +72,7 @@ branch into the <tt>lab2</tt> branch, as follows:
 
 </p>
 <pre>
-kermit% <kbd>git merge master</kbd>
+kermit% <kbd>git merge lab1</kbd>
 Merge made by recursive.
  kern/kdebug.c  |   11 +++++++++--
  kern/monitor.c |   19 +++++++++++++++++++
@@ -240,8 +239,7 @@ namely <i>segmentation</i> and <i>page translation</i>.
 <div class="required">
 <p><span class="header">(self study)Exercise 2.</span>
 	Read chapters 4 and 5 of the
-	<a href="ref/amd64/AMD64_Architecture_Programmers_Manual.pdf
-    ">
+	<a href="https://www.amd.com/system/files/TechDocs/24593.pdf">
 
 	AMD64 Architecture Programmer's Reference Manual</a>,
 	if you haven't done so already.
@@ -324,7 +322,7 @@ we will use a 4 KB page size.  For simplicity, the bootloader
 	While GDB can only access QEMU's memory by virtual address,
 	it's often useful to be able to inspect physical memory while
 	setting up virtual memory.  Review the QEMU <a
-	href="tools.html#qemu">monitor
+	href="TOOLS.html#qemu">monitor
 	commands</a> from the lab tools guide, especially the
 	<tt>xp</tt> command, which lets
 	you inspect physical memory.  To access the QEMU monitor,
@@ -760,7 +758,6 @@ and protecting different processes from each other!
 
 <i>If you submit multiple times, we will take the latest
 submission and count late hours accordingly.</i>
-</p>
 
 <p>
 You do not need to turn in answers
@@ -769,7 +766,8 @@ to any of the questions in the text of the lab.
 </p>
 
 <p>
-Create a compressed LAB2_[Team_Number].tar file containing all the files and sumbit in KLMS. Make sure that your code runs successfully in the given kcloud VMs.
+Create a compressed LAB2_[Team_Number].tar file containing all the files and sumbit in KLMS. (Only 1 student should submit the file for each team.) 
+Make sure that your code runs successfully in the given kcloud VMs.
 
 We will be grading your solutions with a grading program. You can run make grade to test your solutions with the grading program.
 </p>
