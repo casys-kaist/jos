@@ -162,7 +162,7 @@ kermit%
 $ <kbd>git diff lab2 | more</kbd>
 </pre>
 <p>
-   You may also want to take another look at the <a href="tools.html">lab tools guide</a>, as it includes information on debugging user code that becomes relevant in this lab. 
+   You may also want to take another look at the <a href="TOOLS.html">lab tools guide</a>, as it includes information on debugging user code that becomes relevant in this lab. 
 </p>
 <h3>Lab Requirements</h3>
 <p>
@@ -206,7 +206,7 @@ $ <kbd>git diff lab2 | more</kbd>
    that already exist in the source code we gave you.
    You can find several sources of information
    on GCC inline assembly language
-   on the class <a href="reference.html">reference materials</a> page.
+   on the class <a href="REFERENCE.html">reference materials</a> page.
 </p>
 <h2>Part A: User Environments and Exception Handling</h2>
 <p>
@@ -583,12 +583,10 @@ struct Env {
 <div class="required">
    <p><span class="header">Exercise 3.</span>
       Read
-      <a href="ref/i386/c09.htm">
+      <a href="ref/i386/c09.htm" target="_blank">
       Chapter 9, Exceptions and Interrupts</a>
       in the
-      <a href="ref/i386/toc.htm">80386 Programmer's Manual</a>
-      (or Chapter 5 of the <a href="ref/ia32/IA32-3A.pdf">
-      IA-32 Developer's Manual</a>),
+      <a href="ref/i386/toc.htm" target="_blank">80386 Programmer's Manual</a>
       if you haven't already.
    </p>
 </div>
