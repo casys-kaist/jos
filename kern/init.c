@@ -11,6 +11,8 @@
 #include <kern/dwarf_api.h>
 #include <kern/pmap.h>
 #include <kern/kclock.h>
+#include <kern/env.h>
+#include <kern/trap.h>
 
 uint64_t end_debug;
 
@@ -41,11 +43,24 @@ i386_init(void)
 	// Lab 2 memory management initialization functions
 	x64_vm_init();
 
+	// Lab 3 user environment initialization functions
+	env_init();
+	trap_init();
 
 
-	// Drop into the kernel monitor.
-	while (1)
-		monitor(NULL);
+
+
+#if defined(TEST)
+	// Don't touch -- used by grading script!
+	ENV_CREATE(TEST, ENV_TYPE_USER);
+#else
+	// Touch all you want.
+
+	ENV_CREATE(user_hello, ENV_TYPE_USER);
+#endif // TEST*
+
+	// We only have one user environment for now, so just run it.
+	env_run(&envs[0]);
 }
 
 
