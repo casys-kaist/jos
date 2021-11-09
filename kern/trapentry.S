@@ -5,6 +5,7 @@
 #include <inc/trap.h>
 #include <kern/macro.h>
 
+#include <kern/picirq.h>
 
 
 ###################################################################
