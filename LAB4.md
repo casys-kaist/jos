@@ -74,6 +74,7 @@ before you start:
       <td>Code skeleton of the scheduler that you are about to implement</td>
    </tr>
 </table>
+<!--
 <h3>Lab Requirements</h3>
 <p>
    This lab is divided into three parts, A, B, and C.
@@ -94,6 +95,7 @@ before you start:
    in the top level of your <tt>lab</tt> directory
    before handing in your work.
 </p>
+-->
 <h2>Part A: Multiprocessor Support and Cooperative Multitasking</h2>
 <p>
    In the first part of this lab,
@@ -1134,7 +1136,7 @@ this string was faulted in at cafebffe
    tables for several of the operations above (e.g., that the PTE for a page is
    marked <code>PTE_COW</code>).  The kernel maps the environment's page tables at
    <code>UVPT</code> exactly for this purpose.  It uses a <a
-      href="uvpt.html">clever mapping trick</a> to make it to make it easy to lookup
+      href="ref/uvpt.html" target="_blank">clever mapping trick</a> to make it to make it easy to lookup
    PTEs for user code. <tt>lib/entry.S</tt> sets up <code>uvpt</code> and
    <code>uvpd</code> so that you can easily lookup page-table information in
    <tt>lib/fork.c</tt>.
@@ -1302,10 +1304,10 @@ this string was faulted in at cafebffe
       The processor never pushes an error code
       when invoking a hardware interrupt handler.
       You might want to re-read section 9.2 of the
-      <a href="../../readings/i386/toc.htm">
+      <a href="ref/i386/toc.htm" target="_blank">
       80386 Reference Manual</a>,
       or section 5.8 of the
-      <a href="../../readings/ia32/IA32-3A.pdf">
+      <a href="ref/IA32-3A.pdf" target="_blank">
       IA-32 Intel Architecture Software Developer's Manual, Volume 3</a>,
       at this time.
    </p>
@@ -1587,11 +1589,13 @@ this string was faulted in at cafebffe
    series -->
 <p>
    <b>This ends part C.</b>
+   <!--
    Make sure you pass all of the <kbd>make grade</kbd> tests and
    don't forget to write up your answers to the questions and a
    description of your challenge exercise solution in
-   <tt>answers-lab4.txt</tt>.
+   <tt>answers-lab4.txt</tt>.-->
 </p>
+<!--
 <p>
    Before handing in, use <kbd>git status</kbd> and <kbd>git diff</kbd>
    to examine your changes and don't forget to <kbd>git add
@@ -1599,6 +1603,7 @@ this string was faulted in at cafebffe
    <kbd>git commit -am 'my solutions to lab 4'</kbd>, then <kbd>make
    handin</kbd> and follow the directions.
 </p>
+-->
 <p>
 Create a compressed LAB4_[Team_Number].tar file containing all the files and sumbit in KLMS. Make sure that your code runs successfully in the given kcloud VMs.
 
