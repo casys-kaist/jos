@@ -1369,8 +1369,7 @@ this string was faulted in at cafebffe
    interrupt?
    <br />
    Hint: use the <kbd>vb</kbd> command mentioned earlier.</li>
-   </ol>
-   -->
+   </ol>-->
 <p>
    This is a great time to do some <i>regression testing</i>.  Make sure that you
    haven't broken any earlier part of that lab that used to work (e.g.
