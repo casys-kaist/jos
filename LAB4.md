@@ -1356,20 +1356,6 @@ this string was faulted in at cafebffe
       and finally kill the child environment and terminate gracefully.
    </p>
 </div>
-<!-- (Austin) I don't think QEMU keeps an instruction count
-   <p>
-   Make sure you can answer the following questions:
-   </p>
-   
-   <ol>
-   <li> How many instruction of user code are executed between each
-   interrupt?</li>
-   
-   <li> How many instructions of kernel code are executed to handle the
-   interrupt?
-   <br />
-   Hint: use the <kbd>vb</kbd> command mentioned earlier.</li>
-   </ol>-->
 <p>
    This is a great time to do some <i>regression testing</i>.  Make sure that you
    haven't broken any earlier part of that lab that used to work (e.g.

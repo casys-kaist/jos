@@ -1595,36 +1595,23 @@ this string was faulted in at cafebffe
       and finally kill the child environment and terminate gracefully.
    </p>
 </div>
-<!-- (Austin) I don't think QEMU keeps an instruction count
-   <p>
-   Make sure you can answer the following questions:
-   </p>
-
-<p>   <ol>
-   <li> How many instruction of user code are executed between each
-   interrupt?</li></p>
-<p>   <li> How many instructions of kernel code are executed to handle the
-   interrupt?
-   <br />
-   Hint: use the <kbd>vb</kbd> command mentioned earlier.</li>
-   &lt;/ol&gt;--&gt;</p>
 <p>
    This is a great time to do some <i>regression testing</i>.  Make sure that you
-   haven't broken any earlier part of that lab that used to work (e.g.
+   haven&apos;t broken any earlier part of that lab that used to work (e.g.
    <tt>forktree</tt>) by enabling interrupts.  Also, try running with
    multiple CPUs using <kbd>make CPUS=2 <i>target</i></kbd>.  You should
    also be able to
    pass <tt>stresssched</tt> now.  Run <kbd>make grade</kbd> to see
    for sure. You should now get a total score of 65/80 points on this lab.
 </p>
-<h3>Inter-Process communication (IPC)</h3>
+<h3 id="inter-process-communication-ipc">Inter-Process communication (IPC)</h3>
 <p>
-   (Technically in JOS this is "inter-environment communication" or "IEC",
-   but everyone else calls it IPC, so we'll use the standard
+   (Technically in JOS this is &quot;inter-environment communication&quot; or &quot;IEC&quot;,
+   but everyone else calls it IPC, so we&apos;ll use the standard
    term.)
 </p>
 <p>
-   We've been focusing on the isolation aspects of the operating
+   We&apos;ve been focusing on the isolation aspects of the operating
    system, the ways it provides the illusion that each program
    has a machine all to itself.  Another important service of
    an operating system is to allow programs to communicate
@@ -1635,10 +1622,10 @@ this string was faulted in at cafebffe
 <p>
    There are many models for interprocess communication. Even
    today there are still debates about which models are best.
-   We won't get into that debate.
-   Instead, we'll implement a simple IPC mechanism and then try it out.
+   We won&apos;t get into that debate.
+   Instead, we&apos;ll implement a simple IPC mechanism and then try it out.
 </p>
-<h4>IPC in JOS</h4>
+<h4 id="ipc-in-jos">IPC in JOS</h4>
 <p>
    You will implement a few additional JOS kernel system calls
    that collectively provide a simple interprocess communication mechanism.
@@ -1649,8 +1636,8 @@ this string was faulted in at cafebffe
    <code>ipc_recv</code> and <code>ipc_send</code>.
 </p>
 <p>
-   The "messages" that user environments can send to each other
-   using JOS's IPC mechanism
+   The &quot;messages&quot; that user environments can send to each other
+   using JOS&apos;s IPC mechanism
    consist of two components:
    a single 32-bit value,
    and optionally a single page mapping.
@@ -1659,7 +1646,7 @@ this string was faulted in at cafebffe
    than will fit into a single 32-bit integer,
    and also allows environments to set up shared memory arrangements easily.
 </p>
-<h4>Sending and Receiving Messages</h4>
+<h4 id="sending-and-receiving-messages">Sending and Receiving Messages</h4>
 <p>
    To receive a message, an environment calls
    <code>sys_ipc_recv</code>.
@@ -1673,14 +1660,14 @@ this string was faulted in at cafebffe
    with the receiving environment.
    In other words, the permission checking that you implemented in Part A
    will not apply to IPC,
-   because the IPC system calls are carefully designed so as to be "safe":
+   because the IPC system calls are carefully designed so as to be &quot;safe&quot;:
    an environment cannot cause another environment to malfunction
    simply by sending it messages
    (unless the target environment is also buggy).
 </p>
 <p>
    To try to send a value, an environment calls
-   <code>sys_ipc_try_send</code> with both the receiver's
+   <code>sys_ipc_try_send</code> with both the receiver&apos;s
    environment id and the value to be sent.  If the named
    environment is actually receiving (it has called
    <code>sys_ipc_recv</code> and not gotten a value yet),
@@ -1693,21 +1680,21 @@ this string was faulted in at cafebffe
    A library function <code>ipc_recv</code> in user space will take care
    of calling <code>sys_ipc_recv</code> and then looking up
    the information about the received values in the current
-   environment's <code>struct Env</code>.
+   environment&apos;s <code>struct Env</code>.
 </p>
 <p>
    Similarly, a library function <code>ipc_send</code> will
    take care of repeatedly calling <code>sys_ipc_try_send</code>
    until the send succeeds.
 </p>
-<h4>Transferring Pages</h4>
+<h4 id="transferring-pages">Transferring Pages</h4>
 <p>
    When an environment calls <code>sys_ipc_recv</code>
    with a valid <code>dstva</code> parameter (below <code>UTOP</code>),
    the environment is stating that it is willing to receive a page mapping.
    If the sender sends a page,
    then that page should be mapped at <code>dstva</code>
-   in the receiver's address space.
+   in the receiver&apos;s address space.
    If the receiver already had a page mapped at <code>dstva</code>,
    then that previous page is unmapped.
 </p>
@@ -1722,7 +1709,7 @@ this string was faulted in at cafebffe
    for the page at <code>srcva</code> in its address space,
    but the receiver also obtains a mapping for this same physical page
    at the <code>dstva</code> originally specified by the receiver,
-   in the receiver's address space.
+   in the receiver&apos;s address space.
    As a result this page becomes shared between the sender and receiver.
 </p>
 <p>
@@ -1731,11 +1718,11 @@ this string was faulted in at cafebffe
    then no page is transferred.
    After any IPC
    the kernel sets the new field <code>env_ipc_perm</code>
-   in the receiver's <code>Env</code> structure
+   in the receiver&apos;s <code>Env</code> structure
    to the permissions of the page received,
    or zero if no page was received.
 </p>
-<h4>Implementing IPC</h4>
+<h4 id="implementing-ipc">Implementing IPC</h4>
 <div class="required">
    <p><span class="header">Exercise 15.</span>
       Implement <code>sys_ipc_recv</code> and
@@ -1775,7 +1762,7 @@ this string was faulted in at cafebffe
    <p><span class="header">Challenge!</span>
       Why does <code>ipc_send</code>
       have to loop?  Change the system call interface so it
-      doesn't have to.  Make sure you can handle multiple
+      doesn&apos;t have to.  Make sure you can handle multiple
       environments trying to send to one environment at the
       same time.
    </p>
@@ -1784,7 +1771,7 @@ this string was faulted in at cafebffe
    <p><span class="header">Challenge!</span>
       The prime sieve is only one neat use of
       message passing between a large number of concurrent programs.
-      Read C. A. R. Hoare, ``Communicating Sequential Processes,''
+      Read C. A. R. Hoare, ``Communicating Sequential Processes,&apos;&apos;
       <i>Communications of the ACM</i> 21(8) (August 1978), 666-667,
       and implement the matrix multiplication example.
    </p>
@@ -1792,10 +1779,10 @@ this string was faulted in at cafebffe
 <div class="challenge">
    <p><span class="header">Challenge!</span>
       One of the most impressive examples of
-      the power of message passing is Doug McIlroy's power series
+      the power of message passing is Doug McIlroy&apos;s power series
       calculator, described in 
-      <a href="https://swtch.com/~rsc/thread/squint.pdf">M. Douglas McIlroy, ``Squinting at 
-      Power Series,'' <i>Software--Practice and Experience</i>, 20(7)
+      <a href="https://swtch.com/~rsc/thread/squint.pdf" target="_blank">M. Douglas McIlroy, ``Squinting at 
+      Power Series,&apos;&apos; <i>Software--Practice and Experience</i>, 20(7)
       (July 1990), 661-683</a>.  Implement his
       power series calculator and compute the power series for 
       <i>sin</i>(<i>x</i>+<i>x</i>^3).
@@ -1803,11 +1790,11 @@ this string was faulted in at cafebffe
 </div>
 <div class="challenge">
    <p><span class="header">Challenge!</span>
-      Make JOS's IPC mechanism more efficient
-      by applying some of the techniques from Liedtke's paper,
-      <a href="http://dl.acm.org/citation.cfm?id=168633">Improving IPC by Kernel Design</a>,
+      Make JOS&apos;s IPC mechanism more efficient
+      by applying some of the techniques from Liedtke&apos;s paper,
+      <a href="http://dl.acm.org/citation.cfm?id=168633" target="_blank">Improving IPC by Kernel Design</a>,
       or any other tricks you may think of.
-      Feel free to modify the kernel's system call API for this purpose,
+      Feel free to modify the kernel&apos;s system call API for this purpose,
       as long as your code is backwards compatible
       with what our grading scripts expect.
    </p>
@@ -1890,7 +1877,7 @@ We will be grading your solutions with a grading program. You can run make grade
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Lab 4: Preemptive Multitasking","level":"1.5","depth":1,"next":{"title":"Lab 5: File System and Shell","level":"1.6","depth":1,"path":"LAB5.md","ref":"LAB5.md","articles":[]},"previous":{"title":"Lab 3: User Environments","level":"1.4","depth":1,"path":"LAB3.md","ref":"LAB3.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"LAB4.md","mtime":"2021-11-22T07:38:49.991Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-11-22T07:39:33.175Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Lab 4: Preemptive Multitasking","level":"1.5","depth":1,"next":{"title":"Lab 5: File System and Shell","level":"1.6","depth":1,"path":"LAB5.md","ref":"LAB5.md","articles":[]},"previous":{"title":"Lab 3: User Environments","level":"1.4","depth":1,"path":"LAB3.md","ref":"LAB3.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"LAB4.md","mtime":"2021-11-22T07:40:05.041Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-11-22T07:40:10.857Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>
