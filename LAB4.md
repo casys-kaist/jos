@@ -1525,7 +1525,6 @@ this string was faulted in at cafebffe
       going on behind the scenes.
    </p>
 </div>
-<!--
    <div class="challenge">
    <p><span class="header">Challenge!</span>
    	The <code>ipc_send</code> function is not very fair.
@@ -1535,8 +1534,7 @@ this string was faulted in at cafebffe
    	Make the IPC fair, so that each copy has approximately
    	equal chance of succeeding.
    </p></div>
-   -->
-<!--<div class="challenge">
+<div class="challenge">
    <p><span class="header">Challenge!</span>
       Why does <code>ipc_send</code>
       have to loop?  Change the system call interface so it
@@ -1553,8 +1551,7 @@ this string was faulted in at cafebffe
       <i>Communications of the ACM</i> 21(8) (August 1978), 666-667,
       and implement the matrix multiplication example.
    </p>
-</div>-->
-<!--
+</div>
 <div class="challenge">
    <p><span class="header">Challenge!</span>
       One of the most impressive examples of
@@ -1577,7 +1574,7 @@ this string was faulted in at cafebffe
       as long as your code is backwards compatible
       with what our grading scripts expect.
    </p>
-</div>-->
+</div>
 <!-- (Austin) L4 isn't on the 2009 schedule
    <div class="challenge">
    <p><span class="header">Challenge!</span>
