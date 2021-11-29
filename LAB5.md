@@ -437,7 +437,7 @@ spawn <tt>/hello</tt> from the file system.
 Use <kbd>make grade</kbd> to test your code.
 </p></div>
 
-<div class="challenge">
+<!-- <div class="challenge">
 <p><span class="header">Challenge!</span>
 	Implement Unix-style <code>exec</code>.
 </p></div>
@@ -447,7 +447,7 @@ Use <kbd>make grade</kbd> to test your code.
 	Implement <code>mmap</code>-style memory-mapped files and
 	modify <code>spawn</code> to map pages directly from the ELF
 	image when possible.
-</p></div>
+</p></div> -->
 
 
 <h2>Sharing library state across fork and spawn</h2>
