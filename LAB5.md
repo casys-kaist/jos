@@ -29,8 +29,7 @@ Branch lab5 set up to track remote branch refs/remotes/origin/lab5.
 Switched to a new branch "lab5"
 kermit% <kbd>git merge lab4</kbd>
 Merge made by recursive.
- kern/env.c |   42 +++++++++++++++++++
- 1 files changed, 42 insertions(+), 0 deletions(-)
+....
 kermit%
 </pre>
 
