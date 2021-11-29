@@ -17,6 +17,15 @@ enum {
 
 	E_IPC_NOT_RECV	= 8,	// Attempt to send to env that is not recving
 	E_EOF		= 9,	// Unexpected end of file
+
+	// File system error codes -- only seen in user-level
+	E_NO_DISK	= 10,	// No free space left on disk
+	E_MAX_OPEN	= 11,	// Too many files are open
+	E_NOT_FOUND	= 12, 	// File or block not found
+	E_BAD_PATH	= 13,	// Bad path
+	E_FILE_EXISTS	= 14,	// File already exists
+	E_NOT_EXEC	= 15,	// File not a valid executable
+	E_NOT_SUPP	= 16,	// Operation not supported
 	// VMM error codes.
 	E_NO_VMX = 17,    // The processor doesn't support VMX or 
 	// is turned off in the BIOS
