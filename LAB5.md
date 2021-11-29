@@ -190,8 +190,7 @@ from one environment to another? Why?
 </li></ol>
 </div>
 
-</p><p>
-
+<p>
 Note that the <tt>GNUmakefile</tt> file in this lab
 sets up QEMU to use the file <tt>obj/kern/kernel.img</tt>
 as the image for disk 0 (typically "Drive C" under DOS/Windows) as before,
