@@ -85,9 +85,8 @@ If they don't work, use <kbd> git diff lab4</kbd> to review
 all the changes, making sure there isn't any code you wrote for lab4
 (or before) missing from lab 5.  Make sure that lab 4 still works.
 </p>
-
+<!-- 
 <h3>Lab Requirements</h3>
-
 <p>
 As before, you will need
 to do all of the regular exercises described in the lab and <i>at
@@ -100,7 +99,7 @@ challenge problem, you only need to describe one of them in the
 write-up, though of course you are welcome to do more.  Place the
 write-up in a file called <tt>answers-lab5.txt</tt> in the top level of
 your <tt>lab5</tt> directory before handing in your work.
-</p>
+</p> -->
 
 <h1>File system preliminaries</h1>
 
