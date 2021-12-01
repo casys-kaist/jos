@@ -194,7 +194,7 @@ conveniently matching the processor's page size.
 
 </p><h3>Superblocks</h3>
 
-<img src="disk.png" align="right" alt="Disk layout" />
+<img src="ref/disk.png" align="right" alt="Disk layout" />
 
 <p>
 File systems typically reserve certain disk blocks
@@ -222,7 +222,7 @@ the other superblocks can still be found and used to access the file system.
 
 </p><h3>File Meta-data</h3>
 
-<img src="file.png" align="right" alt="File structure" />
+<img src="ref/file.png" align="right" alt="File structure" />
 
 The layout of the meta-data describing a file in our file system is
 described by <code>struct File</code> in <tt>inc/fs.h</tt>.  This
