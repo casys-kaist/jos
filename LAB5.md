@@ -1,11 +1,14 @@
 
+<h1>Lab 5: File system, Spawn and Shell</h1>
+
 <h2>Introduction</h2>
 
 <p>
 In this lab, you will implement <code>spawn</code>, a library call
-that loads and runs on-disk executables.
-You will then flesh out your kernel and library operating system
-enough to run a shell on the console.
+that loads and runs on-disk executables.  You will then flesh out your
+kernel and library operating system enough to run a shell on the
+console.  These features need a file system, and this lab introduces a
+simple read/write file system.
 
 </p>
 
@@ -63,7 +66,6 @@ the <tt>user</tt> and <tt>lib</tt> directories,
     <td>Code skeleton of the <tt>spawn</tt> library call.</td></tr>
 </table>
 
-
 <p>
 You should run the pingpong, primes, and forktree test cases from lab
 4 again after merging in the new lab 5 code.  You will need to comment
@@ -85,8 +87,10 @@ If they don't work, use <kbd> git diff lab4</kbd> to review
 all the changes, making sure there isn't any code you wrote for lab4
 (or before) missing from lab 5.  Make sure that lab 4 still works.
 </p>
-<!-- 
+
+<!--
 <h3>Lab Requirements</h3>
+
 <p>
 As before, you will need
 to do all of the regular exercises described in the lab and <i>at
@@ -99,28 +103,195 @@ challenge problem, you only need to describe one of them in the
 write-up, though of course you are welcome to do more.  Place the
 write-up in a file called <tt>answers-lab5.txt</tt> in the top level of
 your <tt>lab5</tt> directory before handing in your work.
-</p> -->
+</p>
+-->
 
 <h1>File system preliminaries</h1>
 
-<p>
-We have provided you with a simple, read-only, disk-based file system. 
-You will need to slightly change your existing code in order to port
-the file system for your JOS, so that
-<tt>spawn</tt> can access on-disk executables using path names.
-
-Although you do not have to understand every detail of the file system,
-such as its on-disk structure.  It is very important that you familiarize
-yourself with the design principles and its various interfaces.
+<p> The file system you will work with is much simpler than most "real"
+file systems including that of xv6 UNIX, but it is powerful enough to
+provide the basic features: creating, reading, writing, and
+deleting files organized in a hierarchical directory structure.
 </p>
 
-<p>
-The file system itself is implemented in micro-kernel fashion,
-outside the kernel but within its own user-space environment.
-Other environments access the file system by making IPC requests
-to this special file system environment.
+<p> We are (for the moment anyway) developing only a single-user
+operating system, which provides protection sufficient to catch bugs
+but not to protect multiple mutually suspicious users from each other.
+Our file system therefore does not support the UNIX notions of file
+ownership or permissions.  Our file system also currently does not
+support hard links, symbolic links, time stamps, or special device
+files like most UNIX file systems do.
 </p>
 
+<h2>On-Disk File System Structure</h2>
+
+<p>
+Most UNIX file systems divide available disk space into two main types
+of regions:
+<i>inode</i> regions and <i>data</i> regions.
+UNIX file systems assign one <i>inode</i> to each file in the file system;
+a file's inode holds critical meta-data about the file
+such as its <code>stat</code> attributes and pointers to its data blocks.
+The data regions are divided into much larger (typically 8KB or more)
+<i>data blocks</i>, within which the file system stores
+file data and directory meta-data.
+Directory entries contain file names and pointers to inodes;
+a file is said to be <i>hard-linked</i>
+if multiple directory entries in the file system
+refer to that file's inode.
+Since our file system will not support hard links,
+we do not need this level of indirection
+and therefore can make a convenient simplification:
+our file system will not use inodes at all
+and instead will simply store all of a file's (or sub-directory's) meta-data
+within the (one and only) directory entry describing that file.
+
+</p><p>
+Both files and directories logically consist of a series of data blocks,
+which may be scattered throughout the disk
+much like the pages of an environment's virtual address space
+can be scattered throughout physical memory.
+The file system environment hides the details of block layout,
+presenting interfaces for reading and writing sequences of bytes at
+arbitrary offsets within files.  The file system environment
+handles all modifications to directories internally
+as a part of performing actions such as file creation and deletion.
+Our file system does allow user environments
+to <i>read</i> directory meta-data directly
+(e.g., with <code>read</code>),
+which means that user environments can perform directory scanning operations
+themselves (e.g., to implement the <tt>ls</tt> program)
+rather than having to rely on additional special calls to the file system.
+The disadvantage of this approach to directory scanning,
+and the reason most modern UNIX variants discourage it,
+is that it makes application programs dependent
+on the format of directory meta-data,
+making it difficult to change the file system's internal layout
+without changing or at least recompiling application programs as well.
+</p>
+
+</p><h3>Sectors and Blocks</h3>
+
+Most disks cannot perform reads and writes at byte granularity and
+instead perform reads and writes in units of <i>sectors</i>.
+In JOS, sectors are 512 bytes each.
+File systems actually allocate and use disk storage in units of <i>blocks</i>.
+Be wary of the distinction between the two terms:
+<i>sector size</i> is a property of the disk hardware,
+whereas <i>block size</i> is an aspect of the operating system using the disk.
+A file system's block size must be
+a multiple of the sector size of the underlying disk.
+
+<p>
+The UNIX xv6 file system uses a block size of 512 bytes,
+the same as the sector size of the underlying disk.
+Most modern file systems use a larger block size, however,
+because storage space has gotten much cheaper
+and it is more efficient to manage storage at larger granularities.
+Our file system will use a block size of 4096 bytes,
+conveniently matching the processor's page size.
+
+</p><h3>Superblocks</h3>
+
+<img src="disk.png" align="right" alt="Disk layout" />
+
+<p>
+File systems typically reserve certain disk blocks
+at "easy-to-find" locations on the disk
+(such as the very start or the very end)
+to hold meta-data describing properties of the file system as a whole,
+such as the block size, disk size,
+any meta-data required to find the root directory,
+the time the file system was last mounted,
+the time the file system was last checked for errors,
+and so on.
+These special blocks are called <i>superblocks</i>.
+
+</p><p>
+Our file system will have exactly one superblock,
+which will always be at block 1 on the disk.
+Its layout is defined by <code>struct Super</code> in <tt>inc/fs.h</tt>.
+Block 0 is typically reserved to hold boot loaders and partition tables,
+so file systems generally do not use the very first disk block.
+Many "real" file systems maintain multiple superblocks,
+replicated throughout several widely-spaced regions of the disk,
+so that if one of them is corrupted
+or the disk develops a media error in that region,
+the other superblocks can still be found and used to access the file system.
+
+</p><h3>File Meta-data</h3>
+
+<img src="file.png" align="right" alt="File structure" />
+
+The layout of the meta-data describing a file in our file system is
+described by <code>struct File</code> in <tt>inc/fs.h</tt>.  This
+meta-data includes the file's name, size, type (regular file or
+directory), and pointers to the blocks comprising the file. As
+mentioned above, we do not have inodes, so this meta-data is stored in
+a directory entry on disk.  Unlike in most "real" file systems, for
+simplicity we will use this one <code>File</code> structure to
+represent file meta-data as it appears
+<i>both on disk and in memory</i>.
+</p><p>
+The <code>f_direct</code> array in <code>struct File</code> contains space
+to store the block numbers
+of the first 10 (<code>NDIRECT</code>) blocks of the file,
+which we call the file's <i>direct</i> blocks.
+For small files up to 10*4096 = 40KB in size,
+this means that the block numbers of all of the file's blocks
+will fit directly within the <code>File</code> structure itself.
+For larger files, however, we need a place
+to hold the rest of the file's block numbers.
+For any file greater than 40KB in size, therefore,
+we allocate an additional disk block, called the file's <i>indirect block</i>,
+to hold up to 4096/4 = 1024 additional block numbers.
+Our file system therefore allows files to be up to 1034 blocks,
+or just over four megabytes, in size.
+To support larger files,
+"real" file systems typically support
+<i>double-</i> and <i>triple-indirect blocks</i> as well.
+
+</p><h3>Directories versus Regular Files</h3>
+
+
+A <code>File</code> structure in our file system
+can represent either a <i>regular</i> file or a directory;
+these two types of "files" are distinguished by the <code>type</code> field
+in the <code>File</code> structure.
+The file system manages regular files and directory-files
+in exactly the same way,
+except that it does not interpret the contents of the data blocks
+associated with regular files at all,
+whereas the file system interprets the contents
+of a directory-file as a series of <code>File</code> structures
+describing the files and subdirectories within the directory. 
+
+</p><p>
+The superblock in our file system
+contains a <code>File</code> structure
+(the <code>root</code> field in <code>struct Super</code>)
+that holds the meta-data for the file system's root directory.
+The contents of this directory-file
+is a sequence of <code>File</code> structures
+describing the files and directories located
+within the root directory of the file system.
+Any subdirectories in the root directory
+may in turn contain more <code>File</code> structures
+representing sub-subdirectories, and so on.
+
+</p>
+
+<h1>The File System</h1>
+ <p>
+The goal for this lab is not to have you implement the
+entire file system, but for you to implement only certain key
+components. In particular, you will be responsible for reading blocks
+into the block cache and flushing them back to disk; allocating disk
+blocks; mapping file offsets to disk blocks; and implementing read,
+write, and open in the IPC interface.  Because you will not be
+implementing all of the file system yourself, it is very important
+that you familiarize yourself with the provided code and the various
+file system interfaces.</p>
 
 <h2>Disk Access</h2>
 
@@ -190,7 +361,8 @@ from one environment to another? Why?
 </li></ol>
 </div>
 
-<p>
+</p><p>
+
 Note that the <tt>GNUmakefile</tt> file in this lab
 sets up QEMU to use the file <tt>obj/kern/kernel.img</tt>
 as the image for disk 0 (typically "Drive C" under DOS/Windows) as before,
@@ -198,6 +370,29 @@ and to use the (new) file <tt>obj/fs/fs.img</tt>
 as the image for disk 1 ("Drive D").
 In this lab our file system should only ever touch disk 1;
 disk 0 is used only to boot the kernel.
+
+If you manage to corrupt either disk image in some way,
+you can reset both of them to their original, "pristine" versions
+simply by typing:
+
+</p><pre>$ <kbd>rm obj/kern/kernel.img obj/fs/fs.img</kbd>
+$ <kbd>make</kbd>
+</pre>
+<p>or by doing: </p>
+<pre>$ <kbd>make clean</kbd>
+$ <kbd>make</kbd>
+</pre>
+ 
+<div class="challenge">
+<p><span class="header">Challenge!</span>
+       Implement interrupt-driven IDE disk access,
+       with or without DMA.
+       You can decide whether to move the device driver into the kernel,
+       keep it in user space along with the file system,
+       or even (if you really want to get into the micro-kernel spirit)
+       move it into a separate environment of its own.
+</p></div>
+
 
 <h2>The Block Cache</h2>
 
@@ -239,16 +434,18 @@ may still be reasonable on a machine with a 64-bit address space.
 </p>
 
 <p>
-Of course, it would be unreasonable to read the entire disk into
+Of course, it would take a long time to read the entire disk into
 memory, so instead we'll implement a form of <i>demand paging</i>,
 wherein we only allocate pages in the disk map region and read the
 corresponding block from the disk in response to a page fault in this
 region.  This way, we can pretend that the entire disk is in memory.
 </p>
 
+
 <div class="required">
 <p><span class="header">Exercise 2.</span>
-Implement the <code>bc_pgfault</code> functions in <tt>fs/bc.c</tt>.
+Implement the <code>bc_pgfault</code> and <code>flush_block</code>
+functions in <tt>fs/bc.c</tt>.
 <code>bc_pgfault</code> is a page fault handler, just like the one
 your wrote in the previous lab for copy-on-write fork, except that
 its job is to load pages in from the disk in response to a page
@@ -256,9 +453,24 @@ fault.  When writing this, keep in mind that (1) <code>addr</code>
 may not be aligned to a block boundary and (2) <code>ide_read</code>
 operates in sectors, not blocks.
 </p><p>
-Use <kbd>make grade</kbd> to test your code.  Your code should pass
-"check_super".
+The <code>flush_block</code> function should write a block out to disk
+<i>if necessary</i>.  <code>flush_block</code> shouldn't do anything
+if the block isn't even in the block cache (that is, the page isn't
+mapped) or if it's not dirty.
+We will use the VM hardware to keep track of whether a disk
+block has been modified since it was last read from or written to disk.
+To see whether a block needs writing,
+we can just look to see if the <code>PTE_D</code> "dirty" bit
+is set in the <code>uvpt</code> entry.
+(The <code>PTE_D</code> bit is set by the processor in response to a
+write to that page; see 5.2.4.3 in <a
+href="http://pdos.csail.mit.edu/6.828/2011/readings/i386/s05_02.htm">chapter
+5</a> of the 386 reference manual.)
+After writing the block to disk, <code>flush_block</code> should clear
+the <code>PTE_D</code> bit using <code>sys_page_map</code>.
 </p><p>
+Use <kbd>make grade</kbd> to test your code.  Your code should pass
+"check_bc", "check_super", and "check_bitmap".
 </p></div>
 
 The <code>fs_init</code> function in <tt>fs/fs.c</tt> is a prime
@@ -268,6 +480,87 @@ cache, it simply stores pointers into the disk map region in the
 After this point, we can simply read from the <code>super</code>
 structure as if they were in memory and our page fault handler will
  read them from disk as necessary.
+
+<div class="challenge">
+<p><span class="header">Challenge!</span>
+The block cache has no eviction policy.  Once a block gets faulted in
+to it, it never gets removed and will remain in memory forevermore.
+Add eviction to the buffer cache.  Using the <code>PTE_A</code>
+"accessed" bits in the page tables, which the hardware sets on any
+access to a page, you can track approximate usage of
+disk blocks without the need to modify every place in the code that
+accesses the disk map region.  Be careful with dirty blocks.
+</p></div>
+
+<h2>The Block Bitmap</h2>
+
+After <code>fs_init</code> sets the <code>bitmap</code> pointer, we
+can treat <code>bitmap</code> as a packed array of bits, one for each
+block on the disk.  See, for example, <code>block_is_free</code>,
+which simply checks whether a given block is marked free in the
+bitmap.
+
+<div class="required">
+<p><span class="header">Exercise 3.</span>
+Use <code>free_block</code> as a model to
+implement <code>alloc_block</code> in <tt>fs/fs.c</tt>, which should find a
+free disk
+block in the bitmap, mark it used, and return the number of that
+block.
+When you allocate a block, you should immediately flush
+the changed bitmap block to disk with <code>flush_block</code>, to
+help file system consistency.
+</p><p>
+Use <kbd>make grade</kbd> to test your code.  Your code should now
+pass "alloc_block".
+</p></div>
+
+<h2>File Operations</h2>
+
+<!-- XXX Could have them write dir_lookup, file_create, file_open, file_flush? -->
+
+ <p>
+We have provided a variety of functions in <tt>fs/fs.c</tt>
+to implement the basic facilities you will need
+to interpret and manage <code>File</code> structures,
+scan and manage the entries of directory-files,
+and walk the file system from the root
+to resolve an absolute pathname.
+Read through <i>all</i> of the code in <tt>fs/fs.c</tt>
+and make sure you understand what each function does
+before proceeding. 
+
+<div class="required">
+<p><span class="header">Exercise 4.</span>  Implement
+<code>file_block_walk</code>
+and <code>file_get_block</code>.  <code>file_block_walk</code> maps
+from a block offset within a file to the pointer for that block in the
+<code>struct File</code> or the indirect block, very much like what
+<code>pgdir_walk</code> did for page tables.
+<code>file_get_block</code> goes one step further and maps to the
+actual disk block, allocating a new one if necessary.
+</p><p>
+Use <kbd>make grade</kbd> to test your code.  Your code should pass
+"file_open", "file_get_block", and "file_flush/file_truncated/file
+rewrite", and "testfile".
+</p></div>
+
+ <p>
+<code>file_block_walk</code> and <code>file_get_block</code> are the
+workhorses of the file system.  For example, <code>file_read</code>
+and <code>file_write</code> are little more than the bookkeeping atop
+<code>file_get_block</code> necessary to copy bytes between scattered
+blocks and a sequential buffer.
+
+<div class="challenge">
+<p><span class="header">Challenge!</span>
+       The file system is likely to be corrupted if it gets
+       interrupted in the middle of an operation (for example, by a
+       crash or a reboot).
+       Implement soft updates or journalling to make the file system
+       crash-resilient and demonstrate some situation where the old
+       file system would get corrupted, but yours doesn't.
+</p></div>
 
 
 <h2>The file system interface</h2>
@@ -360,50 +653,38 @@ first place.  Also, in its response, <code>FSREQ_OPEN</code> shares with
 the client a new "Fd page". We'll return to the file descriptor 
 page shortly.
 </p>
-<!-- 
-<div class="challenge">
-<p><span class="header">Challenge!</span>
-	Extend the file system to support write access. 
-Here are a few points you need to consider:
-<ol><li>
-	Use the block bitmap starting at block 2 to keep track of which
-disk blocks are free and which are in use. 
-Look at <tt>fs/fsformat.c</tt> to see how the bitmap is initialized.
-</li><li>
-	Make use of the <code>alloc</code> argument in 
-<code>file_block_walk</code>. 
-In <code>file_get_block</code>, allocate new disk blocks as necessary.
-</li> <li>
-	In your block cache, use the VM hardware (the <code>PTE_D</code>
- "dirty" bit in the
- <code>uvpt</code> entry) to keep track of whether a cached disk block
- has been modified, and thus needs to be written back to the disk.
-</li> <li>
-	Handle <code>O_CREAT</code> and <code>O_TRUNC</code> open modes 
-in <code>serve_open</code>.
-</li> <li>
-	Handle more file system IPC requests, such as 
-<code>FSREQ_SET_SIZE</code>, <code>FSREQ_WRITE</code>, 
-<code>FSREQ_FLUSH</code>, <code>FSREQ_REMOVE</code>
-and <code>FSREQ_SYNC</code>, in <tt>fs/serv.c</tt>. 
-We have defined the argument for these calls for you in <tt>inc/fs.h</tt>.
-Also, write the corresponding service routines in <tt>fs/fs.c</tt> and
-hook them to client stubs in <tt>lib/file.c</tt>.
-</li><li>
-	For more information about the file system's on-disk structure,
-read <tt>inc/fs.h</tt> and <tt>fs/fsformat.c</tt>. 
-You may also refer to 
-<a href="http://pdos.csail.mit.edu/6.828/2011/labs/lab5">
-last year's lab 5 text.</a>
-</li>
-</ol>
-</p></div> -->
+
+<div class="required">
+<p><span class="header">Exercise 5.</span>
+Implement <code>serve_read</code> in <tt>fs/serv.c</tt>.
+</p><p>
+<code>serve_read</code>'s heavy lifting will be done by
+the already-implemented <code>file_read</code> in <tt>fs/fs.c</tt>
+(which, in turn, is just a bunch of calls to
+<code>file_get_block</code>).  <code>serve_read</code> just has to
+provide the RPC interface for file reading.  Look at the comments and
+code in <code>serve_set_size</code> to get a general idea of how the
+server functions should be structured.
+</p><p>
+Use <kbd>make grade</kbd> to test your code.  Your code should pass
+"serve_open/file_stat/file_close" and "file_read" for a score of 70/150.
+</p></div>
+
+<div class="required">
+<p><span class="header">Exercise 6.</span>
+Implement <code>serve_write</code> in <tt>fs/serv.c</tt> and
+<code>devfile_write</code> in <tt>lib/file.c</tt>.
+</p><p>
+Use <kbd>make grade</kbd> to test your code.  Your code should pass
+"file_write", "file_read after file_write", "open", and "large file" for a
+score of 90/150.
+</p></div>
 
 
 <h1>Spawning Processes</h1>
 
 <p>
-We have given you the code for <code>spawn</code>
+We have given you the code for <code>spawn</code> (see <tt>lib/spawn.c</tt>)
 <!-- In this exercise you will implement <code>spawn</code>, -->
 which creates a new environment,
 loads a program image from the file system into it,
@@ -422,11 +703,13 @@ why it is harder.
 </p>
 
 <div class="required">
-<p><span class="header">Exercise 3.</span>
+<p><span class="header">Exercise 7.</span>
 <code>spawn</code> relies on the new syscall
 <code>sys_env_set_trapframe</code> to initialize the state of the
 newly created environment.  Implement
-<code>sys_env_set_trapframe</code>.  Test your code by running the
+<code>sys_env_set_trapframe</code> in <tt>kern/syscall.c</tt> (don't forget to dispatch the new system call in <code>syscall()</code>).</p>
+
+<p>Test your code by running the
 <tt>user/spawnhello</tt> program
 from <tt>kern/init.c</tt>, which will attempt to
 spawn <tt>/hello</tt> from the file system.
@@ -434,7 +717,7 @@ spawn <tt>/hello</tt> from the file system.
 Use <kbd>make grade</kbd> to test your code.
 </p></div>
 
-<!-- <div class="challenge">
+<div class="challenge">
 <p><span class="header">Challenge!</span>
 	Implement Unix-style <code>exec</code>.
 </p></div>
@@ -444,7 +727,7 @@ Use <kbd>make grade</kbd> to test your code.
 	Implement <code>mmap</code>-style memory-mapped files and
 	modify <code>spawn</code> to map pages directly from the ELF
 	image when possible.
-</p></div> -->
+</p></div>
 
 
 <h2>Sharing library state across fork and spawn</h2>
@@ -464,7 +747,7 @@ in the appropriate <code>struct Dev</code>.
 <p>
 <tt>lib/fd.c</tt> also maintains the <i>file descriptor table</i>
 region in each application environment's address space, starting at
-<code>FSTABLE</code>.  This area reserves a page's worth (4KB) of
+<code>FDTABLE</code>.  This area reserves a page's worth (4KB) of
 address space for each of the up to <code>MAXFD</code> (currently 32)
 file descriptors the application can have open at once.  At any given
 time, a particular file descriptor table page is mapped if and only if
@@ -511,7 +794,7 @@ also has an optional "data page" in the region starting at
 </p>
 
   <div class="required">
-	<p><span class="header">Exercise 4.</span>
+	<p><span class="header">Exercise 8.</span>
 
   Change <code>duppage</code> in <tt>lib/fork.c</tt> to follow
   the new convention.  If the page table entry has the <code>PTE_SHARE</code>
@@ -560,7 +843,7 @@ also has an optional "data page" in the region starting at
 </p>
 
   <div class="required">
-	<p><span class="header">Exercise 5.</span>
+	<p><span class="header">Exercise 9.</span>
   In your <tt>kern/trap.c</tt>, call <code>kbd_intr</code> to handle trap
   <code>IRQ_OFFSET+IRQ_KBD</code> and <code>serial_intr</code> to
   handle trap <code>IRQ_OFFSET+IRQ_SERIAL</code>.
@@ -568,7 +851,10 @@ also has an optional "data page" in the region starting at
 
 <p>
   We implemented the console input/output file type for you,
-  in <tt>lib/console.c</tt>.
+  in <tt>lib/console.c</tt>. <code>kbd_intr</code> and <code>serial_intr</code>
+  fill a buffer with the recently read input while the console file
+  type drains the buffer (the console file type is used for stdin/stdout by
+  default unless the user redirects them).
 </p>
 
 <p>
@@ -595,8 +881,6 @@ also has an optional "data page" in the region starting at
 	cat lorem |num
 	cat lorem |num |num |num |num |num
 	lsfd
-	cat script
-	sh &lt;script
 </pre>
 <p>
   Note that the user library routine <code>cprintf</code>
@@ -609,6 +893,16 @@ also has an optional "data page" in the region starting at
   See <tt>user/lsfd.c</tt> for examples.
 </p>
 
+  <div class="required">
+	<p><span class="header">Exercise 10.</span>
+
+ <p>The shell doesn't support I/O redirection.  It would be nice to run
+	<kbd>sh &lt;script</kbd> instead of having to type in all the
+	commands in the script by hand, as you did above.  Add
+I/O redirection for &lt;  to  <code>user/sh.c</code>.</p>
+<p>Test your implementation by typing <kbd>sh &lt;script</kbd> into
+your shell<p.>
+
 <p>
   Run <kbd>make run-testshell</kbd> to test your shell.
   <tt>testshell</tt> simply feeds the above commands (also found in
@@ -616,24 +910,30 @@ also has an optional "data page" in the region starting at
   output matches <tt>fs/testshell.key</tt>. 
 </p>
 
+  </p></div>
+
+
+<div class="challenge">
+<p><span class="header">Challenge!</span>  Add more features to the
+    shell.  Possibilities include (a few require changes to the file system too):
+      <ul>
+        <li>backgrounding commands (<code>ls &</code>)
+        <li>multiple commands per line (<code>ls; echo hi</code>)
+        <li>command grouping (<code>(ls; echo hi) | cat > out</code>)
+	<li>environment variable expansion (<code>echo $hello</code>)
+        <li>quoting (<code>echo "a | b"</code>)
+        <li>command-line history and/or editing
+        <li>tab completion
+        <li>directories, cd, and a PATH for command-lookup.
+	<li>file creation
+	<li>ctl-c to kill the running environment
+      </ul>
+      but feel free to do something not on this list.
+</p></div>
+
 <p>
-  Your code should pass all tests at this point.  As usual, you can
-  grade your submission with <kbd>make grade</kbd> and hand it in with
-  <kbd>make handin</kbd>.
+  Your code should pass all tests at this point.
 </p>
-
-
-<!-- 
-<div class="question">
-<p><span class="header">Questions</span></p>
-<ol start="2">
-<li>How long approximately did it take you to do this lab?</li>
-<li>We simplified the file system this year with the goal of making 
-more time for the final project. Do you feel like you gained
-a basic understanding of the file I/O in JOS? Feel free to suggest
-things we could improve.</li>
-</ol>
-</div> -->
 
 <h3>Hand-In Procedure</h3>
 <p>
