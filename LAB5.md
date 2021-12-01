@@ -145,8 +145,9 @@ and therefore can make a convenient simplification:
 our file system will not use inodes at all
 and instead will simply store all of a file's (or sub-directory's) meta-data
 within the (one and only) directory entry describing that file.
+</p>
 
-</p><p>
+<p>
 Both files and directories logically consist of a series of data blocks,
 which may be scattered throughout the disk
 much like the pages of an environment's virtual address space
@@ -170,7 +171,7 @@ making it difficult to change the file system's internal layout
 without changing or at least recompiling application programs as well.
 </p>
 
-</p><h3>Sectors and Blocks</h3>
+<h3>Sectors and Blocks</h3>
 
 Most disks cannot perform reads and writes at byte granularity and
 instead perform reads and writes in units of <i>sectors</i>.
