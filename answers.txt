@@ -110,7 +110,15 @@ By running "objdump -t obj/kern/kernel | grep bootstack", I can see that bootsta
 =======================================================================================================================
 10. 
 -- Q: To become familiar with the C calling conventions on the x86-64, find the address of the test_backtrace function in obj/kern/kernel.asm, set a breakpoint there, and examine what happens each time it gets called after the kernel starts. How many 64-bit words does each recursive nesting level of test_backtrace push on the stack, and what are those words?
--- A: 
+-- A: By setting the breakpoint at test_backtrace and continuing, I could see that with "i registers" in GDB, its stack pointer (%rsp) holds 0x800421aff0 when it is first called. When I continue and it hits that breakpoint again, its stack pointer then holds 0x800421afc8. Because 0xf0 - 0xc8 = 0x28 = 40 decimal, we can see that 5 8B values have been pushed there.
+Using the command "x/10x $rsp" at the second breakpoint, I can check 10 4B values there, which are as follows:
+
+0x800421afc8:	0x0420009d	0x00000080	0x0421afe0	0x00000012
+0x800421afd8:	0x00043720	0x00000005	0x0421aff0	0x00000080
+0x800421afe8:	0x04200189	0x00000080
+
+So now we know that it holds 5 values, which are 0x8004200189, 0x800421aff0, 0x500043720, 0x12421afe0, and 0x800420009d.
+After doing the same thing and comparing when the argument changes from 4 to 3 (as opposed to the 5 to 4 change above), I think first that the 0x00000005 above is actually a 4B word itself meaning that holds the value of the function argument (5). Also, 0x8004200189, 0x800421aff0, and 0x800420009d are values that have to do with the instruction, like the return address, although I am not sure.
 
 
 =======================================================================================================================
