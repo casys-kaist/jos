@@ -1,0 +1,87 @@
+# CS530 JOS Lab #1 answers
+# by 20218116 Jinha Chung, KAIST EE
+# includes exercises: 3, 6, 7, 9, 10
+
+=======================================================================================================================
+3.
+-- Q: At what point does the processor start executing 32-bit code? What exactly causes the switch from 16- to 32-bit mode?
+-- A: Using GDB at 0x7c97, we can see the following line:
+
+The target architecture is assumed to be i8086
+[   0:7c97] => 0x7c97:	ljmp   $0x8,$0x7c9c
+
+Then immediately after, we can see the following line after the ljmp (long jump):
+
+The target architecture is assumed to be i386
+=> 0x7c9c:	mov    $0x10,%ax
+
+Clearly, the long jump allowed for jumping into 32-bit protected mode, as well as the target architecture being changed
+from i8086 (a 16-bit machine?) to i386 (32-bit machine), so clearly, the ljmp instruction allows for this change.
+
+-- Q: What is the last instruction of the boot loader executed, and what is the first instruction of the kernel it just loaded?
+-- A: In GDB, after the following line:
+
+=> 0x7dea:	jmp    *0x10018", 
+
+we can see the next line being:
+
+=> 0x100000 <_head64>:	mov    $0x107000,%eax
+_head64 () at kern/bootstrap.S:22
+22	    movl $multiboot_info, %eax
+
+so we can conclude that the last line executed by the boot loader is "jmp *0x10018" and the first line executed by the kernel is "movl $multiboot_info, %eax".
+
+-- Q: How does the boot loader decide how many sectors it must read in order to fetch the entire kernel from disk? Where does it find this information? 
+-- A: In bootmain() inside boot/main.c, we can see that the ELF header is read with the following line of code:
+
+readseg((uint32_t) ELFHDR, SECTSIZE*8, 0);
+
+and then it loads the read information with:
+
+ph = (struct Proghdr *) ((uint8_t *) ELFHDR + ELFHDR->e_phoff);
+eph = ph + ELFHDR->e_phnum;
+for (; ph < eph; ph++)
+    readseg(ph->p_pa, ph->p_memsz, ph->p_offset);
+
+so basically, the ELF header holds such information.
+
+=======================================================================================================================
+6.
+-- Q: Examine the 8 words of memory at 0x00100000 at the point the BIOS enters the boot loader, and then again at the point the boot loader enters the kernel. Why are they different? What is there at the second breakpoint? (You do not really need to use QEMU to answer this question. Just think.)
+-- A: When BIOS enters the boot loader, the 8 words (32 bytes) of data at 0x00100000 are as follows:
+
+0x100000 <_head64>:     0x00000000	0x00000000	0x00000000	0x00000000
+0x100010 <_head64+16>:  0x00000000	0x00000000	0x00000000	0x00000000
+
+When the boot loader enters the kernel, the 8 words (32 bytes) of data at 0x00100000 are as follows:
+
+0x100000 <_head64>:     0x107000b8	0x66188900	0x047205c7	0x12340000
+0x100010 <_head64+16>:  0x007c00bc	0x00cce800	0x20b80000	0x0f000000
+
+This is as expected because when boot loader is first started, it has not yet loaded the kernel yet, meaning its data should be zeroed out, as we can see above.
+But right before the boot loader enters the kernel, the kernel contents to be executed should be loaded, as we can also see above.
+
+=======================================================================================================================
+7. 
+-- Q: Use QEMU and GDB to trace into the early JOS kernel boot code (in the kern/boostrap.S directory) and find where the new virtual-to-physical mapping takes effect. Then examine the Global Descriptor Table (GDT) that the code uses to achieve this effect, and make sure you understand what's going on.
+-- A: 
+
+-- Q: What is the first instruction after the new mapping is established that would fail to work properly if the old mapping were still in place? Comment out or otherwise intentionally break the segmentation setup code in kern/entry.S, trace into it, and see if you were right.
+-- A: 
+
+
+=======================================================================================================================
+9. 
+-- Q: 
+-- A: 
+
+
+
+
+=======================================================================================================================
+10. 
+-- Q: 
+-- A: 
+
+
+=======================================================================================================================
