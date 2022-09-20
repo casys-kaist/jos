@@ -64,11 +64,30 @@ But right before the boot loader enters the kernel, the kernel contents to be ex
 =======================================================================================================================
 7. 
 -- Q: Use QEMU and GDB to trace into the early JOS kernel boot code (in the kern/boostrap.S directory) and find where the new virtual-to-physical mapping takes effect. Then examine the Global Descriptor Table (GDT) that the code uses to achieve this effect, and make sure you understand what's going on.
--- A: 
+-- A: The virtual-to-physical mapping takes effect once paging is enabled, after CR3 has been set. The code enabling paging is as follows:
+
+# enable paging
+    movl %cr0,%eax
+    orl $CR0_PE,%eax
+    orl $CR0_PG,%eax
+    orl $CR0_AM,%eax
+    orl $CR0_WP,%eax
+    orl $CR0_MP,%eax
+    movl %eax,%cr0
+
+And we can also see the contents of the GDT in the following code:
+
+gdt_64:
+    SEG_NULL
+    .quad  0x00af9a000000ffff            #64 bit CS
+    .quad  0x00cf92000000ffff            #64 bit DS
+
+gdtdesc_64:
+    .word 0x17
+    .quad gdt_64
 
 -- Q: What is the first instruction after the new mapping is established that would fail to work properly if the old mapping were still in place? Comment out or otherwise intentionally break the segmentation setup code in kern/entry.S, trace into it, and see if you were right.
--- A: 
-
+-- A: The first instruction that would break would be the 76th line of kern/entry.S, "call *%rax". This is because the 64-bit value that exists inside the RAX register would make it impossible for the kernel to jump there, since no such physical address exists and paging has not been enabled properly.
 
 =======================================================================================================================
 9. 
