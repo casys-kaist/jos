@@ -91,15 +91,25 @@ gdtdesc_64:
 
 =======================================================================================================================
 9. 
--- Q: 
--- A: 
+-- Q: Determine where the kernel initializes its stack, and exactly where in memory its stack is located. How does the kernel reserve space for its stack? And at which "end" of this reserved area is the stack pointer initialized to point to?
+-- A: We can see the following piece of code starting at line 83 of kern/entry.S:
 
+.data
+###################################################################
+# boot stack
+###################################################################
+    .p2align    PGSHIFT     # force page alignment
+    .globl      bootstack
+bootstack:
+    .space      KSTKSIZE
+    .globl      bootstacktop
+bootstacktop:
 
-
+By running "objdump -t obj/kern/kernel | grep bootstack", I can see that bootstacktop is located at 0x800421b000, and that bootstack is located at 0x800420b000.
 
 =======================================================================================================================
 10. 
--- Q: 
+-- Q: To become familiar with the C calling conventions on the x86-64, find the address of the test_backtrace function in obj/kern/kernel.asm, set a breakpoint there, and examine what happens each time it gets called after the kernel starts. How many 64-bit words does each recursive nesting level of test_backtrace push on the stack, and what are those words?
 -- A: 
 
 
