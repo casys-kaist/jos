@@ -118,7 +118,8 @@ Using the command "x/10x $rsp" at the second breakpoint, I can check 10 4B value
 0x800421afe8:	0x04200189	0x00000080
 
 So now we know that it holds 5 values, which are 0x8004200189, 0x800421aff0, 0x500043720, 0x12421afe0, and 0x800420009d.
-After doing the same thing and comparing when the argument changes from 4 to 3 (as opposed to the 5 to 4 change above), I think first that the 0x00000005 above is actually a 4B word itself meaning that holds the value of the function argument (5). Also, 0x8004200189, 0x800421aff0, and 0x800420009d are values that have to do with the instruction, like the return address, although I am not sure.
+After doing the same thing and comparing when the argument changes from 4 to 3 (as opposed to the 5 to 4 change above), I think first that the 0x00000005 above is actually a 4B word itself meaning that holds the value of the function argument (5).
+Also, 0x8004200189, 0x800421aff0, and 0x800420009d are values that have to do with things like the return pointer and base pointer (%rsp).
 
 
 =======================================================================================================================
