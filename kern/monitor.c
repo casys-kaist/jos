@@ -60,7 +60,22 @@ mon_kerninfo(int argc, char **argv, struct Trapframe *tf)
 int
 mon_backtrace(int argc, char **argv, struct Trapframe *tf)
 {
-	// Your code here.
+    cprintf("Stack backtrace:\n");
+    uint64_t rbp, rip;
+    rbp = read_rbp();
+    read_rip(rip);
+    while (1) {
+        //rbp = read_rbp();
+        //read_rip(rip);
+        if (rbp)
+            cprintf("   rbp %016x rip %016x\n", rbp, rip);
+        else
+            break;
+        // %rip: points to instruction AFTER the call instruction
+        rip = *(uint64_t *)(rbp + 8);
+        // %rbp: saves where the previous %rbp was stored
+		rbp = *((uint64_t *)rbp);
+    }
 	return 0;
 }
 
