@@ -65,7 +65,7 @@ mon_backtrace(int argc, char **argv, struct Trapframe *tf)
     struct Ripdebuginfo ripdebuginfo;
     rbp = read_rbp();
     read_rip(rip);
-    while (1) {
+    while (rbp) {
         int offset = 0;
         uint64_t arg;
         int ret = debuginfo_rip(rip, &ripdebuginfo);
@@ -80,6 +80,7 @@ mon_backtrace(int argc, char **argv, struct Trapframe *tf)
         for (int i = 0; i < ripdebuginfo.rip_fn_narg; ++i) {
             offset += ripdebuginfo.size_fn_arg[i];
             arg = *((uint64_t*)(rbp - offset));
+            arg &= (((uint64_t)1 << ((ripdebuginfo.size_fn_arg[i] * 8))) - 1);
             cprintf(" %016x", arg);
         }
         cprintf("\n");
