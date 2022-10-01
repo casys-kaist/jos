@@ -216,8 +216,16 @@ boot_alloc(uint32_t n)
 	// to a multiple of PGSIZE.
 	//
 	// LAB 2: Your code here.
+    void *retval = nextfree;
+    nextfree = ROUNDUP((char *)retval + n, PGSIZE);
+    // UVPT is 1TB, basically the 'limit' we see in inc/memlayout.h
+    if ((uint64_t) nextfree > UVPT) {
+        panic("boot_alloc: cannot allocate %d bytes\n", n);
+    }
+    // nextfree should not have changed if n is 0
+    assert((n != 0) || nextfree = retval);
 
-	return NULL;
+    return retval;
 }
 
 // Set up a four-level page table:
@@ -241,7 +249,7 @@ x64_vm_init(void)
 	//panic("i386_vm_init: This function is not finished\n");
 	//////////////////////////////////////////////////////////////////////
 	// create initial page directory.
-	panic("x64_vm_init: this function is not finished\n");
+	//panic("x64_vm_init: this function is not finished\n");
 	pml4e = boot_alloc(PGSIZE);
 	memset(pml4e, 0, PGSIZE);
 	boot_pml4e = pml4e;
@@ -253,7 +261,9 @@ x64_vm_init(void)
 	// each physical page, there is a corresponding struct PageInfo in this
 	// array.  'npages' is the number of physical pages in memory.
 	// Your code goes here:
-
+    pages = (struct PageInfo *)boot_alloc(npages * sizeof(struct PageInfo));
+    //TODO: initialize memory here?
+    
 	//////////////////////////////////////////////////////////////////////
 	// Now that we've allocated the initial kernel data structures, we set
 	// up the list of free physical pages. Once we've done so, all further
@@ -270,7 +280,7 @@ x64_vm_init(void)
 	//      (ie. perm = PTE_U | PTE_P)
 	//    - pages itself -- kernel RW, user NONE
 	// Your code goes here:
-
+    //TODO: write here for lab#2 exercise#1
 
 	//////////////////////////////////////////////////////////////////////
 	// Use the physical memory that 'bootstack' refers to as the kernel
@@ -283,6 +293,7 @@ x64_vm_init(void)
 	//       overwrite memory.  Known as a "guard page".
 	//     Permissions: kernel RW, user NONE
 	// Your code goes here:
+    //TODO: write here for lab#2 exercise#1
 
 	//////////////////////////////////////////////////////////////////////
 	// Map all of physical memory at KERNBASE. We have detected the number
@@ -291,6 +302,7 @@ x64_vm_init(void)
 	//      the PA range [0, npages*PGSIZE)
 	// Permissions: kernel RW, user NONE
 	// Your code goes here: 
+    //TODO: write here for lab#2 exercise#5
 	// Check that the initial page directory has been set up correctly.
 	check_page_free_list(1);
 	check_page_alloc();
