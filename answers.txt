@@ -1,0 +1,125 @@
+# CS530 JOS Lab #1 answers
+# by 20218116 Jinha Chung, KAIST EE
+# includes exercises: 3, 6, 7, 9, 10
+
+=======================================================================================================================
+3.
+-- Q: At what point does the processor start executing 32-bit code? What exactly causes the switch from 16- to 32-bit mode?
+-- A: Using GDB at 0x7c97, we can see the following line:
+
+The target architecture is assumed to be i8086
+[   0:7c97] => 0x7c97:	ljmp   $0x8,$0x7c9c
+
+Then immediately after, we can see the following line after the ljmp (long jump):
+
+The target architecture is assumed to be i386
+=> 0x7c9c:	mov    $0x10,%ax
+
+Clearly, the long jump allowed for jumping into 32-bit protected mode, as well as the target architecture being changed
+from i8086 (a 16-bit machine?) to i386 (32-bit machine), so clearly, the ljmp instruction allows for this change.
+
+-- Q: What is the last instruction of the boot loader executed, and what is the first instruction of the kernel it just loaded?
+-- A: In GDB, after the following line:
+
+=> 0x7dea:	jmp    *0x10018", 
+
+we can see the next line being:
+
+=> 0x100000 <_head64>:	mov    $0x107000,%eax
+_head64 () at kern/bootstrap.S:22
+22	    movl $multiboot_info, %eax
+
+so we can conclude that the last line executed by the boot loader is "jmp *0x10018" and the first line executed by the kernel is "movl $multiboot_info, %eax".
+
+-- Q: How does the boot loader decide how many sectors it must read in order to fetch the entire kernel from disk? Where does it find this information? 
+-- A: In bootmain() inside boot/main.c, we can see that the ELF header is read with the following line of code:
+
+readseg((uint32_t) ELFHDR, SECTSIZE*8, 0);
+
+and then it loads the read information with:
+
+ph = (struct Proghdr *) ((uint8_t *) ELFHDR + ELFHDR->e_phoff);
+eph = ph + ELFHDR->e_phnum;
+for (; ph < eph; ph++)
+    readseg(ph->p_pa, ph->p_memsz, ph->p_offset);
+
+so basically, the ELF header holds such information.
+
+=======================================================================================================================
+6.
+-- Q: Examine the 8 words of memory at 0x00100000 at the point the BIOS enters the boot loader, and then again at the point the boot loader enters the kernel. Why are they different? What is there at the second breakpoint? (You do not really need to use QEMU to answer this question. Just think.)
+-- A: When BIOS enters the boot loader, the 8 words (32 bytes) of data at 0x00100000 are as follows:
+
+0x100000 <_head64>:     0x00000000	0x00000000	0x00000000	0x00000000
+0x100010 <_head64+16>:  0x00000000	0x00000000	0x00000000	0x00000000
+
+When the boot loader enters the kernel, the 8 words (32 bytes) of data at 0x00100000 are as follows:
+
+0x100000 <_head64>:     0x107000b8	0x66188900	0x047205c7	0x12340000
+0x100010 <_head64+16>:  0x007c00bc	0x00cce800	0x20b80000	0x0f000000
+
+This is as expected because when boot loader is first started, it has not yet loaded the kernel yet, meaning its data should be zeroed out, as we can see above.
+But right before the boot loader enters the kernel, the kernel contents to be executed should be loaded, as we can also see above.
+
+=======================================================================================================================
+7. 
+-- Q: Use QEMU and GDB to trace into the early JOS kernel boot code (in the kern/boostrap.S directory) and find where the new virtual-to-physical mapping takes effect. Then examine the Global Descriptor Table (GDT) that the code uses to achieve this effect, and make sure you understand what's going on.
+-- A: The virtual-to-physical mapping takes effect once paging is enabled, after CR3 has been set. The code enabling paging is as follows:
+
+# enable paging
+    movl %cr0,%eax
+    orl $CR0_PE,%eax
+    orl $CR0_PG,%eax
+    orl $CR0_AM,%eax
+    orl $CR0_WP,%eax
+    orl $CR0_MP,%eax
+    movl %eax,%cr0
+
+And we can also see the contents of the GDT in the following code:
+
+gdt_64:
+    SEG_NULL
+    .quad  0x00af9a000000ffff            #64 bit CS
+    .quad  0x00cf92000000ffff            #64 bit DS
+
+gdtdesc_64:
+    .word 0x17
+    .quad gdt_64
+
+-- Q: What is the first instruction after the new mapping is established that would fail to work properly if the old mapping were still in place? Comment out or otherwise intentionally break the segmentation setup code in kern/entry.S, trace into it, and see if you were right.
+-- A: The first instruction that would break would be the 76th line of kern/entry.S, "call *%rax". This is because the 64-bit value that exists inside the RAX register would make it impossible for the kernel to jump there, since no such physical address exists and paging has not been enabled properly.
+
+=======================================================================================================================
+9. 
+-- Q: Determine where the kernel initializes its stack, and exactly where in memory its stack is located. How does the kernel reserve space for its stack? And at which "end" of this reserved area is the stack pointer initialized to point to?
+-- A: We can see the following piece of code starting at line 83 of kern/entry.S:
+
+.data
+###################################################################
+# boot stack
+###################################################################
+    .p2align    PGSHIFT     # force page alignment
+    .globl      bootstack
+bootstack:
+    .space      KSTKSIZE
+    .globl      bootstacktop
+bootstacktop:
+
+By running "objdump -t obj/kern/kernel | grep bootstack", I can see that bootstacktop is located at 0x800421b000, and that bootstack is located at 0x800420b000.
+
+=======================================================================================================================
+10. 
+-- Q: To become familiar with the C calling conventions on the x86-64, find the address of the test_backtrace function in obj/kern/kernel.asm, set a breakpoint there, and examine what happens each time it gets called after the kernel starts. How many 64-bit words does each recursive nesting level of test_backtrace push on the stack, and what are those words?
+-- A: By setting the breakpoint at test_backtrace and continuing, I could see that with "i registers" in GDB, its stack pointer (%rsp) holds 0x800421aff0 when it is first called. When I continue and it hits that breakpoint again, its stack pointer then holds 0x800421afc8. Because 0xf0 - 0xc8 = 0x28 = 40 decimal, we can see that 5 8B values have been pushed there.
+Using the command "x/10x $rsp" at the second breakpoint, I can check 10 4B values there, which are as follows:
+
+0x800421afc8:	0x0420009d	0x00000080	0x0421afe0	0x00000012
+0x800421afd8:	0x00043720	0x00000005	0x0421aff0	0x00000080
+0x800421afe8:	0x04200189	0x00000080
+
+So now we know that it holds 5 values, which are 0x8004200189, 0x800421aff0, 0x500043720, 0x12421afe0, and 0x800420009d.
+After doing the same thing and comparing when the argument changes from 4 to 3 (as opposed to the 5 to 4 change above), I think first that the 0x00000005 above is actually a 4B word itself meaning that holds the value of the function argument (5).
+Also, 0x8004200189, 0x800421aff0, and 0x800420009d are values that have to do with things like the return pointer and base pointer (%rsp).
+
+
+=======================================================================================================================

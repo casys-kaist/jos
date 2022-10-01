@@ -60,7 +60,35 @@ mon_kerninfo(int argc, char **argv, struct Trapframe *tf)
 int
 mon_backtrace(int argc, char **argv, struct Trapframe *tf)
 {
-	// Your code here.
+    cprintf("Stack backtrace:\n");
+    uint64_t rbp, rip;
+    struct Ripdebuginfo ripdebuginfo;
+    rbp = read_rbp();
+    read_rip(rip);
+    while (rbp) {
+        int offset = 0;
+        uint64_t arg;
+        int ret = debuginfo_rip(rip, &ripdebuginfo);
+        if (ret) {
+            cprintf("Something wrong: returned nonzero in debuginfo_rip()\n");
+            return ret;
+        }
+        // print formatted backtrace info
+        cprintf("   rbp %016x rip %016x\n", rbp, rip);
+        cprintf("%s:%d: %s+%016x   args:%d ",
+                ripdebuginfo.rip_file, ripdebuginfo.rip_line, ripdebuginfo.rip_fn_name, (rip - ripdebuginfo.rip_fn_addr), ripdebuginfo.rip_fn_narg);
+        for (int i = 0; i < ripdebuginfo.rip_fn_narg; ++i) {
+            offset += ripdebuginfo.size_fn_arg[i];
+            arg = *((uint64_t*)(rbp - offset));
+            arg &= (((uint64_t)1 << ((ripdebuginfo.size_fn_arg[i] * 8))) - 1);
+            cprintf(" %016x", arg);
+        }
+        cprintf("\n");
+        // %rip: points to instruction AFTER the call instruction
+        rip = *(uint64_t *)(rbp + 8);
+        // %rbp: saves where the previous %rbp was stored
+		rbp = *((uint64_t *)rbp);
+    }
 	return 0;
 }
 

@@ -192,6 +192,7 @@ cga_putc(int c)
 	}
 
 	// What is the purpose of this?
+    // jchung: to get move last (CRT_SIZE - CRT_COLS) data to the front, and then initialize the remaining CRT_COLS data
 	if (crt_pos >= CRT_SIZE) {
 		int i;
 
