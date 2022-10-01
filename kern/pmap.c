@@ -353,9 +353,13 @@ page_init(void)
 	// NB: Make sure you preserve the direction in which your page_free_list 
 	// is constructed
 	// NB: Remember to mark the memory used for initial boot page table i.e (va>=BOOT_PAGE_TABLE_START && va < BOOT_PAGE_TABLE_END) as in-use (not free)
-	size_t i;
+    size_t i;
 	struct PageInfo* last = NULL;
-	for (i = 0; i < npages; i++) {
+    // 1. mark physical page #0 as in use
+    pages[0].pp_ref = 1; // random nonzero number
+    pages[0].pp_link = NULL;
+    // 2. mark pages #1 ~ #(npages_basemem - 1)
+    for (i = 1; i < npages_basemem; ++i) {
 		pages[i].pp_ref = 0;
 		pages[i].pp_link = NULL;
 		if(last)
@@ -364,6 +368,23 @@ page_init(void)
 			page_free_list = &pages[i];
 		last = &pages[i];
 	}
+    // 3. mark [IOPHYSMEM, EXTPHYSMEM) as in use
+    // starts: npages_basemem, ends: by using boot_alloc(0) so it returns first address for extended memory
+    size_t end = (size_t)((boot_alloc(0)) / PGSIZE);
+    for (i = npages_basemem; i < end; ++i) {
+        pages[i].pp_ref = 1; // ramdom nonzero number
+        pages[i].pp_link = NULL;
+    }
+    // 4. set extended memory [EXTPHYSMEM, ...)
+    for (i = end; i < npages; ++i) {
+		pages[i].pp_ref = 0;
+		pages[i].pp_link = NULL;
+		if(last)
+			last->pp_link = &pages[i];
+		else
+			page_free_list = &pages[i];
+		last = &pages[i];
+    }
 }
 
 //
