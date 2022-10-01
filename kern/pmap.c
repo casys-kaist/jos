@@ -402,8 +402,20 @@ page_init(void)
 struct PageInfo *
 page_alloc(int alloc_flags)
 {
+    struct PageInfo *newPage;
 	// Fill this function in
-	return 0;
+	// sanity check for free memory
+    if (!page_free_list)
+        return NULL;
+    // get new page from free list
+    newPage = page_free_list;
+    page_free_list = page_free_list->pp_link;
+    newPage->pp_link = NULL;
+    // translate to kernel virtual address
+    // if (alloc_flags & ALLOC_ZERO), fills entire returned physical page with 0s
+    if (alloc_flags & ALLOC_ZERO)
+        memset(page2kva(newPage), 0, PGSIZE);
+    return newPage;
 }
 
 //
@@ -426,6 +438,11 @@ page_free(struct PageInfo *pp)
 	// Fill this function in
 	// Hint: You may want to panic if pp->pp_ref is nonzero or
 	// pp->pp_link is not NULL.
+    if ((pp->pp_ref != 0) || (pp->pp_link != NULL))
+        panic("page_free: page is not ready to be freed\n");
+    // add to beginning of free list
+    pp->pp_link = page_free_list;
+    page_free_list = pp;
 }
 
 //
